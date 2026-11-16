@@ -63,7 +63,7 @@ st.markdown("### 📝 Tus Datos")
 st.markdown("<p style='color: #666; font-size: 13px; margin-top: -10px;'>Completa tus datos para enviarte tu diagnóstico personalizado.</p>", unsafe_allow_html=True)
 
 nombre = st.text_input("Nombre completo", placeholder="Ej: María José Pérez")
-telefono = st.text_input("Número de WhatsApp", placeholder="Ej: 88888888")
+telefono = st.text_input("Número de WhatsApp", placeholder="Ej: 60218458")
 
 st.write("---")
 
@@ -159,8 +159,8 @@ if st.button("✨ Ver mi Diagnóstico y Recomendación"):
         
         st.write("---")
         
-        # 7. Botón de WhatsApp rediseñado y elegante
-        mi_numero_whatsapp = "50600000000" # Cambia esto por tu número real con código 506
+        # 7. Botón de WhatsApp rediseñado y elegante (Actualizado con tu número +50660218458)
+        mi_numero_whatsapp = "50660218458"
         
         mensaje = f"Hola Priskah, soy {nombre}. Realicé el diagnóstico en tu web para {categoria}, mi resultado fue *{tratamiento_recomendado}* y me gustaría agendar una cita."
         mensaje_codificado = urllib.parse.quote(mensaje)
