@@ -4,122 +4,148 @@ from datetime import datetime
 import urllib.parse
 
 # 1. Configurar la página
-st.set_page_config(page_title="Diagnóstico Priskah_m", page_icon="🌿", layout="centered")
+st.set_page_config(page_title="Diagnóstico | Priskah_m", page_icon="🌿", layout="centered")
 
-# --- ESTILOS VISUALES ELEGANTES ---
+# --- DISEÑO UX AVANZADO Y ESTÉTICA SPA ---
 st.markdown("""
     <style>
     .main {
-        background-color: #faf9f6;
+        background-color: #fcfbf9;
+    }
+    .stTextInput>div>div>input {
+        background-color: #ffffff;
+        border-radius: 8px;
+        border: 1px solid #dcd6cd;
+        padding: 10px;
     }
     .stButton>button {
-        background-color: #4A5D4E;
+        background-color: #3b4d3e;
         color: white;
-        border-radius: 8px;
-        font-weight: bold;
+        border-radius: 10px;
+        font-weight: 600;
         width: 100%;
-        padding: 0.6rem;
+        padding: 0.75rem;
+        font-size: 16px;
+        border: none;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
     }
     .stButton>button:hover {
-        background-color: #3B4B3E;
+        background-color: #2c3a2e;
         color: white;
+        box-shadow: 0 6px 8px rgba(0,0,0,0.1);
+    }
+    .card {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid #efece6;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        margin-bottom: 20px;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# --- CARGAR TU LOGO ---
-col1, col2, col3 = st.columns([1, 2, 1])
+# --- LOGO CENTRADO PERFECTAMENTE ---
+col1, col2, col3 = st.columns([1, 1.2, 1])
 with col2:
     try:
-        st.image("LOGO.jpeg", width=160)
+        st.image("LOGO.jpeg", width=180)
     except:
         pass
 
-st.markdown("<h1 style='text-align: center; color: #2C3E2D;'>Priskah_m</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: #666;'>Bienestar, Cuidado Capilar y Masajes Profesionales</p>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: #2c3a2e; font-family: sans-serif; margin-bottom: 0px;'>Priskah_m</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #7a756d; font-size: 15px; margin-top: 5px;'>Bienestar Integral, Cuidado Capilar y Masajes Profesionales</p>", unsafe_allow_html=True)
 st.write("---")
 
-# 2. Recolectar datos del cliente
-st.subheader("📝 Tus Datos")
-nombre = st.text_input("Nombre completo")
-telefono = st.text_input("Número de WhatsApp (ej: 88888888)")
+# 2. Recolectar datos con mejor UX
+st.markdown("### 📝 Tus Datos")
+st.markdown("<p style='color: #666; font-size: 13px; margin-top: -10px;'>Completa tus datos para enviarte tu diagnóstico personalizado.</p>", unsafe_allow_html=True)
+
+nombre = st.text_input("Nombre completo", placeholder="Ej: María José Pérez")
+telefono = st.text_input("Número de WhatsApp", placeholder="Ej: 88888888")
 
 st.write("---")
 
 # 3. Selección de Categoría Principal
-st.subheader("🌿 ¿Qué área te gustaría consentir hoy?")
+st.markdown("### 🌿 ¿Qué área deseas consentir hoy?")
 categoria = st.radio(
-    "Selecciona una categoría:",
-    ["Masajes y Bienestar Corporal", "Cuidado Capilar"]
+    "Selecciona una opción:",
+    ["💆‍♀️ Masajes y Bienestar Corporal", "✨ Cuidado Capilar Avanzado"],
+    label_visibility="collapsed"
 )
 
-# 4. Preguntas dinámicas según la categoría elegida
+st.write("")
+
+# 4. Preguntas detalladas y enriquecidas según la categoría
 opcion = ""
-if categoria == "Masajes y Bienestar Corporal":
-    st.write("### 💆‍♀️ Selecciona tu necesidad corporal:")
+if "Masajes" in categoria:
+    st.markdown("### 🔍 ¿Cuál es tu objetivo o molestia principal hoy?")
     opcion = st.radio(
-        "¿Qué molestia o objetivo tienes?",
+        "Selecciona el enfoque que necesitas:",
         [
-            "Tensión severa, nudos o dolor muscular profundo", 
-            "Mucho estrés, ansiedad y fatiga mental", 
-            "Pesadez en las piernas, mala circulación o retención de líquidos",
-            "Recuperación post-ejercicio / Masaje deportivo",
-            "Modelado corporal o reducción de medidas"
-        ]
+            "Dolor intenso de espalda, cuello, hombros o nudos profundos (Descontracturante)",
+            "Nivel alto de estrés, ansiedad, insomnio y fatiga mental (Relajante)",
+            "Piernas cansadas, hinchadas, mala circulación o retención de líquidos (Drenaje / Retorno Venoso)",
+            "Sobrecarga muscular por entrenamiento o deporte (Deportivo)",
+            "Reafirmar, moldear figura o activar metabolismo local (Reductivo / Modelado)"
+        ],
+        label_visibility="collapsed"
     )
 else:
-    st.write("### ✨ Selecciona tu necesidad capilar:")
+    st.markdown("### 🔍 ¿Cómo se encuentra tu cabello actualmente?")
     opcion = st.radio(
-        "¿Cómo se encuentra tu cabello?",
+        "Selecciona tu necesidad capilar:",
         [
-            "Muy seco, maltratado por químicos y con frizz extremo", 
-            "Busco brillo espejo, nutrición y efecto liso (Nanoqueratina)", 
-            "Cuero cabelludo graso o con caspa",
-            "Caída de cabello o necesidad de estimular crecimiento"
-        ]
+            "Cabello muy seco, maltratado por tintes/decoloraciones y frizz extremo (Hidratación Profunda)",
+            "Busco brillo espejo, nutrición profunda y efecto liso perfecto (Nanoqueratina)",
+            "Cuero cabelludo graso, pesado o con acumulación de residuos (Detox Purificante)",
+            "Caída frecuente o necesidad de estimular crecimiento nuevo (Anticaída / Raíz)"
+        ],
+        label_visibility="collapsed"
     )
 
 st.write("---")
 
-# 5. Botón para generar resultado y guardar datos
-if st.button("Ver mi diagnóstico y recomendación"):
+# 5. Botón de acción con estilo superior
+if st.button("✨ Ver mi Diagnóstico y Recomendación"):
     if nombre.strip() == "" or telefono.strip() == "":
-        st.warning("⚠️ Por favor, llena tu nombre y número de WhatsApp para continuar.")
+        st.warning("⚠️ Por favor, ingresa tu nombre y número de WhatsApp para continuar.")
     else:
-        st.success("¡Gracias! Aquí tienes tu recomendación personalizada:")
+        st.success("¡Excelente! Hemos analizado tu caso. Aquí tienes tu recomendación ideal:")
         
-        # Lógica de recomendaciones según la respuesta exacta
-        if categoria == "Masajes y Bienestar Corporal":
-            if "Tensión severa" in opcion:
-                tratamiento_recomendado = "Masaje Descontracturante"
-                st.info("💆‍♀️ **Tu tratamiento ideal: Masaje Descontracturante.**\n\nIdeal para liberar fascias, deshacer nudos rebeldes y aliviar la tensión muscular profunda.")
-            elif "estrés" in opcion:
-                tratamiento_recomendado = "Masaje Relajante"
-                st.info("🌿 **Tu tratamiento ideal: Masaje Relajante.**\n\nDiseñado para calmar por completo tu sistema nervioso, reducir el estrés y brindarte un descanso profundo.")
-            elif "Pesadez" in opcion:
+        # Lógica de recomendaciones detalladas
+        if "Masajes" in categoria:
+            if "Descontracturante" in opcion:
+                tratamiento_recomendado = "Masaje Descontracturante Profundo"
+                st.info("💆‍♀️ **Tratamiento Sugerido: Masaje Descontracturante.**\n\nTrabaja directamente sobre las capas profundas del músculo para liberar fascias, deshacer nudos rebeldes y devolver la movilidad y el alivio a tu cuerpo.")
+            elif "Relajante" in opcion:
+                tratamiento_recomendado = "Masaje Relajante Aromaterapia"
+                st.info("🌿 **Tratamiento Sugerido: Masaje Relajante.**\n\nCreado para calmar por completo el sistema nervioso, reducir los niveles de estrés y regalarte un espacio de paz y descanso profundo.")
+            elif "Drenaje" in opcion:
                 tratamiento_recomendado = "Drenaje Linfático / Retorno Venoso"
-                st.info("🌊 **Tu tratamiento ideal: Drenaje Linfático / Retorno Venoso.**\n\nEstimula la circulación sanguínea, desinflama y elimina la sensación de pesadez en las piernas.")
-            elif "deportivo" in opcion:
-                tratamiento_recomendado = "Masaje Deportivo"
-                st.info("⚡ **Tu tratamiento ideal: Masaje Deportivo.**\n\nEnfocado en preparar el músculo o acelerar su recuperación tras el esfuerzo físico.")
+                st.info("🌊 **Tratamiento Sugerido: Drenaje Linfático.**\n\nTécnica suave y precisa para estimular la circulación, eliminar líquidos retenidos y calmar la pesadez en las piernas.")
+            elif "Deportivo" in opcion:
+                tratamiento_recomendado = "Masaje Deportivo Especializado"
+                st.info("⚡ **Tratamiento Sugerido: Masaje Deportivo.**\n\nIdeal para preparar el tejido muscular ante el esfuerzo o acelerar su recuperación óptima post-entrenamiento.")
             else:
-                tratamiento_recomendado = "Masaje Reductivo / Modelado"
-                st.info("✨ **Tu tratamiento ideal: Masaje Reductivo / Body Contouring.**\n\nAyuda a moldear la silueta y activar la eliminación de toxinas localizadas.")
+                tratamiento_recomendado = "Masaje Reductivo y Modelador"
+                st.info("✨ **Tratamiento Sugerido: Modelado Corporal.**\n\nAyuda a activar la circulación local, movilizar grasa superficial y perfilar la silueta.")
         else:
             if "Nanoqueratina" in opcion:
-                tratamiento_recomendado = "Nanoqueratina Capilar"
-                st.info("✨ **Tu tratamiento ideal: Nanoqueratina.**\n\nControla el frizz al 100%, repara la hebra y aporta un brillo espejo espectacular.")
-            elif "seco" in opcion:
+                tratamiento_recomendado = "Nanoqueratina Capilar Pro"
+                st.info("✨ **Tratamiento Sugerido: Nanoqueratina.**\n\nSella la cutícula, elimina el frizz al 100% y aporta un brillo espejo espectacular de larga duración.")
+            elif "Hidratación" in opcion:
                 tratamiento_recomendado = "Hidratación Capilar Profunda"
-                st.info("💧 **Tu tratamiento ideal: Hidratación Profunda con Mascarilla Natural.**\n\nDevuelve la suavidad, la hidratación y la vida a los cabellos maltratados.")
-            elif "graso" in opcion:
-                tratamiento_recomendado = "Tratamiento Purificante de Cuero Cabelludo"
-                st.info("🍃 **Tu tratamiento ideal: Detox Capilar Purificante.**\n\nEquilibra la grasa y limpia a profundidad el cuero cabelludo.")
+                st.info("💧 **Tratamiento Sugerido: Hidratación Intensiva.**\n\nDevuelve la suavidad, elasticidad y nutrición extrema a las hebras maltratadas.")
+            elif "Detox" in opcion:
+                tratamiento_recomendado = "Detox Purificante Capilar"
+                st.info("🍃 **Tratamiento Sugerido: Detox de Cuero Cabelludo.**\n\nLimpia a profundidad, equilibra la grasa natural y revitaliza la salud de tu raíz.")
             else:
-                tratamiento_recomendado = "Tratamiento Anticaída y Crecimiento"
-                st.info("🌱 **Tu tratamiento ideal: Mascarilla Estimulante (Café y Romero).**\n\nActiva la circulación capilar en la raíz para fortalecer el folículo y estimular el crecimiento.")
+                tratamiento_recomendado = "Tratamiento Anticaída y Estimulante"
+                st.info("🌱 **Tratamiento Sugerido: Estimulación Capilar.**\n\nActiva el riego sanguíneo en el folículo para fortalecer el cabello y fomentar un crecimiento sano.")
 
-        # 6. Guardar los datos automáticamente en tu CSV
+        # 6. Guardar automáticamente en CSV
         nuevo_registro = pd.DataFrame({
             "Fecha": [datetime.now().strftime("%Y-%m-%d %H:%M")],
             "Nombre": [nombre],
@@ -133,21 +159,19 @@ if st.button("Ver mi diagnóstico y recomendación"):
         
         st.write("---")
         
-        # 7. Botón directo de WhatsApp para agendar
-        # Recuerda cambiar los ceros por tu número real con el código 506 de Costa Rica
-        mi_numero_whatsapp = "50600000000" 
+        # 7. Botón de WhatsApp rediseñado y elegante
+        mi_numero_whatsapp = "50600000000" # Cambia esto por tu número real con código 506
         
-        mensaje = f"Hola Priskah, soy {nombre}. Hice el diagnóstico en tu web para {categoria}, mi resultado fue *{tratamiento_recomendado}* y quisiera agendar una cita."
+        mensaje = f"Hola Priskah, soy {nombre}. Realicé el diagnóstico en tu web para {categoria}, mi resultado fue *{tratamiento_recomendado}* y me gustaría agendar una cita."
         mensaje_codificado = urllib.parse.quote(mensaje)
         link_whatsapp = f"https://wa.me/{mi_numero_whatsapp}?text={mensaje_codificado}"
         
         st.markdown(f"""
-            <div style="text-align: center; margin-top: 20px;">
-                <a href="{link_whatsapp}" target="_blank" style="background-color: #25D366; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px; display: inline-block;">
+            <div style="text-align: center; margin-top: 25px; margin-bottom: 15px;">
+                <a href="{link_whatsapp}" target="_blank" style="background-color: #25D366; color: white; padding: 14px 28px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 16px; display: inline-block; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);">
                     💬 Agendar mi cita por WhatsApp
                 </a>
             </div>
         """, unsafe_allow_html=True)
         
-        st.write("")
-        st.caption("✨ Tus datos han sido guardados con éxito.")
+        st.caption("✨ Tus datos han sido guardados correctamente en sistema.")
