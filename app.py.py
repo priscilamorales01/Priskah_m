@@ -159,7 +159,7 @@ if st.button("✨ Ver mi Diagnóstico y Recomendación"):
         
         st.write("---")
         
-        # 7. Botón de WhatsApp rediseñado y elegante (Actualizado con tu número +50660218458)
+        # 7. Botón de WhatsApp rediseñado y elegante (Con tu número 50660218458)
         mi_numero_whatsapp = "50660218458"
         
         mensaje = f"Hola Priskah, soy {nombre}. Realicé el diagnóstico en tu web para {categoria}, mi resultado fue *{tratamiento_recomendado}* y me gustaría agendar una cita."
@@ -175,3 +175,22 @@ if st.button("✨ Ver mi Diagnóstico y Recomendación"):
         """, unsafe_allow_html=True)
         
         st.caption("✨ Tus datos han sido guardados correctamente en sistema.")
+
+st.write("")
+st.write("")
+
+# --- PANEL DE CONTROL / VER CLIENTES REGISTRADOS ---
+with st.expander("📊 Ver registros de clientes (Panel Admin)"):
+    try:
+        df_registros = pd.read_csv("clientes_priskah.csv", names=["Fecha", "Nombre", "WhatsApp", "Área", "Selección", "Recomendación"])
+        st.dataframe(df_registros, use_container_width=True)
+        
+        csv_data = df_registros.to_csv(index=False).encode('utf-8')
+        st.download_button(
+            label="📥 Descargar lista en CSV",
+            data=csv_data,
+            file_name="clientes_priskah.csv",
+            mime="text/csv"
+        )
+    except FileNotFoundError:
+        st.info("Aún no hay registros guardados en el sistema. Realiza una prueba completando el formulario para ver cómo se van listando aquí.")
