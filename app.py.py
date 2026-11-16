@@ -159,7 +159,7 @@ if st.button("✨ Ver mi Diagnóstico y Recomendación"):
         
         st.write("---")
         
-        # 7. Botón de WhatsApp rediseñado y elegante (Con tu número 50660218458)
+        # 7. Botón de WhatsApp rediseñado y elegante
         mi_numero_whatsapp = "50660218458"
         
         mensaje = f"Hola Priskah, soy {nombre}. Realicé el diagnóstico en tu web para {categoria}, mi resultado fue *{tratamiento_recomendado}* y me gustaría agendar una cita."
@@ -179,18 +179,25 @@ if st.button("✨ Ver mi Diagnóstico y Recomendación"):
 st.write("")
 st.write("")
 
-# --- PANEL DE CONTROL / VER CLIENTES REGISTRADOS ---
-with st.expander("📊 Ver registros de clientes (Panel Admin)"):
-    try:
-        df_registros = pd.read_csv("clientes_priskah.csv", names=["Fecha", "Nombre", "WhatsApp", "Área", "Selección", "Recomendación"])
-        st.dataframe(df_registros, use_container_width=True)
-        
-        csv_data = df_registros.to_csv(index=False).encode('utf-8')
-        st.download_button(
-            label="📥 Descargar lista en CSV",
-            data=csv_data,
-            file_name="clientes_priskah.csv",
-            mime="text/csv"
-        )
-    except FileNotFoundError:
-        st.info("Aún no hay registros guardados en el sistema. Realiza una prueba completando el formulario para ver cómo se van listando aquí.")
+# --- PANEL DE CONTROL / VER CLIENTES REGISTRADOS (PROTEGIDO CON CONTRASEÑA) ---
+with st.expander("🔒 Panel de Administración (Solo Propietaria)"):
+    # Cambia "Priskah2026*" por la contraseña secreta que tú desees
+    password_ingresada = st.text_input("Ingresa tu contraseña de administración:", type="password")
+    
+    if password_ingresada == "Priskah2026*":
+        st.success("Contraseña correcta. Aquí tienes los registros:")
+        try:
+            df_registros = pd.read_csv("clientes_priskah.csv", names=["Fecha", "Nombre", "WhatsApp", "Área", "Selección", "Recomendación"])
+            st.dataframe(df_registros, use_container_width=True)
+            
+            csv_data = df_registros.to_csv(index=False).encode('utf-8')
+            st.download_button(
+                label="📥 Descargar lista en CSV",
+                data=csv_data,
+                file_name="clientes_priskah.csv",
+                mime="text/csv"
+            )
+        except FileNotFoundError:
+            st.info("Aún no hay registros guardados en el sistema.")
+    elif password_ingresada != "":
+        st.error("❌ Contraseña incorrecta.")
