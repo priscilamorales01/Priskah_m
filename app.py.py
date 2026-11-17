@@ -11,10 +11,10 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# --- ESTÉTICA LUXURY SPA (CSS AVANZADO) ---
+# --- ESTÉTICA LUXURY SPA (CSS AVANZADO Y RESPONSIVO PARA MÓVIL) ---
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,400&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,400&display=swap');
 
     /* Fondo general y tipografía */
     [data-testid="stAppViewContainer"] {
@@ -31,7 +31,7 @@ st.markdown("""
 
     /* Contenedor principal */
     .block-container {
-        padding-top: 2rem;
+        padding-top: 1.5rem;
         padding-bottom: 3rem;
         max-width: 720px;
     }
@@ -39,23 +39,23 @@ st.markdown("""
     /* Títulos editoriales */
     .brand-title {
         font-family: 'Playfair Display', serif;
-        font-size: 42px;
+        font-size: 40px;
         font-weight: 600;
         color: #2C3A2E;
         text-align: center;
         letter-spacing: 1px;
-        margin-top: 10px;
+        margin-top: 8px;
         margin-bottom: 4px;
     }
     .brand-subtitle {
         font-family: 'Montserrat', sans-serif;
-        font-size: 13px;
-        font-weight: 400;
-        color: #7A746B;
+        font-size: 12.5px;
+        font-weight: 500;
+        color: #6B655D;
         text-align: center;
         text-transform: uppercase;
-        letter-spacing: 2.5px;
-        margin-bottom: 20px;
+        letter-spacing: 2px;
+        margin-bottom: 18px;
     }
     .section-title {
         font-family: 'Playfair Display', serif;
@@ -69,35 +69,38 @@ st.markdown("""
         margin-bottom: 16px;
     }
 
-    /* Estilo de las Pestañas (Tabs) */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 12px;
-        justify-content: center;
-        background-color: transparent;
-        border-bottom: 1px solid #E2D9C8;
-        padding-bottom: 8px;
-        margin-bottom: 24px;
-    }
-    .stTabs [data-baseweb="tab"] {
-        background-color: #FAF9F6;
-        border-radius: 25px;
-        padding: 10px 20px;
-        font-family: 'Montserrat', sans-serif;
-        font-size: 13.5px;
-        font-weight: 500;
-        color: #555D54;
-        border: 1px solid #EAE4D8;
-        transition: all 0.3s ease;
-    }
-    .stTabs [data-baseweb="tab"]:hover {
-        border-color: #C5A880;
-        color: #2C3A2E;
-    }
-    .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, #3B4D3E 0%, #2C3A2E 100%) !important;
+    /* --- MENÚ DE NAVEGACIÓN RESPONSIVO (BOTONES) --- */
+    /* Botón Activo (Primary) */
+    div[data-testid="stButton"] button[kind="primary"] {
+        background: linear-gradient(135deg, #2C3A2E 0%, #3B4D3E 100%) !important;
         color: #FFFFFF !important;
-        border-color: #2C3A2E !important;
-        box-shadow: 0 4px 12px rgba(44, 58, 46, 0.15);
+        border: 2px solid #C5A880 !important;
+        border-radius: 14px !important;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 600 !important;
+        font-size: 14.5px !important;
+        padding: 0.75rem 1rem !important;
+        box-shadow: 0 6px 16px rgba(44, 58, 46, 0.22) !important;
+        transition: all 0.25s ease !important;
+    }
+
+    /* Botones Inactivos (Secondary) */
+    div[data-testid="stButton"] button[kind="secondary"] {
+        background-color: #FFFFFF !important;
+        color: #2C3A2E !important;
+        border: 1.5px solid #D5C9B6 !important;
+        border-radius: 14px !important;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 600 !important;
+        font-size: 14.5px !important;
+        padding: 0.75rem 1rem !important;
+        box-shadow: 0 3px 10px rgba(44, 58, 46, 0.04) !important;
+        transition: all 0.25s ease !important;
+    }
+    div[data-testid="stButton"] button[kind="secondary"]:hover {
+        border-color: #C5A880 !important;
+        background-color: #FAF6F0 !important;
+        color: #1E2820 !important;
     }
 
     /* Estilo de tarjetas (contenedores con borde) */
@@ -106,15 +109,15 @@ st.markdown("""
         border-radius: 18px !important;
         border: 1px solid #EAE4D8 !important;
         box-shadow: 0 10px 30px rgba(44, 58, 46, 0.05) !important;
-        padding: 24px 26px !important;
-        margin-bottom: 20px !important;
+        padding: 22px 24px !important;
+        margin-bottom: 18px !important;
     }
 
     /* Inputs de texto */
     .stTextInput label {
         font-size: 13px !important;
-        font-weight: 500 !important;
-        color: #4A554B !important;
+        font-weight: 600 !important;
+        color: #3B4D3E !important;
     }
     .stTextInput > div > div > input {
         background-color: #FAF9F6 !important;
@@ -150,28 +153,7 @@ st.markdown("""
     div[role="radiogroup"] p {
         font-size: 14px !important;
         color: #2C362B !important;
-        line-height: 1.4;
-    }
-
-    /* Botón principal */
-    .stButton > button {
-        background: linear-gradient(135deg, #3B4D3E 0%, #2C3A2E 100%) !important;
-        color: #FAF8F5 !important;
-        border-radius: 12px !important;
-        font-family: 'Montserrat', sans-serif !important;
-        font-weight: 500 !important;
-        letter-spacing: 0.8px !important;
-        width: 100%;
-        padding: 0.9rem 1.5rem !important;
-        font-size: 15px !important;
-        border: none !important;
-        box-shadow: 0 8px 20px rgba(44, 58, 46, 0.18) !important;
-        transition: all 0.3s ease !important;
-    }
-    .stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 12px 24px rgba(44, 58, 46, 0.25) !important;
-        background: linear-gradient(135deg, #2C3A2E 0%, #1E2820 100%) !important;
+        line-height: 1.45;
     }
 
     /* Tarjeta de Resultado de Diagnóstico */
@@ -180,7 +162,7 @@ st.markdown("""
         border: 1px solid #DFD3C0;
         border-left: 5px solid #C5A880;
         border-radius: 16px;
-        padding: 26px;
+        padding: 24px;
         margin-top: 18px;
         margin-bottom: 22px;
         box-shadow: 0 12px 30px rgba(44, 58, 46, 0.07);
@@ -199,13 +181,13 @@ st.markdown("""
     }
     .result-title {
         font-family: 'Playfair Display', serif;
-        font-size: 26px;
+        font-size: 25px;
         color: #2C3A2E;
         margin-bottom: 10px;
     }
     .result-desc {
         font-size: 14.5px;
-        color: #555D54;
+        color: #4A5249;
         line-height: 1.65;
         margin-bottom: 0;
     }
@@ -216,7 +198,7 @@ st.markdown("""
         border: 1px solid #EAE4D8;
         border-left: 4px solid #3B4D3E;
         border-radius: 12px;
-        padding: 16px 20px;
+        padding: 16px 18px;
         margin-bottom: 14px;
     }
     .service-name {
@@ -228,7 +210,7 @@ st.markdown("""
     }
     .service-text {
         font-size: 13.5px;
-        color: #555D54;
+        color: #4A5249;
         line-height: 1.55;
         margin: 0;
     }
@@ -258,7 +240,7 @@ st.markdown("""
     }
     .edu-sub {
         font-size: 12.5px;
-        color: #7A746B;
+        color: #6B655D;
         margin: 0;
     }
 
@@ -266,7 +248,7 @@ st.markdown("""
     .wa-btn {
         background: linear-gradient(135deg, #25D366 0%, #1DA851 100%);
         color: white !important;
-        padding: 15px 32px;
+        padding: 15px 30px;
         border-radius: 50px;
         text-decoration: none !important;
         font-weight: 600;
@@ -285,7 +267,7 @@ st.markdown("""
     .gold-divider {
         height: 1px;
         background: linear-gradient(90deg, transparent, #D8CBB8, transparent);
-        margin: 18px 0 24px 0;
+        margin: 18px 0 22px 0;
         border: none;
     }
 
@@ -299,6 +281,13 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# --- CONTROL DE NAVEGACIÓN (ESTADO DE PÁGINA) ---
+if "pagina_activa" not in st.session_state:
+    st.session_state.pagina_activa = "diagnostico"
+
+def cambiar_pagina(nombre_pagina):
+    st.session_state.pagina_activa = nombre_pagina
+
 # --- ENCABEZADO Y LOGO ---
 col1, col2, col3 = st.columns([1.4, 1, 1.4])
 with col2:
@@ -310,17 +299,39 @@ with col2:
 st.markdown("<div class='brand-title'>Priskah_m</div>", unsafe_allow_html=True)
 st.markdown("<div class='brand-subtitle'>Masajes y Cabellos con Recuperación Capilar</div>", unsafe_allow_html=True)
 
-# --- PESTAÑAS DE NAVEGACIÓN (TABS) ---
-tab_diagnostico, tab_servicios, tab_fundadora = st.tabs([
-    "✨ Diagnóstico Personalizado",
-    "🌿 Qué Ofrecemos",
-    "👩‍⚕️ Conoce a la Fundadora"
-])
+# --- MENÚ PRINCIPAL DE NAVEGACIÓN (SE ADAPTA AL CELULAR SIN CORTARSE) ---
+nav1, nav2, nav3 = st.columns(3)
+with nav1:
+    st.button(
+        "✨ Diagnóstico",
+        use_container_width=True,
+        type="primary" if st.session_state.pagina_activa == "diagnostico" else "secondary",
+        on_click=cambiar_pagina,
+        args=("diagnostico",)
+    )
+with nav2:
+    st.button(
+        "🌿 Servicios",
+        use_container_width=True,
+        type="primary" if st.session_state.pagina_activa == "servicios" else "secondary",
+        on_click=cambiar_pagina,
+        args=("servicios",)
+    )
+with nav3:
+    st.button(
+        "👩‍⚕️ Fundadora",
+        use_container_width=True,
+        type="primary" if st.session_state.pagina_activa == "fundadora" else "secondary",
+        on_click=cambiar_pagina,
+        args=("fundadora",)
+    )
+
+st.markdown("<hr class='gold-divider'>", unsafe_allow_html=True)
 
 # ==========================================
-# PESTAÑA 1: DIAGNÓSTICO INTERACTIVO
+# VISTA 1: DIAGNÓSTICO INTERACTIVO
 # ==========================================
-with tab_diagnostico:
+if st.session_state.pagina_activa == "diagnostico":
     with st.container(border=True):
         st.markdown("<div class='section-title'>Tus Datos</div>", unsafe_allow_html=True)
         st.markdown("<div class='section-desc'>Completa tu información para identificar tus necesidades y recomendar el protocolo ideal.</div>", unsafe_allow_html=True)
@@ -370,7 +381,7 @@ with tab_diagnostico:
                 label_visibility="collapsed"
             )
 
-    if st.button("✨ Descubrir mi Tratamiento Ideal"):
+    if st.button("✨ Descubrir mi Tratamiento Ideal", type="primary", use_container_width=True):
         if nombre.strip() == "" or telefono.strip() == "":
             st.warning("⚠️ Por favor, ingresa tu nombre y número de WhatsApp para ver tu diagnóstico.")
         else:
@@ -449,9 +460,9 @@ with tab_diagnostico:
             """, unsafe_allow_html=True)
 
 # ==========================================
-# PESTAÑA 2: QUÉ OFRECEMOS (PORTAFOLIO)
+# VISTA 2: QUÉ OFRECEMOS (PORTAFOLIO)
 # ==========================================
-with tab_servicios:
+elif st.session_state.pagina_activa == "servicios":
     with st.container(border=True):
         st.markdown("<div class='section-title'>💆‍♀️ Bienestar Corporal y Masajes</div>", unsafe_allow_html=True)
         st.markdown("<div class='section-desc'>Servicios personalizados con valoración previa de necesidades y contraindicaciones bajo estrictos estándares de higiene y bioseguridad.</div>", unsafe_allow_html=True)
@@ -504,15 +515,13 @@ with tab_servicios:
     """, unsafe_allow_html=True)
 
 # ==========================================
-# PESTAÑA 3: CONOCE A LA FUNDADORA
+# VISTA 3: CONOCE A LA FUNDADORA
 # ==========================================
-with tab_fundadora:
+elif st.session_state.pagina_activa == "fundadora":
     with st.container(border=True):
-        # --- FOTO DE LA FUNDADORA ---
         f1, f2, f3 = st.columns([1.3, 1, 1.3])
         with f2:
             try:
-                # Asegúrate de subir tu foto con el nombre PRISCILLA.jpeg a tu repositorio
                 st.image("PRISCILLA.jpeg", use_container_width=True)
             except:
                 pass
