@@ -289,11 +289,12 @@ st.markdown("""
         border: none;
     }
 
-    /* Imagen del logo redondeada */
+    /* Imágenes redondeadas con marco elegante */
     [data-testid="stImage"] img {
         border-radius: 50%;
-        box-shadow: 0 8px 24px rgba(44, 58, 46, 0.12);
-        border: 3px solid #FFFFFF;
+        box-shadow: 0 8px 24px rgba(44, 58, 46, 0.14);
+        border: 3px solid #DFD3C0;
+        object-fit: cover;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -507,8 +508,17 @@ with tab_servicios:
 # ==========================================
 with tab_fundadora:
     with st.container(border=True):
-        st.markdown("<div class='result-badge'>Perfil Profesional y Trayectoria</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-title' style='font-size: 26px; margin-bottom: 12px;'>Sobre la Fundadora de Priskah_m</div>", unsafe_allow_html=True)
+        # --- FOTO DE LA FUNDADORA ---
+        f1, f2, f3 = st.columns([1.3, 1, 1.3])
+        with f2:
+            try:
+                # Asegúrate de subir tu foto con el nombre PRISCILLA.jpeg a tu repositorio
+                st.image("PRISCILLA.jpeg", use_container_width=True)
+            except:
+                pass
+
+        st.markdown("<div style='text-align: center; margin-top: 10px;'><span class='result-badge'>Perfil Profesional y Trayectoria</span></div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title' style='font-size: 28px; text-align: center; margin-bottom: 14px;'>Priscilla Morales Segura</div>", unsafe_allow_html=True)
         
         st.markdown("""
             <p class='result-desc' style='margin-bottom: 16px;'>
