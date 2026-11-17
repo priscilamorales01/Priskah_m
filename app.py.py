@@ -3,38 +3,32 @@ import pandas as pd
 from datetime import datetime, date
 import urllib.parse
 import re
+import os
 
 # 1. Configurar la página
 st.set_page_config(
-    page_title="Priskah_m | Bienestar & Recuperación Capilar",
+    page_title="Priskah_m | Bienestar Corporal & Recuperación Capilar",
     page_icon="🌿",
     layout="centered",
     initial_sidebar_state="collapsed"
 )
 
-# --- DISEÑO UX TOTAL: LUXURY BOTANICAL SPA ---
+# --- DISEÑO VIBRANTE CON LOS COLORES DEL LOGO (ESMERALDA, PÚRPURA REAL Y DORADO) ---
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
     :root {
         color-scheme: light !important;
     }
 
-    /* Animación suave de entrada */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(8px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Fondo general multicapa y tipografía */
+    /* Fondo limpio con degradado suave crema/lavanda/esmeralda muy sutil */
     [data-testid="stAppViewContainer"], .stApp {
-        background: radial-gradient(circle at 50% 0%, #FFFFFF 0%, #F7F3EB 55%, #EFE9DE 100%) !important;
+        background: linear-gradient(160deg, #FDFBF7 0%, #F6F0F8 50%, #EEF6F1 100%) !important;
         font-family: 'Plus Jakarta Sans', sans-serif;
-        color: #232E24 !important;
+        color: #1E2923 !important;
     }
 
-    /* Ocultar elementos nativos de Streamlit */
     [data-testid="stHeader"], footer, #MainMenu {
         visibility: hidden;
         height: 0px;
@@ -42,27 +36,27 @@ st.markdown("""
 
     .block-container {
         padding-top: 1.2rem;
-        padding-bottom: 4rem;
-        max-width: 740px;
-        animation: fadeIn 0.45s ease-out;
+        padding-bottom: 4.5rem;
+        max-width: 750px;
     }
 
-    /* --- HERO BANNER DE CABECERA --- */
-    .hero-wrapper {
-        background: linear-gradient(145deg, rgba(255,255,255,0.92) 0%, rgba(250,246,239,0.95) 100%);
-        border: 1px solid #E5DEC9;
+    /* --- BANNER PRINCIPAL CON LOS COLORES DE PRISKA --- */
+    .hero-box {
+        background: linear-gradient(135deg, #FFFFFF 0%, #FBF8FF 50%, #F4FBF7 100%);
+        border: 2px solid #D4AF37;
         border-radius: 24px;
-        padding: 24px 20px 18px 20px;
+        padding: 24px 20px 20px 20px;
         text-align: center;
-        box-shadow: 0 14px 35px rgba(35, 46, 36, 0.06);
-        margin-bottom: 18px;
+        box-shadow: 0 12px 30px rgba(106, 27, 122, 0.08);
+        margin-bottom: 20px;
     }
     .brand-title {
         font-family: 'Cormorant Garamond', serif;
-        font-size: 46px;
+        font-size: 48px;
         font-weight: 700;
-        color: #1F2D21;
-        letter-spacing: 0.8px;
+        background: linear-gradient(90deg, #0B6638 0%, #6A1B7A 60%, #B8860B 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         line-height: 1.05;
         margin-top: 6px;
         margin-bottom: 4px;
@@ -70,202 +64,212 @@ st.markdown("""
     .brand-slogan {
         font-family: 'Cormorant Garamond', serif;
         font-style: italic;
-        font-size: 18px;
-        color: #7A633E;
+        font-size: 19px;
+        font-weight: 600;
+        color: #6A1B7A;
         margin-bottom: 8px;
     }
     .brand-subtitle {
+        display: inline-block;
+        background: linear-gradient(90deg, #6A1B7A 0%, #8E24AA 100%);
+        color: #FFFFFF;
         font-size: 11.5px;
-        font-weight: 600;
-        color: #5C645B;
+        font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 2.2px;
-        margin-bottom: 10px;
+        letter-spacing: 1.8px;
+        padding: 5px 16px;
+        border-radius: 20px;
+        margin-bottom: 12px;
+        box-shadow: 0 4px 10px rgba(106, 27, 122, 0.2);
     }
     .location-pill {
         display: inline-block;
-        background-color: #F4EFE6;
-        border: 1px solid #DFD3C0;
-        color: #2C3A2E;
+        background-color: #E8F5E9;
+        border: 1px solid #0B6638;
+        color: #0B6638;
         font-size: 12px;
-        font-weight: 600;
+        font-weight: 700;
         padding: 5px 14px;
         border-radius: 30px;
         margin: 3px;
     }
     .ethics-badge {
-        background: linear-gradient(90deg, #2C3A2E 0%, #3B4D3E 100%);
-        color: #F8F4EC;
+        background: linear-gradient(90deg, #FFF8E7 0%, #FCE4EC 100%);
+        color: #4A154B;
         font-size: 11.5px;
-        font-weight: 600;
-        letter-spacing: 0.5px;
+        font-weight: 700;
         padding: 6px 16px;
         border-radius: 20px;
         display: inline-block;
         margin-top: 8px;
-        border: 1px solid #C5A880;
+        border: 1px solid #D4AF37;
     }
 
-    /* --- ENCABEZADOS DE SECCIÓN CON PASO NUMERADO --- */
+    /* --- ENCABEZADOS DE SECCIÓN ORDENADOS --- */
     .step-header {
         display: flex;
         align-items: center;
         gap: 12px;
         margin-bottom: 6px;
+        border-bottom: 2px solid #F0EAE1;
+        padding-bottom: 8px;
     }
     .step-circle {
-        background: linear-gradient(135deg, #C5A880 0%, #9E7F56 100%);
+        background: linear-gradient(135deg, #0B6638 0%, #6A1B7A 100%);
         color: #FFFFFF;
-        width: 28px;
-        height: 28px;
+        width: 30px;
+        height: 30px;
         border-radius: 50%;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: 13px;
+        font-size: 14px;
         font-weight: 700;
         flex-shrink: 0;
-        box-shadow: 0 3px 8px rgba(158, 127, 86, 0.3);
+        border: 1.5px solid #D4AF37;
     }
     .section-title {
         font-family: 'Cormorant Garamond', serif;
-        font-size: 25px;
+        font-size: 26px;
         font-weight: 700;
-        color: #1F2D21;
+        color: #0B6638;
+        margin: 0;
+    }
+    .section-title-purple {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 26px;
+        font-weight: 700;
+        color: #6A1B7A;
         margin: 0;
     }
     .section-desc {
         font-size: 13px;
-        color: #6E6A63;
-        margin-bottom: 16px;
+        color: #555E58;
+        margin-bottom: 14px;
         line-height: 1.5;
     }
 
-    /* --- MENÚ DE NAVEGACIÓN (BOTONES MÓVIL-FIRST) --- */
+    /* --- MENÚ DE NAVEGACIÓN COLORIDO Y ORDENADO --- */
     div[data-testid="stButton"] button[kind="primary"] {
-        background: linear-gradient(135deg, #1F2D21 0%, #354738 100%) !important;
+        background: linear-gradient(135deg, #0B6638 0%, #6A1B7A 100%) !important;
         color: #FFFFFF !important;
-        border: 1.5px solid #C5A880 !important;
+        border: 2px solid #D4AF37 !important;
         border-radius: 14px !important;
-        font-family: 'Plus Jakarta Sans', sans-serif !important;
-        font-weight: 600 !important;
-        font-size: 13.5px !important;
-        padding: 0.72rem 0.6rem !important;
-        box-shadow: 0 8px 18px rgba(31, 45, 33, 0.22) !important;
-        transition: all 0.25s ease !important;
+        font-weight: 700 !important;
+        font-size: 13px !important;
+        padding: 0.7rem 0.4rem !important;
+        box-shadow: 0 6px 15px rgba(106, 27, 122, 0.25) !important;
     }
-    div[data-testid="stButton"] button[kind="primary"]:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 22px rgba(31, 45, 33, 0.3) !important;
-    }
-
     div[data-testid="stButton"] button[kind="secondary"] {
         background-color: #FFFFFF !important;
-        color: #232E24 !important;
-        border: 1.5px solid #DFD5C5 !important;
+        color: #0B6638 !important;
+        border: 1.5px solid #D4AF37 !important;
         border-radius: 14px !important;
-        font-family: 'Plus Jakarta Sans', sans-serif !important;
-        font-weight: 600 !important;
-        font-size: 13.5px !important;
-        padding: 0.72rem 0.6rem !important;
-        box-shadow: 0 4px 10px rgba(35, 46, 36, 0.04) !important;
-        transition: all 0.25s ease !important;
+        font-weight: 700 !important;
+        font-size: 13px !important;
+        padding: 0.7rem 0.4rem !important;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.04) !important;
     }
     div[data-testid="stButton"] button[kind="secondary"]:hover {
-        border-color: #C5A880 !important;
-        background-color: #FBF8F3 !important;
-        transform: translateY(-1px);
+        background-color: #F8F2FA !important;
+        color: #6A1B7A !important;
+        border-color: #6A1B7A !important;
     }
 
-    /* --- CONTENEDORES DE TARJETA (GLASSMORPHISM) --- */
+    /* --- TARJETAS CON BORDE DEFINIDO --- */
     [data-testid="stVerticalBlockBorderWrapper"] {
-        background-color: rgba(255, 255, 255, 0.94) !important;
+        background-color: #FFFFFF !important;
         border-radius: 20px !important;
-        border: 1px solid #E6DEC8 !important;
-        box-shadow: 0 12px 32px rgba(35, 46, 36, 0.05) !important;
-        padding: 22px 24px !important;
+        border: 1.5px solid #E2D5EA !important;
+        box-shadow: 0 8px 24px rgba(11, 102, 56, 0.05) !important;
+        padding: 20px 22px !important;
         margin-bottom: 18px !important;
-        animation: fadeIn 0.35s ease-out;
     }
 
-    /* Inputs, Calendario y Selectores */
+    /* Inputs y Selectores */
     .stTextInput label, .stMultiSelect label, .stDateInput label, .stSelectbox label {
         font-size: 13px !important;
-        font-weight: 600 !important;
-        color: #2C3A2E !important;
+        font-weight: 700 !important;
+        color: #0B6638 !important;
     }
     .stTextInput > div > div > input, .stDateInput > div > div > input {
-        background-color: #FAF8F5 !important;
-        border-radius: 12px !important;
-        border: 1px solid #DCD3C2 !important;
-        padding: 11px 14px !important;
-        font-size: 14px !important;
-        color: #232E24 !important;
+        background-color: #FBF9FC !important;
+        border-radius: 10px !important;
+        border: 1.5px solid #D4C4DF !important;
+        color: #1E2923 !important;
     }
     div[data-baseweb="select"] > div {
-        background-color: #FAF8F5 !important;
-        border-radius: 12px !important;
-        border: 1px solid #DCD3C2 !important;
-        color: #232E24 !important;
+        background-color: #FBF9FC !important;
+        border-radius: 10px !important;
+        border: 1.5px solid #D4C4DF !important;
+        color: #1E2923 !important;
     }
 
     /* Opciones de Radio interactivas */
     div[role="radiogroup"] > label {
-        background-color: #FAF8F5 !important;
-        border: 1px solid #E6DEC8 !important;
-        border-radius: 14px !important;
-        padding: 14px 16px !important;
-        margin-bottom: 9px !important;
-        transition: all 0.22s ease;
-        cursor: pointer;
+        background-color: #FAFDFB !important;
+        border: 1.5px solid #D5E6DC !important;
+        border-radius: 12px !important;
+        padding: 13px 15px !important;
+        margin-bottom: 8px !important;
+        transition: all 0.2s ease;
     }
     div[role="radiogroup"] > label:hover {
-        border-color: #C5A880 !important;
-        background-color: #FFFFFF !important;
+        border-color: #6A1B7A !important;
+        background-color: #FBF7FC !important;
         transform: translateX(3px);
-        box-shadow: 0 5px 15px rgba(197, 168, 128, 0.15);
     }
     div[role="radiogroup"] p {
-        font-size: 14px !important;
-        color: #232E24 !important;
-        font-weight: 500 !important;
-        line-height: 1.45;
+        font-size: 13.8px !important;
+        color: #1E2923 !important;
+        font-weight: 600 !important;
     }
 
-    /* Expander elegante */
+    /* Expander */
     [data-testid="stExpander"] {
         background-color: #FFFFFF !important;
         border-radius: 14px !important;
-        border: 1px solid #E6DEC8 !important;
+        border: 1.5px solid #D4AF37 !important;
         margin-bottom: 10px !important;
     }
     [data-testid="stExpander"] summary p {
-        color: #1F2D21 !important;
-        font-weight: 600 !important;
+        color: #6A1B7A !important;
+        font-weight: 700 !important;
         font-size: 14px !important;
     }
 
     /* --- TARJETA DE RESULTADO CERTIFICADO --- */
     .result-card {
-        background: linear-gradient(145deg, #FFFFFF 0%, #FAF6EE 100%);
-        border: 1.5px solid #D8C39E;
-        border-top: 6px solid #2C3A2E;
+        background: linear-gradient(145deg, #FFFFFF 0%, #FAF5FC 100%);
+        border: 2px solid #D4AF37;
+        border-top: 6px solid #6A1B7A;
         border-radius: 20px;
-        padding: 26px;
-        margin-top: 18px;
+        padding: 24px;
+        margin-top: 16px;
         margin-bottom: 16px;
-        box-shadow: 0 16px 36px rgba(35, 46, 36, 0.09);
-        animation: fadeIn 0.4s ease-out;
+        box-shadow: 0 14px 30px rgba(106, 27, 122, 0.12);
     }
     .result-badge {
         display: inline-block;
-        background-color: #EFE7D8;
-        color: #7A6038;
+        background: linear-gradient(90deg, #0B6638 0%, #148F50 100%);
+        color: #FFFFFF;
         font-size: 11px;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 1.5px;
-        padding: 5px 13px;
+        letter-spacing: 1.2px;
+        padding: 5px 14px;
+        border-radius: 20px;
+        margin-bottom: 10px;
+    }
+    .result-badge-purple {
+        display: inline-block;
+        background: linear-gradient(90deg, #6A1B7A 0%, #8E24AA 100%);
+        color: #FFFFFF;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        padding: 5px 14px;
         border-radius: 20px;
         margin-bottom: 10px;
     }
@@ -273,198 +277,241 @@ st.markdown("""
         font-family: 'Cormorant Garamond', serif;
         font-size: 30px;
         font-weight: 700;
-        color: #1F2D21;
+        color: #6A1B7A;
         margin-bottom: 8px;
     }
     .result-desc {
         font-size: 14.5px;
-        color: #454F46;
-        line-height: 1.65;
-        margin-bottom: 14px;
+        color: #333F38;
+        line-height: 1.6;
+        margin-bottom: 12px;
     }
     .appointment-summary {
-        background-color: #F4EFE6;
+        background-color: #F4FBF7;
         border-radius: 12px;
         padding: 12px 16px;
         font-size: 13px;
-        color: #232E24;
-        border-left: 4px solid #C5A880;
-        margin-top: 12px;
+        color: #0B6638;
+        border-left: 4px solid #0B6638;
+        margin-top: 10px;
     }
 
     /* Bono Turrúcares */
     .turrucares-bonus {
-        background: linear-gradient(135deg, #1F2D21 0%, #344937 100%);
+        background: linear-gradient(135deg, #0B6638 0%, #6A1B7A 100%);
         color: #FFFFFF;
         border-radius: 16px;
-        padding: 18px 22px;
+        padding: 18px 20px;
         margin-bottom: 18px;
-        border: 1.5px solid #C5A880;
-        box-shadow: 0 10px 25px rgba(31, 45, 33, 0.18);
+        border: 2px solid #D4AF37;
+        box-shadow: 0 10px 24px rgba(11, 102, 56, 0.2);
     }
 
-    /* --- TARJETA DE FIDELIDAD VISUAL (SELLOS) --- */
+    /* --- TARJETAS DE INSTAGRAM (@priskah_m) --- */
+    .ig-card {
+        background: #FFFFFF;
+        border: 1.5px solid #E5D4EC;
+        border-top: 4px solid #C13584;
+        border-radius: 16px;
+        padding: 16px;
+        margin-bottom: 14px;
+        box-shadow: 0 6px 16px rgba(193, 53, 132, 0.06);
+    }
+    .ig-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        border-bottom: 1px solid #F3ECF6;
+        padding-bottom: 6px;
+    }
+    .ig-user {
+        font-size: 13px;
+        font-weight: 700;
+        color: #6A1B7A;
+    }
+    .ig-tag {
+        font-size: 10.5px;
+        font-weight: 700;
+        background-color: #FCE4EC;
+        color: #AD1457;
+        padding: 3px 9px;
+        border-radius: 12px;
+    }
+    .ig-tag-green {
+        font-size: 10.5px;
+        font-weight: 700;
+        background-color: #E8F5E9;
+        color: #0B6638;
+        padding: 3px 9px;
+        border-radius: 12px;
+    }
+    .ig-comment {
+        font-size: 13.5px;
+        color: #2E3832;
+        font-style: italic;
+        line-height: 1.5;
+        margin-bottom: 8px;
+    }
+    .ig-likes {
+        font-size: 11.5px;
+        color: #C13584;
+        font-weight: 600;
+    }
+
+    /* --- SELLOS DE FIDELIDAD --- */
     .stamp-grid {
         display: flex;
         justify-content: center;
         gap: 10px;
-        margin: 16px 0;
+        margin: 14px 0;
         flex-wrap: wrap;
     }
     .stamp-slot {
-        width: 52px;
-        height: 52px;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 700;
-        border: 2px dashed #C5A880;
-        background-color: #FAF8F5;
-        color: #B5AA99;
+        border: 2px dashed #D4AF37;
+        background-color: #FFFDF9;
+        color: #9E8C70;
     }
     .stamp-filled {
-        background: linear-gradient(135deg, #2C3A2E 0%, #3B4D3E 100%);
+        background: linear-gradient(135deg, #0B6638 0%, #148F50 100%);
         color: #FFFFFF;
-        border: 2px solid #C5A880;
-        box-shadow: 0 4px 10px rgba(44, 58, 46, 0.2);
+        border: 2px solid #D4AF37;
     }
     .stamp-reward {
-        background: linear-gradient(135deg, #C5A880 0%, #9E7F56 100%);
+        background: linear-gradient(135deg, #6A1B7A 0%, #D4AF37 100%);
         color: #FFFFFF;
-        border: 2px solid #1F2D21;
+        border: 2px solid #0B6638;
     }
 
     /* Tarjetas de Servicios y Promociones */
     .promo-card {
-        background: linear-gradient(145deg, #FFFFFF 0%, #FAF7F2 100%);
-        border: 1.5px solid #DFD3C0;
+        background: linear-gradient(145deg, #FFFFFF 0%, #FDF9FF 100%);
+        border: 1.5px solid #D4AF37;
+        border-left: 6px solid #6A1B7A;
         border-radius: 16px;
-        padding: 20px 22px;
-        margin-bottom: 16px;
-        box-shadow: 0 6px 18px rgba(44, 58, 46, 0.05);
-        transition: transform 0.25s ease;
-    }
-    .promo-card:hover {
-        transform: translateY(-2px);
-    }
-    .promo-tag {
-        display: inline-block;
-        background-color: #1F2D21;
-        color: #F2ECE1;
-        font-size: 10.5px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1.2px;
-        padding: 4px 11px;
-        border-radius: 12px;
-        margin-bottom: 8px;
+        padding: 18px 20px;
+        margin-bottom: 14px;
     }
     .promo-title {
         font-family: 'Cormorant Garamond', serif;
         font-size: 22px;
         font-weight: 700;
-        color: #1F2D21;
-        margin-bottom: 6px;
+        color: #6A1B7A;
+        margin-bottom: 4px;
     }
 
     .service-item {
-        background-color: #FAF8F5;
-        border: 1px solid #EAE2D3;
-        border-left: 4px solid #2C3A2E;
+        background-color: #F6FBF8;
+        border: 1px solid #C8E6C9;
+        border-left: 5px solid #0B6638;
         border-radius: 14px;
-        padding: 16px 18px;
-        margin-bottom: 14px;
+        padding: 15px 18px;
+        margin-bottom: 12px;
+    }
+    .service-item-hair {
+        background-color: #FBF6FC;
+        border: 1px solid #E1BEE7;
+        border-left: 5px solid #6A1B7A;
+        border-radius: 14px;
+        padding: 15px 18px;
+        margin-bottom: 12px;
     }
     .service-name {
         font-family: 'Cormorant Garamond', serif;
         font-size: 21px;
         font-weight: 700;
-        color: #1F2D21;
+        color: #0B6638;
+        margin-bottom: 2px;
+    }
+    .service-name-purple {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 21px;
+        font-weight: 700;
+        color: #6A1B7A;
         margin-bottom: 2px;
     }
     .service-meta {
         font-size: 11px;
         font-weight: 700;
-        color: #8C734B;
+        color: #B8860B;
         text-transform: uppercase;
-        letter-spacing: 0.9px;
-        margin-bottom: 8px;
+        letter-spacing: 0.8px;
+        margin-bottom: 6px;
     }
     .service-text {
         font-size: 13.5px;
-        color: #4A5249;
-        line-height: 1.55;
+        color: #333F38;
+        line-height: 1.5;
         margin: 0;
-    }
-
-    /* Testimonios */
-    .review-card {
-        background-color: #FAF8F5;
-        border: 1px solid #EAE2D3;
-        border-radius: 14px;
-        padding: 16px;
-        margin-bottom: 12px;
-    }
-    .stars {
-        color: #D4AF37;
-        font-size: 14px;
-        margin-bottom: 6px;
     }
 
     .credential-pill {
         display: inline-block;
-        background-color: #F2ECE1;
-        color: #2C3A2E;
-        border: 1px solid #DFD3C0;
-        padding: 7px 14px;
+        background: linear-gradient(90deg, #E8F5E9 0%, #F3E5F5 100%);
+        color: #0B6638;
+        border: 1px solid #D4AF37;
+        padding: 6px 14px;
         border-radius: 20px;
-        font-size: 12.5px;
-        font-weight: 600;
-        margin: 4px 6px 6px 0;
+        font-size: 12px;
+        font-weight: 700;
+        margin: 4px 5px 5px 0;
     }
     .edu-box {
-        background-color: #FAF8F5;
-        border: 1px solid #EAE2D3;
+        background-color: #FAFDFB;
+        border: 1px solid #D5E6DC;
+        border-left: 4px solid #D4AF37;
         border-radius: 12px;
-        padding: 14px 18px;
-        margin-bottom: 12px;
+        padding: 12px 16px;
+        margin-bottom: 10px;
     }
     .edu-title {
         font-weight: 700;
         font-size: 14px;
-        color: #1F2D21;
+        color: #0B6638;
         margin-bottom: 2px;
     }
     .edu-sub {
         font-size: 12.5px;
-        color: #6B655D;
+        color: #555E58;
         margin: 0;
     }
 
-    /* Botones de WhatsApp y Flotante */
+    /* Botones de WhatsApp e Instagram */
     .wa-btn {
-        background: linear-gradient(135deg, #25D366 0%, #1DA851 100%);
+        background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
         color: white !important;
-        padding: 15px 30px;
+        padding: 14px 28px;
         border-radius: 50px;
         text-decoration: none !important;
         font-weight: 700;
         font-size: 14.5px;
-        letter-spacing: 0.4px;
         display: inline-block;
-        box-shadow: 0 8px 22px rgba(37, 211, 102, 0.32);
-        transition: all 0.3s ease;
+        box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+        border: 2px solid #FFFFFF;
     }
-    .wa-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 12px 26px rgba(37, 211, 102, 0.42);
+    .ig-btn {
+        background: linear-gradient(45deg, #F58529 0%, #DD2A7B 50%, #8134AF 100%);
+        color: white !important;
+        padding: 12px 24px;
+        border-radius: 50px;
+        text-decoration: none !important;
+        font-weight: 700;
+        font-size: 13.5px;
+        display: inline-block;
+        box-shadow: 0 6px 16px rgba(221, 42, 123, 0.25);
     }
     .floating-wa {
         position: fixed;
-        bottom: 22px;
-        right: 22px;
+        bottom: 20px;
+        right: 20px;
         background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
         color: white !important;
         padding: 12px 18px;
@@ -472,52 +519,110 @@ st.markdown("""
         font-size: 13px;
         font-weight: 700;
         text-decoration: none !important;
-        box-shadow: 0 8px 24px rgba(18, 140, 126, 0.38);
+        box-shadow: 0 8px 24px rgba(18, 140, 126, 0.4);
         z-index: 9999;
-        display: flex;
-        align-items: center;
-        gap: 6px;
         border: 2px solid #FFFFFF;
     }
     .social-btn {
         background-color: #FFFFFF;
-        color: #1F2D21 !important;
-        border: 1px solid #DFD3C0;
-        padding: 9px 18px;
+        color: #6A1B7A !important;
+        border: 1.5px solid #D4AF37;
+        padding: 8px 16px;
         border-radius: 30px;
         text-decoration: none !important;
         font-size: 13px;
-        font-weight: 600;
-        margin: 4px 6px;
+        font-weight: 700;
+        margin: 4px;
         display: inline-block;
-        box-shadow: 0 3px 10px rgba(44, 58, 46, 0.05);
     }
 
     .gold-divider {
-        height: 1px;
-        background: linear-gradient(90deg, transparent, #D5C5AA, transparent);
-        margin: 16px 0 20px 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #D4AF37, #6A1B7A, #0B6638, transparent);
+        margin: 14px 0 18px 0;
         border: none;
     }
 
     .logo-circle img {
         border-radius: 50% !important;
-        box-shadow: 0 10px 26px rgba(44, 58, 46, 0.16);
-        border: 3px solid #C5A880;
+        box-shadow: 0 8px 24px rgba(106, 27, 122, 0.2);
+        border: 3px solid #D4AF37;
         object-fit: cover;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# --- BOTÓN FLOTANTE DE WHATSAPP SIEMPRE VISIBLE ---
-link_wa_rapido = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, estoy visitando tu página web y me gustaría hacerte una consulta.')}"
+# --- BOTÓN FLOTANTE DE WHATSAPP ---
+link_wa_rapido = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, estoy viendo tu página web y quiero consultar por una cita.')}"
 st.markdown(f"""
     <a href="{link_wa_rapido}" target="_blank" class="floating-wa">
-        💬 WhatsApp Directo
+        💬 WhatsApp 6021-8458
     </a>
 """, unsafe_allow_html=True)
 
-# --- FUNCIÓN PARA CONTAR VISITAS DE FIDELIDAD ---
+# --- RESEÑAS BASE DE INSTAGRAM (@priskah_m) + RESEÑAS NUEVAS QUE AGREGUES ---
+COMENTARIOS_IG_DEFAULT = [
+    {
+        "usuario": "@cliente_verificada • Post de Masajes",
+        "categoria": "💆‍♀️ Masaje Descontracturante",
+        "tipo": "masaje",
+        "comentario": "¡Manos de ángel! Tenía semanas con un dolor terrible en el cuello y la espalda por el trabajo, y salí como nueva de la sesión en Turrúcares. 100% recomendada.",
+        "likes": "❤️ 24 Me gusta • Ver en @priskah_m"
+    },
+    {
+        "usuario": "@cliente_verificada • Post de Recuperación Capilar",
+        "categoria": "🍯 Colesterol y Miel",
+        "tipo": "pelo",
+        "comentario": "Increíble cómo me cambió el cabello desde la primera sesión con el tratamiento de colesterol y miel. Tenía las puntas súper secas y ahora brilla muchísimo ✨",
+        "likes": "❤️ 31 Me gusta • Ver en @priskah_m"
+    },
+    {
+        "usuario": "@cliente_verificada • Post de Nanoqueratina",
+        "categoria": "✨ Nanoqueratina Brillo Espejo",
+        "tipo": "pelo",
+        "comentario": "Amé mi nanoqueratina 😍 Cero frizz, el pelo súper suave y con un brillo espejo hermoso. Además la atención de Priska es súper chineadora y profesional.",
+        "likes": "❤️ 29 Me gusta • Ver en @priskah_m"
+    },
+    {
+        "usuario": "@cliente_verificada • Post de Drenaje & Moldeo",
+        "categoria": "🌊 Drenaje Brasileño y Retorno Venoso",
+        "tipo": "masaje",
+        "comentario": "El drenaje linfático y masaje de retorno venoso me dejó las piernas súper livianas y desinflamadas. El ambiente transmite demasiada paz 🌿",
+        "likes": "❤️ 19 Me gusta • Ver en @priskah_m"
+    },
+    {
+        "usuario": "@cliente_verificada • Post de Botox Capilar",
+        "categoria": "💧 Botox y Nutrición Capilar",
+        "tipo": "pelo",
+        "comentario": "Mi cabello venía maltratado por tintes y con el botox capilar recuperó toda la vida y suavidad. ¡Me encantó cómo huele y cómo quedó!",
+        "likes": "❤️ 22 Me gusta • Ver en @priskah_m"
+    },
+    {
+        "usuario": "@cliente_verificada • Post de Masaje Deportivo",
+        "categoria": "⚡ Descarga Muscular",
+        "tipo": "masaje",
+        "comentario": "Excelente descarga muscular después de entrenar toda la semana. Muy profesional, puntual y conoce muchísimo la anatomía del músculo.",
+        "likes": "❤️ 18 Me gusta • Ver en @priskah_m"
+    }
+]
+
+def cargar_comentarios_ig():
+    comentarios = list(COMENTARIOS_IG_DEFAULT)
+    if os.path.exists("comentarios_ig.csv"):
+        try:
+            df_ig = pd.read_csv("comentarios_ig.csv", on_bad_lines="skip")
+            for _, row in df_ig.iterrows():
+                comentarios.insert(0, {
+                    "usuario": str(row["usuario"]),
+                    "categoria": str(row["categoria"]),
+                    "tipo": str(row["tipo"]),
+                    "comentario": str(row["comentario"]),
+                    "likes": "❤️ Comentario destacado de Instagram @priskah_m"
+                })
+        except:
+            pass
+    return comentarios
+
 def obtener_visitas_cliente(telefono_limpio):
     try:
         df = pd.read_csv(
@@ -530,15 +635,15 @@ def obtener_visitas_cliente(telefono_limpio):
     except FileNotFoundError:
         return 0
 
-# --- CONTROL DE NAVEGACIÓN ---
+# --- CONTROL DE NAVEGACIÓN (5 SECCIONES BIEN ORDENADAS) ---
 if "pagina_activa" not in st.session_state:
     st.session_state.pagina_activa = "diagnostico"
 
 def cambiar_pagina(nombre_pagina):
     st.session_state.pagina_activa = nombre_pagina
 
-# --- CABECERA HERO LUXURY ---
-st.markdown("<div class='hero-wrapper'>", unsafe_allow_html=True)
+# --- CABECERA PRINCIPAL CON LOS COLORES DEL LOGO ---
+st.markdown("<div class='hero-box'>", unsafe_allow_html=True)
 col1, col2, col3 = st.columns([1.4, 1, 1.4])
 with col2:
     st.markdown("<div class='logo-circle'>", unsafe_allow_html=True)
@@ -549,19 +654,19 @@ with col2:
     st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown("""
-    <div class='brand-title'>Priskah_m</div>
+    <div class='brand-title'>Priska</div>
+    <div class='brand-subtitle'>Masajes y Cabellos con Recuperación Capilar</div>
     <div class='brand-slogan'>“Cuida tu cuerpo • Relaja tu mente y energía”</div>
-    <div class='brand-subtitle'>Masajes Especializados & Recuperación Capilar</div>
     <div>
-        <span class='location-pill'>📍 Cabina en Turrúcares, Alajuela</span>
+        <span class='location-pill'>📍 Cabina: Turrúcares, Alajuela</span>
         <span class='location-pill'>🏠 A Domicilio: Turrúcares y San Ramón</span>
     </div>
     <div class='ethics-badge'>🛡️ Servicio Exclusivamente Profesional y Terapéutico (No Tántrico)</div>
 </div>
 """, unsafe_allow_html=True)
 
-# --- MENÚ PRINCIPAL DE NAVEGACIÓN ---
-nav1, nav2, nav3, nav4 = st.columns(4)
+# --- BARRA DE MENÚ ORDENADA EN 5 BOTONES ---
+nav1, nav2, nav3, nav4, nav5 = st.columns(5)
 with nav1:
     st.button(
         "✨ Diagnóstico",
@@ -572,21 +677,29 @@ with nav1:
     )
 with nav2:
     st.button(
-        "🎁 Promos & Club",
-        use_container_width=True,
-        type="primary" if st.session_state.pagina_activa == "promos" else "secondary",
-        on_click=cambiar_pagina,
-        args=("promos",)
-    )
-with nav3:
-    st.button(
         "🌿 Servicios",
         use_container_width=True,
         type="primary" if st.session_state.pagina_activa == "servicios" else "secondary",
         on_click=cambiar_pagina,
         args=("servicios",)
     )
+with nav3:
+    st.button(
+        "🎁 Promos",
+        use_container_width=True,
+        type="primary" if st.session_state.pagina_activa == "promos" else "secondary",
+        on_click=cambiar_pagina,
+        args=("promos",)
+    )
 with nav4:
+    st.button(
+        "📸 Reseñas IG",
+        use_container_width=True,
+        type="primary" if st.session_state.pagina_activa == "resenas" else "secondary",
+        on_click=cambiar_pagina,
+        args=("resenas",)
+    )
+with nav5:
     st.button(
         "👩‍⚕️ Fundadora",
         use_container_width=True,
@@ -598,18 +711,17 @@ with nav4:
 st.markdown("<hr class='gold-divider'>", unsafe_allow_html=True)
 
 # ==========================================
-# VISTA 1: DIAGNÓSTICO + AGENDAMIENTO GUIADO
+# VISTA 1: DIAGNÓSTICO PASO A PASO
 # ==========================================
 if st.session_state.pagina_activa == "diagnostico":
     
-    # PASO 1: DATOS Y MODALIDAD
     with st.container(border=True):
         st.markdown("""
             <div class='step-header'>
                 <span class='step-circle'>1</span>
                 <h3 class='section-title'>Tus Datos y Modalidad</h3>
             </div>
-            <div class='section-desc'>Ingresa tus datos para personalizar tu expediente y acumular sellos en tu Tarjeta de Fidelidad.</div>
+            <div class='section-desc'>Completa tus datos para crear tu recomendación y sumar sellos en tu Tarjeta de Fidelidad (5 citas = 6° al 50% OFF).</div>
         """, unsafe_allow_html=True)
         
         c1, c2 = st.columns(2)
@@ -622,19 +734,18 @@ if st.session_state.pagina_activa == "diagnostico":
         modalidad = st.radio(
             "📍 ¿Cómo prefieres recibir tu atención?",
             [
-                "✨ En Sede Turrúcares, Alajuela (Desbloquea Promoción Exclusiva + Regalía)",
+                "✨ En Sede Turrúcares, Alajuela (Desbloquea Promoción Exclusiva + Cortesía)",
                 "🏠 Servicio A Domicilio (Disponible en Turrúcares y San Ramón)"
             ]
         )
 
-    # PASO 2: ÁREA A CONSENTIR
     with st.container(border=True):
         st.markdown("""
             <div class='step-header'>
                 <span class='step-circle'>2</span>
-                <h3 class='section-title'>¿Qué área deseas consentir hoy?</h3>
+                <h3 class='section-title-purple'>¿Qué área deseas consentir hoy?</h3>
             </div>
-            <div class='section-desc'>Selecciona el enfoque de tu sesión.</div>
+            <div class='section-desc'>Elige entre nuestras terapias corporales o recuperación capilar.</div>
         """, unsafe_allow_html=True)
         
         categoria = st.radio(
@@ -643,7 +754,6 @@ if st.session_state.pagina_activa == "diagnostico":
             label_visibility="collapsed"
         )
 
-    # PASO 3: NECESIDAD Y VALORACIÓN DE SEGURIDAD
     with st.container(border=True):
         if "Masajes" in categoria:
             st.markdown("""
@@ -651,7 +761,7 @@ if st.session_state.pagina_activa == "diagnostico":
                     <span class='step-circle'>3</span>
                     <h3 class='section-title'>Evaluación Corporal y Seguridad</h3>
                 </div>
-                <div class='section-desc'>Selecciona la opción que mejor describa lo que tu cuerpo necesita hoy.</div>
+                <div class='section-desc'>Selecciona cuál es tu molestia u objetivo principal hoy.</div>
             """, unsafe_allow_html=True)
             opcion = st.radio(
                 "Enfoque corporal",
@@ -682,9 +792,9 @@ if st.session_state.pagina_activa == "diagnostico":
             st.markdown("""
                 <div class='step-header'>
                     <span class='step-circle'>3</span>
-                    <h3 class='section-title'>Evaluación de tu Hebra Capilar</h3>
+                    <h3 class='section-title-purple'>Evaluación de tu Hebra Capilar</h3>
                 </div>
-                <div class='section-desc'>Selecciona el estado actual de tu cabello y lo que deseas lograr.</div>
+                <div class='section-desc'>Selecciona cómo sientes tu cabello actualmente.</div>
             """, unsafe_allow_html=True)
             opcion = st.radio(
                 "Necesidad capilar",
@@ -711,14 +821,13 @@ if st.session_state.pagina_activa == "diagnostico":
                 default=["Ninguna condición especial"]
             )
 
-    # PASO 4: FECHA Y HORARIO PREFERIDO
     with st.container(border=True):
         st.markdown("""
             <div class='step-header'>
                 <span class='step-circle'>4</span>
-                <h3 class='section-title'>Preferencia de Cita</h3>
+                <h3 class='section-title'>Fecha y Horario Preferido</h3>
             </div>
-            <div class='section-desc'>Elige tu fecha tentativa y horario ideal para agilizar tu reserva por WhatsApp.</div>
+            <div class='section-desc'>Elige cuándo te gustaría agendar tu cita.</div>
         """, unsafe_allow_html=True)
 
         f_col1, f_col2 = st.columns(2)
@@ -735,14 +844,14 @@ if st.session_state.pagina_activa == "diagnostico":
                 ]
             )
 
-    if st.button("✨ Obtener mi Diagnóstico Certificado y Beneficio", type="primary", use_container_width=True):
+    if st.button("✨ Ver mi Diagnóstico Personalizado + Regalo en Turrúcares", type="primary", use_container_width=True):
         solo_digitos = re.sub(r"\D", "", telefono)
         
         if nombre.strip() == "" or len(solo_digitos) < 8:
             st.warning("⚠️ Por favor, ingresa tu nombre completo y un número de WhatsApp válido (mínimo 8 dígitos).")
         else:
             if "Masajes" in categoria:
-                regalo_turrucares = "🎁 Cortesía exclusiva en Sede Turrúcares: +10 minutos de masaje craneofacial relajante + 1 sello en tu Tarjeta de Fidelidad (50% OFF en tu 6° visita)."
+                regalo_turrucares = "🎁 Cortesía exclusiva en Sede Turrúcares: +10 minutos de masaje craneofacial relajante + 1 sello para tu Tarjeta de Fidelidad (50% OFF en tu 6° cita)."
                 if "Descontracturante" in opcion:
                     tratamiento = "Masaje Terapéutico y Descontracturante Profundo"
                     descripcion = "Protocolo manual enfocado en liberar fascias, puntos gatillo y contracturas profundas en espalda, cuello y hombros, devolviendo ligereza inmediata."
@@ -769,7 +878,7 @@ if st.session_state.pagina_activa == "diagnostico":
                     duracion = "⏱️ Sesión de 60 - 75 min • Valoración anatómica personalizada"
                     icono = "✨"
             else:
-                regalo_turrucares = "🎁 Cortesía exclusiva en Sede Turrúcares: Diagnóstico capilar profundo + sellado nutritivo de puntas gratis + 1 sello en tu Tarjeta de Fidelidad."
+                regalo_turrucares = "🎁 Cortesía exclusiva en Sede Turrúcares: Diagnóstico capilar profundo + sellado nutritivo de puntas gratis + 1 sello para tu Tarjeta de Fidelidad."
                 if "Colesterol y Miel" in opcion:
                     tratamiento = "Recuperación Capilar Intensiva (Colesterol y Miel)"
                     descripcion = "Fórmula altamente nutritiva y restauradora que repone lípidos, suavidad extrema, fuerza y elasticidad al cabello seco o procesado."
@@ -795,7 +904,6 @@ if st.session_state.pagina_activa == "diagnostico":
             fecha_str = fecha_cita.strftime("%d/%m/%Y")
             es_turrucares = "Sede Turrúcares" in modalidad
 
-            # Guardar en CSV
             nuevo_registro = pd.DataFrame({
                 "Fecha": [datetime.now().strftime("%Y-%m-%d %H:%M")],
                 "Nombre": [nombre.strip()],
@@ -812,10 +920,10 @@ if st.session_state.pagina_activa == "diagnostico":
 
             st.markdown(f"""
                 <div class="result-card">
-                    <div class="result-badge">✨ Certificado de Diagnóstico Personalizado</div>
+                    <div class="result-badge-purple">✨ Certificado de Diagnóstico Personalizado</div>
                     <div class="result-title">{icono} {tratamiento}</div>
                     <p class="result-desc">{descripcion}</p>
-                    <p style="font-size: 12.5px; color: #7A6038; font-weight: 700; margin-bottom: 8px;">{duracion}</p>
+                    <p style="font-size: 12.5px; color: #0B6638; font-weight: 700; margin-bottom: 8px;">{duracion}</p>
                     <div class="appointment-summary">
                         👤 <strong>Cliente:</strong> {nombre.strip()} &nbsp;|&nbsp; 📅 <strong>Fecha deseada:</strong> {fecha_str}<br>
                         🕒 <strong>Horario:</strong> {horario_cita} &nbsp;|&nbsp; 📍 <strong>Modalidad:</strong> {modalidad.split('(')[0].strip()}
@@ -826,7 +934,7 @@ if st.session_state.pagina_activa == "diagnostico":
             if es_turrucares:
                 st.markdown(f"""
                     <div class="turrucares-bonus">
-                        <div style="font-size: 13.5px; font-weight: 700; color: #EAD8B8; margin-bottom: 4px;">
+                        <div style="font-size: 13.5px; font-weight: 700; color: #FFE082; margin-bottom: 4px;">
                             📍 BENEFICIO EXCLUSIVO DESBLOQUEADO (VÁLIDO EN SEDE TURRÚCARES)
                         </div>
                         <div style="font-size: 13.5px; line-height: 1.5;">
@@ -855,171 +963,40 @@ if st.session_state.pagina_activa == "diagnostico":
                 </div>
             """, unsafe_allow_html=True)
 
-    # --- TESTIMONIOS Y POLÍTICAS EN LA PÁGINA PRINCIPAL ---
+    # --- RESUMEN DE COMENTARIOS DE INSTAGRAM EN LA PORTADA ---
     with st.container(border=True):
-        st.markdown("<div class='section-title' style='margin-bottom: 12px;'>💬 Lo que dicen nuestras clientas</div>", unsafe_allow_html=True)
-        t1, t2 = st.columns(2)
-        with t1:
-            st.markdown("""
-                <div class="review-card">
-                    <div class="stars">★★★★★</div>
-                    <p style="font-size: 13px; color: #454F46; font-style: italic; margin-bottom: 6px;">
-                        "El masaje descontracturante me quitó un dolor de cuello y espalda que tenía hace semanas. El espacio en Turrúcares transmite demasiada paz."
-                    </p>
-                    <div style="font-size: 12px; font-weight: 700; color: #1F2D21;">— Cliente verificada, Turrúcares</div>
-                </div>
-            """, unsafe_allow_html=True)
-        with t2:
-            st.markdown("""
-                <div class="review-card">
-                    <div class="stars">★★★★★</div>
-                    <p style="font-size: 13px; color: #454F46; font-style: italic; margin-bottom: 6px;">
-                        "Me hice la recuperación capilar con colesterol y miel y luego la nanoqueratina; el brillo espejo y la suavidad que me dejó en el cabello son increíbles."
-                    </p>
-                    <div style="font-size: 12px; font-weight: 700; color: #1F2D21;">— Cliente verificada, Alajuela</div>
-                </div>
-            """, unsafe_allow_html=True)
-
-    with st.expander("📋 Políticas de Reserva, Puntualidad y Métodos de Pago"):
-        st.markdown("""
-        * **Atención 100% personalizada:** Trabajamos únicamente con cita previa para dedicarte el tiempo y la calidad que mereces.
-        * **Puntualidad y Reprogramaciones:** Agradecemos avisar con al menos **24 horas de anticipación** en caso de requerir reprogramar tu espacio.
-        * **Métodos de Pago:** Aceptamos **SINPE Móvil**, transferencia bancaria y efectivo.
-        * **Ética Profesional:** Todos nuestros servicios de masaje son estrictamente terapéuticos, deportivos, estéticos y de relajación (No tántricos).
-        """)
+        st.markdown("<div class='result-badge-purple'>📸 Destacados de Instagram @priskah_m</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title-purple' style='margin-bottom: 12px;'>Lo que comentan en nuestros posts</div>", unsafe_allow_html=True)
+        comentarios_portada = cargar_comentarios_ig()[:2]
+        col_ig1, col_ig2 = st.columns(2)
+        for idx, item in enumerate(comentarios_portada):
+            with (col_ig1 if idx == 0 else col_ig2):
+                tag_class = "ig-tag-green" if item["tipo"] == "masaje" else "ig-tag"
+                st.markdown(f"""
+                    <div class="ig-card">
+                        <div class="ig-header">
+                            <span class="ig-user">{item['usuario']}</span>
+                            <span class="{tag_class}">{item['categoria']}</span>
+                        </div>
+                        <div class="ig-comment">“{item['comentario']}”</div>
+                        <div class="ig-likes">{item['likes']}</div>
+                    </div>
+                """, unsafe_allow_html=True)
+        st.button("📸 Ver todos los comentarios de Masajes y Cabello →", on_click=cambiar_pagina, args=("resenas",), use_container_width=True)
 
 # ==========================================
-# VISTA 2: PROMOS SEDE TURRÚCARES, CLUB DE FIDELIDAD Y TALLER
-# ==========================================
-elif st.session_state.pagina_activa == "promos":
-    
-    # --- CONSULTOR INTERACTIVO DE TARJETA DE FIDELIDAD ---
-    with st.container(border=True):
-        st.markdown("<div class='result-badge'>🖤 Programa de Lealtad Oficial</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-title'>Club de Fidelidad Priskah_m</div>", unsafe_allow_html=True)
-        st.markdown("""
-            <div class='section-desc'>
-                <strong>¡Premiamos tu constancia!</strong> Cada <strong>5 tratamientos realizados</strong>, tu <strong>6° tratamiento tiene 50% de descuento</strong> o recibes un <strong>Kit de Belleza</strong> especial.
-            </div>
-        """, unsafe_allow_html=True)
-
-        tel_consulta = st.text_input("🔍 Ingresa tu número de WhatsApp para consultar tus sellos acumulados:", placeholder="Ej: 60218458")
-        
-        sellos_actuales = 0
-        if tel_consulta.strip() != "":
-            digitos_consulta = re.sub(r"\D", "", tel_consulta)
-            total_visitas = obtener_visitas_cliente(digitos_consulta)
-            sellos_actuales = total_visitas % 6
-            if total_visitas > 0 and sellos_actuales == 0:
-                sellos_actuales = 5
-            st.caption(f"Registros encontrados con el número {digitos_consulta}: **{total_visitas} visita(s)**.")
-
-        # Renderizar los 5 sellos + 1 premio
-        stamps_html = "<div class='stamp-grid'>"
-        for i in range(1, 6):
-            if i <= sellos_actuales:
-                stamps_html += f"<div class='stamp-slot stamp-filled'>🌿</div>"
-            else:
-                stamps_html += f"<div class='stamp-slot'>{i}</div>"
-        stamps_html += "<div class='stamp-slot stamp-reward' title='50% OFF o Kit de Belleza'>🎁</div></div>"
-        st.markdown(stamps_html, unsafe_allow_html=True)
-        st.markdown("<p style='text-align: center; font-size: 12.5px; color: #7A6038; font-weight: 600; margin-bottom: 0;'>Completa tus 5 sellos 🌿 y desbloquea tu regalo 🎁 en la 6° cita</p>", unsafe_allow_html=True)
-
-    # --- TALLER VIRTUAL DE AUTOMASAJE (15 DE DICIEMBRE) ---
-    with st.container(border=True):
-        link_taller = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, quiero reservar mi espacio para el Taller de Automasaje del 15 de diciembre (Inversión: ₡6,000).')}"
-        st.markdown("<div class='result-badge'>💻 Evento Especial En Vivo • Zoom Online</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-title'>🌿 Taller de Automasaje Relajante y Descontracturante</div>", unsafe_allow_html=True)
-        st.markdown("""
-            <p class="service-text" style="margin-bottom: 12px;">
-                <strong>¡Libera tu tensión online en diciembre!</strong> Aprende con <strong>Priscilla Morales</strong> técnicas profesionales para aliviar el estrés desde casa:
-                <br>• Relajación de cuello, hombros y espalda.
-                <br>• Liberación de puntos gatillo y técnicas de bienestar personal.
-            </p>
-            <div style="background-color: #F4EFE6; border: 1px solid #DFD3C0; border-radius: 12px; padding: 12px 16px; margin-bottom: 14px; font-size: 13.5px; color: #1F2D21;">
-                📅 <strong>Fecha:</strong> 15 de Diciembre &nbsp;|&nbsp; 🕖 <strong>Hora:</strong> 7:00 pm (Hora Local) <br>
-                ⏱️ <strong>Duración:</strong> 1.5 Horas &nbsp;|&nbsp; 💳 <strong>Inversión:</strong> ₡6,000 colones
-            </div>
-        """, unsafe_allow_html=True)
-
-        try:
-            st.video("video_1.mp4")
-        except:
-            pass
-
-        st.markdown(f"""
-            <div style="text-align: center; margin-top: 12px;">
-                <a href="{link_taller}" target="_blank" class="wa-btn">
-                    🎟️ Reservar mi cupo al Taller (₡6,000)
-                </a>
-            </div>
-        """, unsafe_allow_html=True)
-
-    # --- PROMOCIONES EXCLUSIVAS SEDE TURRÚCARES ---
-    with st.container(border=True):
-        st.markdown("<div class='result-badge'>📍 Exclusivo en Cabina • Turrúcares, Alajuela</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-title'>🎁 Promociones Exclusivas en Sede Turrúcares</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-desc'>Beneficios diseñados especialmente para quienes nos visitan en nuestra cabina en Turrúcares.</div>", unsafe_allow_html=True)
-
-        # Promo 1: Dúo Renovación Total
-        link_p1 = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, quiero reservar la Promo Ritual Dúo (Masaje + Recuperación Capilar Colesterol y Miel) en tu sede de Turrúcares.')}"
-        st.markdown(f"""
-            <div class="promo-card">
-                <span class="promo-tag">📍 Válido solo en sede Turrúcares</span>
-                <div class="promo-title">🍯 Ritual Dúo: Masaje + Recuperación Capilar (Colesterol y Miel)</div>
-                <p class="service-text" style="margin-bottom: 10px;">
-                    Combina en una misma visita un <strong>Masaje Relajante o Descontracturante (60 min)</strong> + nuestra <strong>Recuperación Capilar con Colesterol y Miel o Botox Capilar</strong> y recibe un <strong>15% de descuento especial</strong> en el paquete completo.
-                </p>
-                <a href="{link_p1}" target="_blank" style="color: #1F2D21; font-weight: 700; font-size: 13.5px; text-decoration: underline;">
-                    👉 Reservar este Ritual en Turrúcares por WhatsApp
-                </a>
-            </div>
-        """, unsafe_allow_html=True)
-
-        # Promo 2: Especial Alisados & Nanoqueratina
-        link_p2 = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, me interesa la promoción de Nanoqueratina / Alisado en tu sede de Turrúcares.')}"
-        st.markdown(f"""
-            <div class="promo-card">
-                <span class="promo-tag">📍 Válido solo en sede Turrúcares</span>
-                <div class="promo-title">✨ Especial Brillo Espejo (Nanoqueratina o Taninoplastia)</div>
-                <p class="service-text" style="margin-bottom: 10px;">
-                    Al realizarte tu <strong>Nanoqueratina, Queratina o Taninoplastia</strong> en nuestra cabina de Turrúcares, recibe de cortesía un <strong>masaje relajante de cuello y hombros</strong> durante el tiempo de pose + sellado nutritivo final.
-                </p>
-                <a href="{link_p2}" target="_blank" style="color: #1F2D21; font-weight: 700; font-size: 13.5px; text-decoration: underline;">
-                    👉 Cotizar según mi largo de cabello en Turrúcares
-                </a>
-            </div>
-        """, unsafe_allow_html=True)
-
-        # Promo 3: Amigas en Turrúcares
-        link_p3 = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, quiero consultar por la Promo Dúo Amigas en tu sede de Turrúcares.')}"
-        st.markdown(f"""
-            <div class="promo-card">
-                <span class="promo-tag">📍 Válido solo en sede Turrúcares</span>
-                <div class="promo-title">👯‍♀️ Plan Amigas en Cabina Turrúcares</div>
-                <p class="service-text" style="margin-bottom: 10px;">
-                    Agenda en nuestra sede de Turrúcares junto con una amiga o familiar el mismo día y <strong>ambas reciben 15 minutos adicionales de relajación o hidratación capilar de cortesía</strong>.
-                </p>
-                <a href="{link_p3}" target="_blank" style="color: #1F2D21; font-weight: 700; font-size: 13.5px; text-decoration: underline;">
-                    👉 Agendar cita doble en Turrúcares
-                </a>
-            </div>
-        """, unsafe_allow_html=True)
-
-        st.caption("⚠️ Nota: Todas las promociones especiales aplican únicamente realizando el tratamiento en nuestra cabina ubicada en Turrúcares, Alajuela.")
-
-# ==========================================
-# VISTA 3: QUÉ OFRECEMOS (CATÁLOGO PROFESIONAL)
+# VISTA 2: CATÁLOGO DE SERVICIOS ORDENADO POR COLOR
 # ==========================================
 elif st.session_state.pagina_activa == "servicios":
     with st.container(border=True):
+        st.markdown("<div class='result-badge'>🌿 Área Corporal • Verde Esmeralda</div>", unsafe_allow_html=True)
         st.markdown("<div class='section-title'>💆‍♀️ Masajes Especializados y Reducción de Medidas</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-desc'>Disponibles en nuestra cabina en Turrúcares y en modalidad A Domicilio (Turrúcares y San Ramón). Valoración previa e higiene clínica garantizada.</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-desc'>Disponibles en nuestra cabina en Turrúcares y A Domicilio (Turrúcares y San Ramón). Servicio exclusivamente profesional y terapéutico.</div>", unsafe_allow_html=True)
 
         st.markdown("""
             <div class="service-item">
                 <div class="service-name">Masajes Relajantes, Terapéuticos y Descontracturantes</div>
-                <div class="service-meta">⏱️ Sesiones de 60 min • Alivio de puntos gatillo y tensión</div>
+                <div class="service-meta">⏱️ Sesiones de 60 min • Alivio de puntos gatillo y estrés</div>
                 <p class="service-text">Terapias manuales adaptadas para liberar tensión muscular profunda, aliviar contracturas en espalda, cuello y hombros, y equilibrar tu sistema nervioso.</p>
             </div>
             <div class="service-item">
@@ -1040,17 +1017,18 @@ elif st.session_state.pagina_activa == "servicios":
         """, unsafe_allow_html=True)
 
     with st.container(border=True):
-        st.markdown("<div class='section-title'>✨ Tratamientos Capilares con Recuperación</div>", unsafe_allow_html=True)
+        st.markdown("<div class='result-badge-purple'>✨ Área Capilar • Púrpura Real</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title-purple'>💇‍♀️ Tratamientos Capilares con Recuperación</div>", unsafe_allow_html=True)
         st.markdown("<div class='section-desc'>Fórmulas especializadas aplicadas según las necesidades de tu hebra capilar.</div>", unsafe_allow_html=True)
 
         st.markdown("""
-            <div class="service-item" style="border-left-color: #C5A880;">
-                <div class="service-name">Recuperación Capilar (Colesterol y Miel) & Botox Capilar</div>
+            <div class="service-item-hair">
+                <div class="service-name-purple">Recuperación Capilar (Colesterol y Miel) & Botox Capilar</div>
                 <div class="service-meta">🍯 Nutrición profunda • Restauración de hebras maltratadas</div>
                 <p class="service-text">Terapia intensiva de reposición lipídica e hidratación profunda que devuelve elasticidad, suavidad y vitalidad al cabello seco o procesado.</p>
             </div>
-            <div class="service-item" style="border-left-color: #C5A880;">
-                <div class="service-name">Alisados, Queratinas, Nanoqueratina y Taninoplastia</div>
+            <div class="service-item-hair">
+                <div class="service-name-purple">Alisados, Queratinas, Nanoqueratina y Taninoplastia</div>
                 <div class="service-meta">✨ Sellado térmico • Cero Frizz y Brillo Espejo</div>
                 <p class="service-text">Reconstrucción y alineamiento capilar que sella la cutícula, controla el volumen y deja un brillo espejo duradero.</p>
             </div>
@@ -1072,7 +1050,148 @@ elif st.session_state.pagina_activa == "servicios":
     """, unsafe_allow_html=True)
 
 # ==========================================
-# VISTA 4: CONOCE A LA FUNDADORA
+# VISTA 3: PROMOS TURRÚCARES, CLUB DE FIDELIDAD Y TALLER
+# ==========================================
+elif st.session_state.pagina_activa == "promos":
+    
+    with st.container(border=True):
+        st.markdown("<div class='result-badge'>🖤 Programa de Lealtad Oficial</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'>Club de Fidelidad Priskah_m</div>", unsafe_allow_html=True)
+        st.markdown("""
+            <div class='section-desc'>
+                <strong>¡Premiamos tu constancia!</strong> Cada <strong>5 tratamientos realizados</strong>, tu <strong>6° tratamiento tiene 50% de descuento</strong> o recibes un <strong>Kit de Belleza</strong> especial.
+            </div>
+        """, unsafe_allow_html=True)
+
+        tel_consulta = st.text_input("🔍 Ingresa tu número de WhatsApp para consultar tus sellos acumulados:", placeholder="Ej: 60218458")
+        
+        sellos_actuales = 0
+        if tel_consulta.strip() != "":
+            digitos_consulta = re.sub(r"\D", "", tel_consulta)
+            total_visitas = obtener_visitas_cliente(digitos_consulta)
+            sellos_actuales = total_visitas % 6
+            if total_visitas > 0 and sellos_actuales == 0:
+                sellos_actuales = 5
+            st.caption(f"Registros encontrados con el número {digitos_consulta}: **{total_visitas} visita(s)**.")
+
+        stamps_html = "<div class='stamp-grid'>"
+        for i in range(1, 6):
+            if i <= sellos_actuales:
+                stamps_html += f"<div class='stamp-slot stamp-filled'>🌿</div>"
+            else:
+                stamps_html += f"<div class='stamp-slot'>{i}</div>"
+        stamps_html += "<div class='stamp-slot stamp-reward' title='50% OFF o Kit de Belleza'>🎁</div></div>"
+        st.markdown(stamps_html, unsafe_allow_html=True)
+        st.markdown("<p style='text-align: center; font-size: 12.5px; color: #6A1B7A; font-weight: 700; margin-bottom: 0;'>Completa tus 5 sellos 🌿 y desbloquea tu regalo 🎁 en la 6° cita</p>", unsafe_allow_html=True)
+
+    with st.container(border=True):
+        link_taller = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, quiero reservar mi espacio para el Taller de Automasaje del 15 de diciembre (Inversión: ₡6,000).')}"
+        st.markdown("<div class='result-badge-purple'>💻 Evento Especial En Vivo • Zoom Online</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title-purple'>🌿 Taller de Automasaje Relajante y Descontracturante</div>", unsafe_allow_html=True)
+        st.markdown("""
+            <p class="service-text" style="margin-bottom: 12px;">
+                <strong>¡Libera tu tensión online en diciembre!</strong> Aprende con <strong>Priscilla Morales</strong> técnicas profesionales para aliviar el estrés desde casa:
+                <br>• Relajación de cuello, hombros y espalda.
+                <br>• Liberación de puntos gatillo y técnicas de bienestar personal.
+            </p>
+            <div style="background-color: #FBF6FC; border: 1.5px solid #D4AF37; border-radius: 12px; padding: 12px 16px; margin-bottom: 14px; font-size: 13.5px; color: #4A154B;">
+                📅 <strong>Fecha:</strong> 15 de Diciembre &nbsp;|&nbsp; 🕖 <strong>Hora:</strong> 7:00 pm (Hora Local) <br>
+                ⏱️ <strong>Duración:</strong> 1.5 Horas &nbsp;|&nbsp; 💳 <strong>Inversión:</strong> ₡6,000 colones
+            </div>
+        """, unsafe_allow_html=True)
+
+        try:
+            st.video("video_1.mp4")
+        except:
+            pass
+
+        st.markdown(f"""
+            <div style="text-align: center; margin-top: 12px;">
+                <a href="{link_taller}" target="_blank" class="wa-btn">
+                    🎟️ Reservar mi cupo al Taller (₡6,000)
+                </a>
+            </div>
+        """, unsafe_allow_html=True)
+
+    with st.container(border=True):
+        st.markdown("<div class='result-badge'>📍 Exclusivo en Cabina • Turrúcares, Alajuela</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'>🎁 Promociones Exclusivas en Sede Turrúcares</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-desc'>Beneficios válidos únicamente cuando asistes a realizarte tu tratamiento en nuestra cabina de Turrúcares.</div>", unsafe_allow_html=True)
+
+        link_p1 = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, quiero reservar la Promo Ritual Dúo (Masaje + Recuperación Capilar Colesterol y Miel) en tu sede de Turrúcares.')}"
+        st.markdown(f"""
+            <div class="promo-card">
+                <div class="promo-title">🍯 Ritual Dúo: Masaje + Recuperación Capilar (Colesterol y Miel)</div>
+                <p class="service-text" style="margin-bottom: 10px;">
+                    Combina en una misma visita en sede Turrúcares un <strong>Masaje Relajante o Descontracturante (60 min)</strong> + nuestra <strong>Recuperación Capilar con Colesterol y Miel o Botox Capilar</strong> con <strong>15% de descuento especial</strong>.
+                </p>
+                <a href="{link_p1}" target="_blank" style="color: #0B6638; font-weight: 700; font-size: 13.5px; text-decoration: underline;">
+                    👉 Reservar este Ritual en Turrúcares por WhatsApp
+                </a>
+            </div>
+        """, unsafe_allow_html=True)
+
+        link_p2 = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, me interesa la promoción de Nanoqueratina / Alisado en tu sede de Turrúcares.')}"
+        st.markdown(f"""
+            <div class="promo-card">
+                <div class="promo-title">✨ Especial Brillo Espejo (Nanoqueratina o Taninoplastia)</div>
+                <p class="service-text" style="margin-bottom: 10px;">
+                    Al realizarte tu <strong>Nanoqueratina, Queratina o Taninoplastia</strong> en nuestra cabina de Turrúcares, recibe de cortesía un <strong>masaje relajante de cuello y hombros</strong> durante el tiempo de pose + sellado nutritivo final.
+                </p>
+                <a href="{link_p2}" target="_blank" style="color: #0B6638; font-weight: 700; font-size: 13.5px; text-decoration: underline;">
+                    👉 Cotizar según mi largo de cabello en Turrúcares
+                </a>
+            </div>
+        """, unsafe_allow_html=True)
+
+# ==========================================
+# VISTA 4: COMENTARIOS DESTACADOS DE INSTAGRAM (@priskah_m)
+# ==========================================
+elif st.session_state.pagina_activa == "resenas":
+    with st.container(border=True):
+        st.markdown("<div class='result-badge-purple'>📸 Comunidad Oficial @priskah_m</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title-purple'>Comentarios de Nuestros Posts en Instagram</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-desc'>Experiencias reales de nuestras clientas en masajes terapéuticos, drenaje linfático y recuperación capilar.</div>", unsafe_allow_html=True)
+
+        filtro_ig = st.radio(
+            "Filtrar comentarios por categoría:",
+            ["✨ Todos los posts", "💆‍♀️ Posts de Masajes", "💇‍♀️ Posts de Cabello"],
+            horizontal=True
+        )
+
+        todos_comentarios = cargar_comentarios_ig()
+        if "Masajes" in filtro_ig:
+            comentarios_mostrar = [c for c in todos_comentarios if c["tipo"] == "masaje"]
+        elif "Cabello" in filtro_ig:
+            comentarios_mostrar = [c for c in todos_comentarios if c["tipo"] == "pelo"]
+        else:
+            comentarios_mostrar = todos_comentarios
+
+        col_a, col_b = st.columns(2)
+        for i, com in enumerate(comentarios_mostrar):
+            with (col_a if i % 2 == 0 else col_b):
+                badge_style = "ig-tag-green" if com["tipo"] == "masaje" else "ig-tag"
+                st.markdown(f"""
+                    <div class="ig-card">
+                        <div class="ig-header">
+                            <span class="ig-user">{com['usuario']}</span>
+                            <span class="{badge_style}">{com['categoria']}</span>
+                        </div>
+                        <div class="ig-comment">“{com['comentario']}”</div>
+                        <div class="ig-likes">{com['likes']}</div>
+                    </div>
+                """, unsafe_allow_html=True)
+
+        st.markdown("""
+            <div style="text-align: center; margin-top: 14px;">
+                <a href="https://www.instagram.com/priskah_m" target="_blank" class="ig-btn">
+                    📸 Ver más videos, reels y comentarios en Instagram @priskah_m
+                </a>
+            </div>
+        """, unsafe_allow_html=True)
+
+# ==========================================
+# VISTA 5: CONOCE A LA FUNDADORA
 # ==========================================
 elif st.session_state.pagina_activa == "fundadora":
     with st.container(border=True):
@@ -1085,8 +1204,8 @@ elif st.session_state.pagina_activa == "fundadora":
                 pass
             st.markdown("</div>", unsafe_allow_html=True)
 
-        st.markdown("<div style='text-align: center; margin-top: 10px;'><span class='result-badge'>Perfil Profesional y Respaldo Técnico</span></div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-title' style='font-size: 30px; text-align: center; margin-bottom: 14px;'>Priscilla Morales Segura</div>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: center; margin-top: 10px;'><span class='result-badge-purple'>Perfil Profesional y Respaldo Técnico</span></div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title' style='font-size: 32px; text-align: center; margin-bottom: 14px;'>Priscilla Morales Segura</div>", unsafe_allow_html=True)
         
         st.markdown("""
             <p class='result-desc' style='margin-bottom: 16px;'>
@@ -1097,7 +1216,7 @@ elif st.session_state.pagina_activa == "fundadora":
             </p>
         """, unsafe_allow_html=True)
 
-        st.markdown("<div class='section-title' style='font-size: 21px; margin-top: 10px; margin-bottom: 12px;'>🎓 Formación Técnica y Capacitación Profesional</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title-purple' style='font-size: 22px; margin-top: 10px; margin-bottom: 12px;'>🎓 Formación Técnica y Capacitación Profesional</div>", unsafe_allow_html=True)
         
         st.markdown("""
             <div class="edu-box">
@@ -1114,7 +1233,7 @@ elif st.session_state.pagina_activa == "fundadora":
             </div>
         """, unsafe_allow_html=True)
 
-        st.markdown("<div class='section-title' style='font-size: 21px; margin-top: 22px; margin-bottom: 12px;'>🏛️ Formación Académica Universitaria</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title' style='font-size: 22px; margin-top: 22px; margin-bottom: 12px;'>🏛️ Formación Académica Universitaria</div>", unsafe_allow_html=True)
 
         st.markdown("""
             <div class="edu-box">
@@ -1135,7 +1254,7 @@ elif st.session_state.pagina_activa == "fundadora":
             </div>
         """, unsafe_allow_html=True)
 
-        st.markdown("<div class='section-title' style='font-size: 21px; margin-top: 22px; margin-bottom: 10px;'>💎 Pilares de Atención</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title-purple' style='font-size: 22px; margin-top: 22px; margin-bottom: 10px;'>💎 Pilares de Atención</div>", unsafe_allow_html=True)
         
         st.markdown("""
             <div style="margin-bottom: 14px;">
@@ -1160,8 +1279,8 @@ elif st.session_state.pagina_activa == "fundadora":
 st.markdown("<hr class='gold-divider'>", unsafe_allow_html=True)
 st.markdown("""
     <div style="text-align: center; margin-bottom: 24px;">
-        <p style="font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: #1F2D21; margin-bottom: 10px;">
-            Síguenos y agenda tu cita hoy
+        <p style="font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 700; color: #6A1B7A; margin-bottom: 10px;">
+            Síguenos en nuestras redes oficiales
         </p>
         <a href="https://www.instagram.com/priskah_m" target="_blank" class="social-btn">
             📸 Instagram @priskah_m
@@ -1172,18 +1291,39 @@ st.markdown("""
         <a href="https://wa.me/50660218458" target="_blank" class="social-btn">
             📲 WhatsApp 6021-8458
         </a>
-        <p style="font-size: 11.5px; color: #7A746B; margin-top: 14px;">
+        <p style="font-size: 11.5px; color: #555E58; margin-top: 14px;">
             © 2026 Priskah_m • Turrúcares, Alajuela & San Ramón • Servicio Exclusivamente Profesional y Terapéutico
         </p>
     </div>
 """, unsafe_allow_html=True)
 
-# --- PANEL DE ADMINISTRACIÓN Y CRM DE FIDELIDAD (SOLO PROPIETARIA) ---
-with st.expander("🔒 Acceso Propietaria (CRM & Fidelidad)"):
+# --- PANEL DE ADMINISTRACIÓN: CRM + PUBLICADOR DE COMENTARIOS DE INSTAGRAM ---
+with st.expander("🔒 Acceso Propietaria (CRM, Fidelidad y Comentarios de Instagram)"):
     password_ingresada = st.text_input("Contraseña de administración:", type="password")
     
     if password_ingresada == "Priskah2026*":
-        st.success("Acceso concedido al sistema de gestión de Priskah_m.")
+        st.success("Acceso concedido al panel administrativo de Priskah_m.")
+        
+        st.markdown("#### 📸 Agregar un nuevo comentario desde tu Instagram `@priskah_m`")
+        with st.form("form_nuevo_comentario_ig"):
+            ig_user = st.text_input("Usuario o título del Post (Ej: @maria_cr • Post de Nanoqueratina)")
+            ig_cat = st.text_input("Tratamiento mencionado (Ej: ✨ Nanoqueratina / 💆‍♀️ Masaje Descontracturante)")
+            ig_tipo = st.selectbox("Categoría del comentario", ["masaje", "pelo"])
+            ig_texto = st.text_area("Copia y pega aquí el comentario de tu post de Instagram:")
+            guardar_ig = st.form_submit_button("➕ Publicar comentario en la página web")
+            
+            if guardar_ig and ig_texto.strip() != "":
+                nuevo_ig = pd.DataFrame([{
+                    "usuario": ig_user if ig_user.strip() != "" else "@cliente_ig • Post de @priskah_m",
+                    "categoria": ig_cat if ig_cat.strip() != "" else "✨ Servicio Priskah_m",
+                    "tipo": ig_tipo,
+                    "comentario": ig_texto.strip()
+                }])
+                header_ig = not os.path.exists("comentarios_ig.csv")
+                nuevo_ig.to_csv("comentarios_ig.csv", mode="a", header=header_ig, index=False)
+                st.success("¡Comentario publicado! Ya aparece en la pestaña '📸 Reseñas IG' y en la portada.")
+
+        st.write("---")
         try:
             df_registros = pd.read_csv(
                 "clientes_priskah.csv",
