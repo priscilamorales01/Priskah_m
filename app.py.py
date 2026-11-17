@@ -237,11 +237,29 @@ st.markdown("""
         background-color: #F2ECE1;
         color: #2C3A2E;
         border: 1px solid #DFD3C0;
-        padding: 6px 14px;
+        padding: 7px 14px;
         border-radius: 20px;
         font-size: 12.5px;
         font-weight: 500;
-        margin: 4px 6px 4px 0;
+        margin: 4px 6px 6px 0;
+    }
+    .edu-box {
+        background-color: #FAF9F6;
+        border: 1px solid #EAE4D8;
+        border-radius: 12px;
+        padding: 14px 18px;
+        margin-bottom: 12px;
+    }
+    .edu-title {
+        font-weight: 600;
+        font-size: 14px;
+        color: #2C3A2E;
+        margin-bottom: 2px;
+    }
+    .edu-sub {
+        font-size: 12.5px;
+        color: #7A746B;
+        margin: 0;
     }
 
     /* Botón de WhatsApp */
@@ -289,7 +307,7 @@ with col2:
         pass
 
 st.markdown("<div class='brand-title'>Priskah_m</div>", unsafe_allow_html=True)
-st.markdown("<div class='brand-subtitle'>Bienestar Integral • Cuidado Capilar • Masajes</div>", unsafe_allow_html=True)
+st.markdown("<div class='brand-subtitle'>Masajes y Cabellos con Recuperación Capilar</div>", unsafe_allow_html=True)
 
 # --- PESTAÑAS DE NAVEGACIÓN (TABS) ---
 tab_diagnostico, tab_servicios, tab_fundadora = st.tabs([
@@ -304,7 +322,7 @@ tab_diagnostico, tab_servicios, tab_fundadora = st.tabs([
 with tab_diagnostico:
     with st.container(border=True):
         st.markdown("<div class='section-title'>Tus Datos</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-desc'>Completa tu información para generar tu diagnóstico personalizado.</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-desc'>Completa tu información para identificar tus necesidades y recomendar el protocolo ideal.</div>", unsafe_allow_html=True)
         
         c1, c2 = st.columns(2)
         with c1:
@@ -318,12 +336,12 @@ with tab_diagnostico:
         
         categoria = st.radio(
             "Categoría",
-            ["💆‍♀️ Masajes y Bienestar Corporal", "✨ Cuidado Capilar Avanzado"],
+            ["💆‍♀️ Bienestar Corporal y Masajes", "✨ Cuidado y Recuperación Capilar"],
             label_visibility="collapsed"
         )
 
     with st.container(border=True):
-        if "Masajes" in categoria:
+        if "Corporal" in categoria:
             st.markdown("<div class='section-title'>¿Cuál es tu objetivo o molestia principal?</div>", unsafe_allow_html=True)
             st.markdown("<div class='section-desc'>Selecciona la opción que mejor describa cómo se siente tu cuerpo hoy.</div>", unsafe_allow_html=True)
             opcion = st.radio(
@@ -331,9 +349,9 @@ with tab_diagnostico:
                 [
                     "Dolor intenso de espalda, cuello, hombros o nudos profundos (Descontracturante)",
                     "Nivel alto de estrés, ansiedad, insomnio y fatiga mental (Relajante)",
-                    "Piernas cansadas, hinchadas, mala circulación o retención de líquidos (Drenaje / Retorno Venoso)",
-                    "Sobrecarga muscular por entrenamiento o deporte (Deportivo)",
-                    "Reafirmar, moldear figura o activar metabolismo local (Reductivo / Modelado)"
+                    "Sobrecarga muscular por entrenamiento o deporte (Deportivo / Descarga Muscular)",
+                    "Piernas cansadas, retención de líquidos o mala circulación (Drenaje Linfático / Retorno Venoso)",
+                    "Moldeo corporal, cierre de costillas o marcaje abdominal (Técnicas Estéticas)"
                 ],
                 label_visibility="collapsed"
             )
@@ -343,10 +361,10 @@ with tab_diagnostico:
             opcion = st.radio(
                 "Necesidad capilar",
                 [
-                    "Cabello muy seco, maltratado por tintes/decoloraciones y frizz extremo (Hidratación Profunda)",
-                    "Busco brillo espejo, nutrición profunda y efecto liso perfecto (Nanoqueratina)",
-                    "Cuero cabelludo graso, pesado o con acumulación de residuos (Detox Purificante)",
-                    "Caída frecuente o necesidad de estimular crecimiento nuevo (Anticaída / Raíz)"
+                    "Cabello seco, opaco, sensibilizado o con frizz (Botox Capilar / Nutrición)",
+                    "Busco brillo espejo, reconstrucción profunda y efecto liso (Nanoqueratina)",
+                    "Alisado progresivo natural y manejo del volumen (Taninoplastia / Alisado Capilar)",
+                    "Cabello maltratado que requiere reparación y acondicionamiento profundo (Recuperación Capilar)"
                 ],
                 label_visibility="collapsed"
             )
@@ -355,43 +373,43 @@ with tab_diagnostico:
         if nombre.strip() == "" or telefono.strip() == "":
             st.warning("⚠️ Por favor, ingresa tu nombre y número de WhatsApp para ver tu diagnóstico.")
         else:
-            if "Masajes" in categoria:
+            if "Corporal" in categoria:
                 if "Descontracturante" in opcion:
                     tratamiento = "Masaje Descontracturante Profundo"
-                    descripcion = "Trabaja directamente sobre las capas profundas del músculo para liberar fascias, deshacer nudos rebeldes y devolver la movilidad y el alivio a tu cuerpo."
+                    descripcion = "Enfocado en trabajar las capas profundas del músculo para liberar nudos y tensión acumulada en espalda, cuello y hombros."
                     icono = "💆‍♀️"
                 elif "Relajante" in opcion:
-                    tratamiento = "Masaje Relajante con Aromaterapia"
-                    descripcion = "Creado para calmar por completo el sistema nervioso, reducir los niveles de estrés y regalarte un espacio de paz y descanso profundo."
+                    tratamiento = "Masaje Relajante Integral"
+                    descripcion = "Diseñado para calmar el sistema nervioso, reducir el estrés y brindarte un descanso físico y mental profundo."
                     icono = "🌿"
-                elif "Drenaje" in opcion:
-                    tratamiento = "Drenaje Linfático / Retorno Venoso"
-                    descripcion = "Técnica suave y precisa para estimular la circulación, eliminar líquidos retenidos y aliviar la sensación de pesadez en las piernas."
-                    icono = "🌊"
                 elif "Deportivo" in opcion:
-                    tratamiento = "Masaje Deportivo Especializado"
-                    descripcion = "Ideal para preparar el tejido muscular ante el esfuerzo físico o acelerar su recuperación óptima post-entrenamiento."
+                    tratamiento = "Masaje Deportivo y Descarga Muscular"
+                    descripcion = "Ideal para aliviar la sobrecarga física tras el ejercicio, oxigenar el tejido muscular y acelerar tu recuperación."
                     icono = "⚡"
+                elif "Drenaje" in opcion:
+                    tratamiento = "Drenaje Linfático Brasileño y Retorno Venoso"
+                    descripcion = "Técnica especializada para estimular el sistema linfático, favorecer la eliminación de líquidos retenidos y aliviar la pesadez en las piernas."
+                    icono = "🌊"
                 else:
-                    tratamiento = "Masaje Reductivo y Modelador"
-                    descripcion = "Ayuda a activar la circulación local, movilizar grasa superficial y perfilar la silueta de forma natural."
+                    tratamiento = "Protocolo de Moldeo: Cierre de Costillas y Marcaje Abdominal"
+                    descripcion = "Técnicas manuales especializadas enfocadas en estilizar el contorno corporal y activar la circulación local."
                     icono = "✨"
             else:
                 if "Nanoqueratina" in opcion:
-                    tratamiento = "Nanoqueratina Capilar Pro"
-                    descripcion = "Sella la cutícula, elimina el frizz al 100% y aporta un brillo espejo espectacular de larga duración."
+                    tratamiento = "Nanoqueratina Capilar"
+                    descripcion = "Tratamiento de reconstrucción que sella la cutícula, elimina el frizz y aporta un brillo espejo duradero."
                     icono = "✨"
-                elif "Hidratación" in opcion:
-                    tratamiento = "Hidratación Capilar Profunda"
-                    descripcion = "Devuelve la suavidad, elasticidad y nutrición extrema a las hebras maltratadas por procesos químicos o calor."
+                elif "Botox" in opcion:
+                    tratamiento = "Botox Capilar y Nutrición Profunda"
+                    descripcion = "Devuelve la suavidad, elasticidad y vitalidad a las hebras deshidratadas o sensibilizadas."
                     icono = "💧"
-                elif "Detox" in opcion:
-                    tratamiento = "Detox Purificante Capilar"
-                    descripcion = "Limpia a profundidad, equilibra la grasa natural y revitaliza la salud de tu raíz desde la primera sesión."
+                elif "Taninoplastia" in opcion:
+                    tratamiento = "Taninoplastia / Alisado Capilar"
+                    descripcion = "Alisado de origen vegetal que disciplina la fibra capilar, reduce el volumen y deja el cabello sedoso y manejable."
                     icono = "🍃"
                 else:
-                    tratamiento = "Tratamiento Anticaída y Estimulante"
-                    descripcion = "Activa el riego sanguíneo en el folículo para fortalecer la hebra capilar y fomentar un crecimiento sano."
+                    tratamiento = "Tratamiento de Recuperación y Acondicionamiento Capilar"
+                    descripcion = "Protocolo restaurador diseñado para devolver fuerza, hidratación y salud integral a tu cabello."
                     icono = "🌱"
 
             # Guardar en CSV
@@ -434,48 +452,48 @@ with tab_diagnostico:
 # ==========================================
 with tab_servicios:
     with st.container(border=True):
-        st.markdown("<div class='section-title'>💆‍♀️ Masajes y Bienestar Corporal</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-desc'>Terapias manuales personalizadas según la necesidad anatómica y energética de tu cuerpo.</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'>💆‍♀️ Bienestar Corporal y Masajes</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-desc'>Servicios personalizados con valoración previa de necesidades y contraindicaciones bajo estrictos estándares de higiene y bioseguridad.</div>", unsafe_allow_html=True)
 
         st.markdown("""
             <div class="service-item">
-                <div class="service-name">Masaje Descontracturante Profundo</div>
-                <p class="service-text">Enfocado en liberar adherencias, nudos musculares y tensión crónica en espalda, cuello y hombros, devolviendo la movilidad y el descanso físico.</p>
+                <div class="service-name">Masaje Relajante y Descontracturante</div>
+                <p class="service-text">Terapias manuales adaptadas para liberar tensión muscular profunda, aliviar contracturas y calmar el estrés físico y mental.</p>
             </div>
             <div class="service-item">
-                <div class="service-name">Masaje Relajante con Aromaterapia</div>
-                <p class="service-text">Maniobras suaves, envolventes y rítmicas diseñadas para calmar el sistema nervioso, disminuir el cortisol y combatir el estrés e insomnio.</p>
+                <div class="service-name">Masaje Deportivo y Descarga Muscular</div>
+                <p class="service-text">Protocolos enfocados en la preparación y recuperación de tejidos musculares sometidos a exigencia física o entrenamiento.</p>
             </div>
             <div class="service-item">
-                <div class="service-name">Drenaje Linfático y Retorno Venoso</div>
-                <p class="service-text">Estimulación suave del sistema linfático para eliminar retención de líquidos, desinflamar tejidos y aliviar la pesadez en las piernas.</p>
+                <div class="service-name">Drenaje Linfático Brasileño y Retorno Venoso</div>
+                <p class="service-text">Técnicas especializadas para favorecer el drenaje de líquidos, mejorar la circulación y aliviar la pesadez corporal.</p>
             </div>
             <div class="service-item">
-                <div class="service-name">Masaje Deportivo y Modelado Corporal</div>
-                <p class="service-text">Protocolos especializados tanto para recuperación muscular post-entrenamiento como para activar la circulación local y perfilar la silueta.</p>
+                <div class="service-name">Cierre de Costillas y Marcaje Abdominal</div>
+                <p class="service-text">Técnicas corporales especializadas orientadas al moldeo estético y el cuidado integral de la silueta.</p>
             </div>
         """, unsafe_allow_html=True)
 
     with st.container(border=True):
-        st.markdown("<div class='section-title'>✨ Cuidado Capilar Avanzado</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-desc'>Fórmulas especializadas y rituales botánicos para restaurar la salud desde la raíz hasta las puntas.</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'>✨ Cuidado y Recuperación Capilar</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-desc'>Tratamientos profesionales aplicados según el diagnóstico de cada hebra y las especificaciones técnicas de cada producto.</div>", unsafe_allow_html=True)
 
         st.markdown("""
             <div class="service-item" style="border-left-color: #C5A880;">
-                <div class="service-name">Nanoqueratina Capilar Pro</div>
-                <p class="service-text">Reconstrucción térmica y sellado de cutícula que elimina el frizz, aporta disciplina y deja un brillo espejo duradero sin maltratar la fibra.</p>
+                <div class="service-name">Queratinas y Nanoqueratinas</div>
+                <p class="service-text">Reconstrucción y sellado de la cutícula capilar para eliminar el frizz, aportar brillo intenso y suavidad duradera.</p>
             </div>
             <div class="service-item" style="border-left-color: #C5A880;">
-                <div class="service-name">Hidratación y Nutrición Intensiva</div>
-                <p class="service-text">Reposición profunda de lípidos y agua para cabellos deshidratados, porosos o sensibilizados por tintes y herramientas de calor.</p>
+                <div class="service-name">Taninoplastia y Alisados Capilares</div>
+                <p class="service-text">Tratamientos de alisado y disciplina capilar que respetan la estructura del cabello dejando un acabado natural y sedoso.</p>
             </div>
             <div class="service-item" style="border-left-color: #C5A880;">
-                <div class="service-name">Detox Purificante y Estimulación Capilar</div>
-                <p class="service-text">Exfoliación y oxigenación del cuero cabelludo combinada con activos botánicos (como romero y café) para fortalecer el folículo y frenar la caída.</p>
+                <div class="service-name">Botox Capilar y Nutrición Profunda</div>
+                <p class="service-text">Acondicionamiento intensivo para recuperar la hidratación, elasticidad y vitalidad del cabello maltratado.</p>
             </div>
         """, unsafe_allow_html=True)
 
-    link_wa_general = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, estuve viendo tus servicios en la web y me gustaría recibir más información o agendar una cita.')}"
+    link_wa_general = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, estuve viendo los servicios en tu web y me gustaría consultar disponibilidad.')}"
     st.markdown(f"""
         <div style="text-align: center; margin-top: 10px;">
             <a href="{link_wa_general}" target="_blank" class="wa-btn">
@@ -489,44 +507,73 @@ with tab_servicios:
 # ==========================================
 with tab_fundadora:
     with st.container(border=True):
-        st.markdown("<div class='result-badge'>Sobre la Fundadora</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-title' style='font-size: 28px; margin-bottom: 12px;'>Priscilla Morales Segura</div>", unsafe_allow_html=True)
+        st.markdown("<div class='result-badge'>Perfil Profesional y Trayectoria</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title' style='font-size: 26px; margin-bottom: 12px;'>Sobre la Fundadora de Priskah_m</div>", unsafe_allow_html=True)
         
         st.markdown("""
             <p class='result-desc' style='margin-bottom: 16px;'>
-                Bienvenida a <strong>Priskah_m</strong>, un espacio creado con dedicación para ofrecerte un refugio de bienestar integral, donde la técnica profesional y el cuidado personalizado se unen para renovar tu cuerpo y tu cabello.
+                Profesional con sólida trayectoria en entornos multinacionales y gestión empresarial, integrando competencias de <strong>servicio al cliente, planificación, control de calidad y mejora continua</strong> en cada atención personalizada.
             </p>
-            <p class='result-desc' style='margin-bottom: 18px;'>
-                Mi filosofía parte de escuchar lo que cada persona necesita: ya sea aliviar una sobrecarga muscular acumulada, liberar el estrés diario o devolverle la vitalidad y el brillo natural a tu cabello mediante protocolos seguros, efectivos y pensados a tu medida.
+            <p class='result-desc' style='margin-bottom: 20px;'>
+                Como fundadora de <strong>Priskah_m</strong>, combina su formación académica y técnica para ofrecer un servicio ético, seguro y altamente personalizado en bienestar corporal y recuperación capilar, realizando siempre una valoración inicial de necesidades y aplicando estrictos protocolos de higiene y bioseguridad.
             </p>
         """, unsafe_allow_html=True)
 
-        st.markdown("<div class='section-title' style='font-size: 19px; margin-top: 20px; margin-bottom: 10px;'>🎓 Formación y Conocimientos</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title' style='font-size: 19px; margin-top: 10px; margin-bottom: 12px;'>🎓 Formación Técnica Especializada</div>", unsafe_allow_html=True)
         
         st.markdown("""
-            <div style="margin-bottom: 18px;">
-                <span class="credential-pill">🌿 Formación en Masoterapia Profesional — Instituto JASPE</span>
-                <span class="credential-pill">💆‍♀️ Anatomía Muscular y Liberación Miofascial</span>
-                <span class="credential-pill">🌊 Técnicas de Drenaje Linfático y Retorno Venoso</span>
-                <span class="credential-pill">✨ Tricología Cosmética y Restauración Capilar</span>
-                <span class="credential-pill">🍃 Formulación Botánica y Cuidado del Cuero Cabelludo</span>
-                <span class="credential-pill">🎓 Administración de Empresas y Gestión de Calidad</span>
+            <div class="edu-box">
+                <div class="edu-title">🌿 Formación en Técnicas de Masaje — Instituto Jasper CR</div>
+                <p class="edu-sub">Masaje relajante, descontracturante, deportivo, descarga muscular y retorno venoso.</p>
+            </div>
+            <div class="edu-box">
+                <div class="edu-title">🌊 Talleres Especializados en Masaje — Instituto Multieducativo Costarricense</div>
+                <p class="edu-sub">Drenaje linfático brasileño, técnicas de cierre de costillas y marcaje abdominal.</p>
+            </div>
+            <div class="edu-box">
+                <div class="edu-title">✨ Capacitación Profesional en Nanoqueratina — Instituto Yess</div>
+                <p class="edu-sub">Formación teórico-práctica en protocolos de nanoqueratina y recuperación capilar.</p>
             </div>
         """, unsafe_allow_html=True)
+
+        st.markdown("<div class='section-title' style='font-size: 19px; margin-top: 22px; margin-bottom: 12px;'>🏛️ Formación Académica Universitaria</div>", unsafe_allow_html=True)
 
         st.markdown("""
-            <div style="background-color: #FAF9F6; border-radius: 12px; padding: 16px; border: 1px solid #EAE4D8; margin-top: 10px;">
-                <p style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; color: #2C3A2E; margin: 0; text-align: center;">
-                    "Cuidar de ti no es un lujo, es la base para sentirte en equilibrio y plenitud cada día."
-                </p>
+            <div class="edu-box">
+                <div class="edu-title">Licenciatura en Administración de Recursos Humanos</div>
+                <p class="edu-sub">Universidad Estatal a Distancia (UNED)</p>
+            </div>
+            <div class="edu-box">
+                <div class="edu-title">Especialización en Ingeniería en Telecomunicaciones</div>
+                <p class="edu-sub">Universidad Politécnica Internacional</p>
+            </div>
+            <div class="edu-box">
+                <div class="edu-title">Bachillerato en Enseñanza del Inglés</div>
+                <p class="edu-sub">Universidad Hispanoamericana</p>
+            </div>
+            <div class="edu-box">
+                <div class="edu-title">Especialización en Comercio Electrónico (E-commerce)</div>
+                <p class="edu-sub">Escuela de Organización Industrial, España</p>
             </div>
         """, unsafe_allow_html=True)
 
-    link_wa_fundadora = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, me encantó conocer tu trabajo y me gustaría agendar una valoración contigo.')}"
+        st.markdown("<div class='section-title' style='font-size: 19px; margin-top: 22px; margin-bottom: 10px;'>💎 Pilares de Atención</div>", unsafe_allow_html=True)
+        
+        st.markdown("""
+            <div style="margin-bottom: 14px;">
+                <span class="credential-pill">✨ Atención Personalizada y Seguimiento</span>
+                <span class="credential-pill">🧼 Higiene y Bioseguridad</span>
+                <span class="credential-pill">📋 Valoración Previa de Contraindicaciones</span>
+                <span class="credential-pill">⭐ Control de Calidad y Mejora Continua</span>
+                <span class="credential-pill">📅 Organización y Gestión Profesional</span>
+            </div>
+        """, unsafe_allow_html=True)
+
+    link_wa_fundadora = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola, me encantó conocer tu formación y servicios en Priskah_m. Me gustaría agendar una cita.')}"
     st.markdown(f"""
         <div style="text-align: center; margin-top: 10px;">
             <a href="{link_wa_fundadora}" target="_blank" class="wa-btn">
-                💬 Hablar directamente con Priskah
+                💬 Agendar valoración por WhatsApp
             </a>
         </div>
     """, unsafe_allow_html=True)
