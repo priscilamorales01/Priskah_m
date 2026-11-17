@@ -17,32 +17,27 @@ st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,400&display=swap');
 
-    /* Forzar esquema de color claro en cualquier celular */
     :root {
         color-scheme: light !important;
     }
 
-    /* Fondo general y tipografía */
     [data-testid="stAppViewContainer"], .stApp {
         background: linear-gradient(180deg, #F9F7F3 0%, #F1ECE3 100%) !important;
         font-family: 'Montserrat', sans-serif;
         color: #2C362B !important;
     }
 
-    /* Ocultar barra superior y pie de página de Streamlit */
     [data-testid="stHeader"], footer, #MainMenu {
         visibility: hidden;
         height: 0px;
     }
 
-    /* Contenedor principal */
     .block-container {
         padding-top: 1.5rem;
         padding-bottom: 2.5rem;
         max-width: 720px;
     }
 
-    /* Títulos editoriales */
     .brand-title {
         font-family: 'Playfair Display', serif;
         font-size: 40px;
@@ -51,16 +46,24 @@ st.markdown("""
         text-align: center;
         letter-spacing: 1px;
         margin-top: 8px;
-        margin-bottom: 4px;
+        margin-bottom: 2px;
+    }
+    .brand-slogan {
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: 15px;
+        color: #555D54;
+        text-align: center;
+        margin-bottom: 6px;
     }
     .brand-subtitle {
         font-family: 'Montserrat', sans-serif;
-        font-size: 12.5px;
-        font-weight: 500;
+        font-size: 12px;
+        font-weight: 600;
         color: #6B655D;
         text-align: center;
         text-transform: uppercase;
-        letter-spacing: 2px;
+        letter-spacing: 1.8px;
         margin-bottom: 6px;
     }
     .brand-location {
@@ -68,7 +71,19 @@ st.markdown("""
         color: #8C734B;
         text-align: center;
         font-weight: 600;
-        margin-bottom: 18px;
+        margin-bottom: 10px;
+    }
+    .ethics-banner {
+        background-color: #EFECE6;
+        border: 1px solid #D5C9B6;
+        color: #2C3A2E;
+        font-size: 12px;
+        font-weight: 600;
+        text-align: center;
+        padding: 7px 14px;
+        border-radius: 20px;
+        margin: 0 auto 18px auto;
+        max-width: 520px;
     }
     .section-title {
         font-family: 'Playfair Display', serif;
@@ -114,7 +129,6 @@ st.markdown("""
         color: #1E2820 !important;
     }
 
-    /* Estilo de tarjetas (contenedores con borde) */
     [data-testid="stVerticalBlockBorderWrapper"] {
         background-color: #FFFFFF !important;
         border-radius: 18px !important;
@@ -124,7 +138,6 @@ st.markdown("""
         margin-bottom: 18px !important;
     }
 
-    /* Inputs de texto y Multiselect */
     .stTextInput label, .stMultiSelect label {
         font-size: 13px !important;
         font-weight: 600 !important;
@@ -138,11 +151,6 @@ st.markdown("""
         font-size: 14px !important;
         color: #2C362B !important;
     }
-    .stTextInput > div > div > input:focus {
-        border-color: #C5A880 !important;
-        box-shadow: 0 0 0 2px rgba(197, 168, 128, 0.2) !important;
-        background-color: #FFFFFF !important;
-    }
     div[data-baseweb="select"] > div {
         background-color: #FAF9F6 !important;
         border-radius: 10px !important;
@@ -150,7 +158,6 @@ st.markdown("""
         color: #2C362B !important;
     }
 
-    /* Opciones de Radio estilo tarjetas interactivas */
     div[role="radiogroup"] > label {
         background-color: #FAF9F6 !important;
         border: 1px solid #EAE4D8 !important;
@@ -172,7 +179,6 @@ st.markdown("""
         line-height: 1.45;
     }
 
-    /* Expander legible en modo oscuro */
     [data-testid="stExpander"] {
         background-color: #FFFFFF !important;
         border-radius: 12px !important;
@@ -185,7 +191,6 @@ st.markdown("""
         font-size: 14px !important;
     }
 
-    /* Tarjeta de Resultado de Diagnóstico */
     .result-card {
         background: linear-gradient(145deg, #FFFFFF 0%, #FBF9F5 100%);
         border: 1px solid #DFD3C0;
@@ -221,25 +226,31 @@ st.markdown("""
         margin-bottom: 10px;
     }
 
-    /* Bono exclusivo Turrúcares en el diagnóstico */
     .turrucares-bonus {
         background: linear-gradient(135deg, #2C3A2E 0%, #3B4D3E 100%);
         color: #FFFFFF;
         border-radius: 14px;
         padding: 16px 20px;
-        margin-bottom: 22px;
+        margin-bottom: 18px;
         border: 1.5px solid #C5A880;
         box-shadow: 0 8px 20px rgba(44, 58, 46, 0.15);
     }
 
-    /* Tarjetas de Promociones */
+    .loyalty-banner {
+        background: linear-gradient(135deg, #FAF3E8 0%, #F2E5D0 100%);
+        border: 2px dashed #C5A880;
+        border-radius: 16px;
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 18px;
+    }
+
     .promo-card {
         background: linear-gradient(145deg, #FFFFFF 0%, #FAF7F2 100%);
         border: 1.5px solid #DFD3C0;
         border-radius: 16px;
         padding: 20px 22px;
         margin-bottom: 16px;
-        position: relative;
         box-shadow: 0 6px 18px rgba(44, 58, 46, 0.05);
     }
     .promo-tag {
@@ -262,7 +273,6 @@ st.markdown("""
         margin-bottom: 6px;
     }
 
-    /* Tarjetas de Servicios y Fundadora */
     .service-item {
         background-color: #FAF9F6;
         border: 1px solid #EAE4D8;
@@ -322,7 +332,6 @@ st.markdown("""
         margin: 0;
     }
 
-    /* Botón de WhatsApp y Redes Sociales */
     .wa-btn {
         background: linear-gradient(135deg, #25D366 0%, #1DA851 100%);
         color: white !important;
@@ -360,17 +369,15 @@ st.markdown("""
         transform: translateY(-1px);
     }
 
-    /* Línea divisora elegante */
     .gold-divider {
         height: 1px;
         background: linear-gradient(90deg, transparent, #D8CBB8, transparent);
-        margin: 18px 0 22px 0;
+        margin: 16px 0 20px 0;
         border: none;
     }
 
-    /* Imágenes redondeadas con marco elegante */
-    [data-testid="stImage"] img {
-        border-radius: 50%;
+    .logo-circle img {
+        border-radius: 50% !important;
         box-shadow: 0 8px 24px rgba(44, 58, 46, 0.14);
         border: 3px solid #DFD3C0;
         object-fit: cover;
@@ -378,7 +385,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- CONTROL DE NAVEGACIÓN (ESTADO DE PÁGINA) ---
+# --- CONTROL DE NAVEGACIÓN ---
 if "pagina_activa" not in st.session_state:
     st.session_state.pagina_activa = "diagnostico"
 
@@ -388,16 +395,20 @@ def cambiar_pagina(nombre_pagina):
 # --- ENCABEZADO Y LOGO ---
 col1, col2, col3 = st.columns([1.4, 1, 1.4])
 with col2:
+    st.markdown("<div class='logo-circle'>", unsafe_allow_html=True)
     try:
         st.image("LOGO.jpeg", use_container_width=True)
     except:
         pass
+    st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown("<div class='brand-title'>Priskah_m</div>", unsafe_allow_html=True)
-st.markdown("<div class='brand-subtitle'>Masajes y Cabellos con Recuperación Capilar</div>", unsafe_allow_html=True)
-st.markdown("<div class='brand-location'>📍 Turrúcares, Alajuela • Atención personalizada con cita previa</div>", unsafe_allow_html=True)
+st.markdown("<div class='brand-slogan'>Cuida tu cuerpo • Relaja tu mente y energía</div>", unsafe_allow_html=True)
+st.markdown("<div class='brand-subtitle'>Masajes Especializados y Recuperación Capilar</div>", unsafe_allow_html=True)
+st.markdown("<div class='brand-location'>📍 Sede Turrúcares, Alajuela • 🏠 Servicio a Domicilio (Turrúcares y San Ramón)</div>", unsafe_allow_html=True)
+st.markdown("<div class='ethics-banner'>🛡️ Servicio Exclusivamente Profesional y Terapéutico (No Tántrico)</div>", unsafe_allow_html=True)
 
-# --- MENÚ PRINCIPAL DE NAVEGACIÓN (4 SECCIONES ADAPTABLES A MÓVIL) ---
+# --- MENÚ PRINCIPAL DE NAVEGACIÓN ---
 nav1, nav2, nav3, nav4 = st.columns(4)
 with nav1:
     st.button(
@@ -409,7 +420,7 @@ with nav1:
     )
 with nav2:
     st.button(
-        "🎁 Promociones",
+        "🎁 Promos & Taller",
         use_container_width=True,
         type="primary" if st.session_state.pagina_activa == "promos" else "secondary",
         on_click=cambiar_pagina,
@@ -439,8 +450,8 @@ st.markdown("<hr class='gold-divider'>", unsafe_allow_html=True)
 # ==========================================
 if st.session_state.pagina_activa == "diagnostico":
     with st.container(border=True):
-        st.markdown("<div class='section-title'>1. Tus Datos</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-desc'>Completa tu información para identificar tus necesidades y desbloquear tu beneficio exclusivo en nuestra sede de Turrúcares.</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'>1. Tus Datos y Modalidad Preferida</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-desc'>Completa tu información. Recuerda que al asistir a nuestra sede en Turrúcares desbloqueas promociones y cortesías exclusivas.</div>", unsafe_allow_html=True)
         
         c1, c2 = st.columns(2)
         with c1:
@@ -448,28 +459,37 @@ if st.session_state.pagina_activa == "diagnostico":
         with c2:
             telefono = st.text_input("Número de WhatsApp (8 dígitos)", placeholder="Ej: 60218458")
 
+        st.write("")
+        modalidad = st.radio(
+            "📍 ¿Cómo prefieres recibir tu atención?",
+            [
+                "✨ En Sede Turrúcares, Alajuela (Desbloquea Promoción Exclusiva + Regalía)",
+                "🏠 Servicio A Domicilio (Disponible en Turrúcares y San Ramón)"
+            ]
+        )
+
     with st.container(border=True):
         st.markdown("<div class='section-title'>2. ¿Qué área deseas consentir hoy?</div>", unsafe_allow_html=True)
         st.markdown("<div class='section-desc'>Elige la experiencia que mejor se adapte a lo que buscas.</div>", unsafe_allow_html=True)
         
         categoria = st.radio(
             "Categoría",
-            ["💆‍♀️ Bienestar Corporal y Masajes", "✨ Cuidado y Recuperación Capilar"],
+            ["💆‍♀️ Masajes Especializados y Reducción de Medidas", "✨ Tratamientos y Recuperación Capilar"],
             label_visibility="collapsed"
         )
 
     with st.container(border=True):
-        if "Corporal" in categoria:
+        if "Masajes" in categoria:
             st.markdown("<div class='section-title'>3. ¿Cuál es tu objetivo o molestia principal?</div>", unsafe_allow_html=True)
             st.markdown("<div class='section-desc'>Selecciona la opción que mejor describa cómo se siente tu cuerpo hoy.</div>", unsafe_allow_html=True)
             opcion = st.radio(
                 "Enfoque corporal",
                 [
-                    "Dolor intenso de espalda, cuello, hombros o nudos profundos (Descontracturante)",
-                    "Nivel alto de estrés, ansiedad, insomnio y fatiga mental (Relajante)",
+                    "Dolor intenso de espalda, cuello, hombros o nudos profundos (Terapéutico / Descontracturante)",
+                    "Nivel alto de estrés, ansiedad, insomnio y fatiga mental (Masaje Relajante)",
                     "Sobrecarga muscular por entrenamiento o deporte (Deportivo / Descarga Muscular)",
                     "Piernas cansadas, retención de líquidos o mala circulación (Drenaje Linfático / Retorno Venoso)",
-                    "Moldeo corporal, cierre de costillas o marcaje abdominal (Técnicas Estéticas)"
+                    "Reducción de medidas, marcación abdominal o cierre de costillas (Moldeo y Drenaje Brasileño)"
                 ],
                 label_visibility="collapsed"
             )
@@ -493,10 +513,10 @@ if st.session_state.pagina_activa == "diagnostico":
             opcion = st.radio(
                 "Necesidad capilar",
                 [
-                    "Cabello seco, opaco, sensibilizado o con frizz (Botox Capilar / Nutrición)",
-                    "Busco brillo espejo, reconstrucción profunda y efecto liso (Nanoqueratina)",
-                    "Alisado progresivo natural y manejo del volumen (Taninoplastia / Alisado Capilar)",
-                    "Cabello maltratado que requiere reparación y acondicionamiento profundo (Recuperación Capilar)"
+                    "Cabello muy seco, poroso o dañado por químicos (Recuperación Capilar con Colesterol y Miel)",
+                    "Cabello opaco, sensibilizado o con frizz (Botox Capilar / Nutrición Profunda)",
+                    "Busco brillo espejo, reconstrucción profunda y efecto liso (Queratina / Nanoqueratina)",
+                    "Alisado progresivo natural y reducción de volumen (Taninoplastia / Alisado Capilar)"
                 ],
                 label_visibility="collapsed"
             )
@@ -515,22 +535,22 @@ if st.session_state.pagina_activa == "diagnostico":
                 default=["Ninguna condición especial"]
             )
 
-    if st.button("✨ Descubrir mi Tratamiento + Beneficio en Turrúcares", type="primary", use_container_width=True):
+    if st.button("✨ Descubrir mi Tratamiento Ideal", type="primary", use_container_width=True):
         solo_digitos = re.sub(r"\D", "", telefono)
         
         if nombre.strip() == "" or len(solo_digitos) < 8:
             st.warning("⚠️ Por favor, ingresa tu nombre completo y un número de WhatsApp válido (mínimo 8 dígitos).")
         else:
-            if "Corporal" in categoria:
-                regalo_turrucares = "🎁 Cortesía exclusiva en sede Turrúcares: +10 minutos de masaje craneal o aromaterapia relajante al agendar tu sesión."
+            if "Masajes" in categoria:
+                regalo_turrucares = "🎁 Cortesía exclusiva en Sede Turrúcares: +10 minutos de masaje craneofacial relajante + 1 sello para tu Tarjeta de Fidelidad (50% OFF en tu 6° visita)."
                 if "Descontracturante" in opcion:
-                    tratamiento = "Masaje Descontracturante Profundo"
-                    descripcion = "Enfocado en trabajar las capas profundas del músculo para liberar nudos y tensión acumulada en espalda, cuello y hombros."
+                    tratamiento = "Masaje Terapéutico y Descontracturante Profundo"
+                    descripcion = "Enfocado en trabajar las capas profundas del músculo para liberar puntos gatillo, nudos y tensión acumulada en espalda, cuello y hombros."
                     duracion = "⏱️ Duración estimada: 60 min • Valoración previa incluida"
                     icono = "💆‍♀️"
                 elif "Relajante" in opcion:
                     tratamiento = "Masaje Relajante Integral"
-                    descripcion = "Diseñado para calmar el sistema nervioso, reducir el estrés y brindarte un descanso físico y mental profundo."
+                    descripcion = "Diseñado para calmar el sistema nervioso, reducir el estrés y renovar tu mente y energía."
                     duracion = "⏱️ Duración estimada: 60 min • Ambiente de aromaterapia y relax"
                     icono = "🌿"
                 elif "Deportivo" in opcion:
@@ -538,46 +558,48 @@ if st.session_state.pagina_activa == "diagnostico":
                     descripcion = "Ideal para aliviar la sobrecarga física tras el ejercicio, oxigenar el tejido muscular y acelerar tu recuperación."
                     duracion = "⏱️ Duración estimada: 60 min • Enfoque en recuperación muscular"
                     icono = "⚡"
-                elif "Drenaje" in opcion:
-                    tratamiento = "Drenaje Linfático Brasileño y Retorno Venoso"
+                elif "Retorno Venoso" in opcion:
+                    tratamiento = "Drenaje Linfático y Retorno Venoso"
                     descripcion = "Técnica especializada para estimular el sistema linfático, favorecer la eliminación de líquidos retenidos y aliviar la pesadez en las piernas."
                     duracion = "⏱️ Duración estimada: 60 - 75 min • Estimulación circulatoria y linfática"
                     icono = "🌊"
                 else:
-                    tratamiento = "Protocolo de Moldeo: Cierre de Costillas y Marcaje Abdominal"
-                    descripcion = "Técnicas manuales especializadas enfocadas en estilizar el contorno corporal y activar la circulación local."
+                    tratamiento = "Reducción de Medidas: Marcación, Cierre de Costillas y Drenaje Brasileño"
+                    descripcion = "Técnicas manuales especializadas enfocadas en estilizar el contorno corporal, desinflamar abdomen y activar la circulación local."
                     duracion = "⏱️ Duración estimada: 60 - 75 min • Valoración personalizada"
                     icono = "✨"
             else:
-                regalo_turrucares = "🎁 Cortesía exclusiva en sede Turrúcares: Diagnóstico capilar profundo + sellado nutritivo de puntas sin costo adicional."
-                if "Nanoqueratina" in opcion:
-                    tratamiento = "Nanoqueratina Capilar"
-                    descripcion = "Tratamiento de reconstrucción que sella la cutícula, elimina el frizz y aporta un brillo espejo duradero."
+                regalo_turrucares = "🎁 Cortesía exclusiva en Sede Turrúcares: Diagnóstico capilar + sellado nutritivo de puntas de cortesía + 1 sello para tu Tarjeta de Fidelidad."
+                if "Colesterol y Miel" in opcion:
+                    tratamiento = "Recuperación Capilar Intensiva (Colesterol y Miel)"
+                    descripcion = "Fórmula altamente nutritiva y restauradora que devuelve lípidos, suavidad extrema, fuerza y elasticidad al cabello maltratado o químicamente procesado."
+                    duracion = "⏱️ Duración estimada: 60 - 90 min • Restauración profunda"
+                    icono = "🍯"
+                elif "Nanoqueratina" in opcion:
+                    tratamiento = "Queratina / Nanoqueratina Capilar Pro"
+                    descripcion = "Tratamiento de reconstrucción térmica que sella la cutícula, elimina el frizz y aporta un brillo espejo duradero."
                     duracion = "⏱️ Duración según largo y volumen • Diagnóstico de hebra incluido"
                     icono = "✨"
                 elif "Botox" in opcion:
                     tratamiento = "Botox Capilar y Nutrición Profunda"
-                    descripcion = "Devuelve la suavidad, elasticidad y vitalidad a las hebras deshidratadas o sensibilizadas."
+                    descripcion = "Devuelve la suavidad, elasticidad y vitalidad a las hebras deshidratadas, opacas o con frizz."
                     duracion = "⏱️ Duración estimada: 90 - 120 min • Hidratación intensiva"
                     icono = "💧"
-                elif "Taninoplastia" in opcion:
+                else:
                     tratamiento = "Taninoplastia / Alisado Capilar"
-                    descripcion = "Alisado de origen vegetal que disciplina la fibra capilar, reduce el volumen y deja el cabello sedoso y manejable."
+                    descripcion = "Alisado progresivo que disciplina la fibra capilar, controla el volumen y deja el cabello sedoso y manejable."
                     duracion = "⏱️ Duración según largo y volumen • Acabado liso y natural"
                     icono = "🍃"
-                else:
-                    tratamiento = "Tratamiento de Recuperación y Acondicionamiento Capilar"
-                    descripcion = "Protocolo restaurador diseñado para devolver fuerza, hidratación y salud integral a tu cabello."
-                    duracion = "⏱️ Duración estimada: 60 - 90 min • Restauración capilar"
-                    icono = "🌱"
 
             texto_condiciones = ", ".join(condiciones) if condiciones else "Ninguna reportada"
+            es_turrucares = "Sede Turrúcares" in modalidad
 
             # Guardar en CSV
             nuevo_registro = pd.DataFrame({
                 "Fecha": [datetime.now().strftime("%Y-%m-%d %H:%M")],
                 "Nombre": [nombre.strip()],
                 "WhatsApp": [solo_digitos],
+                "Modalidad": [modalidad],
                 "Área": [categoria],
                 "Selección": [opcion],
                 "Condiciones": [texto_condiciones],
@@ -592,22 +614,28 @@ if st.session_state.pagina_activa == "diagnostico":
                     <p class="result-desc">{descripcion}</p>
                     <p style="font-size: 12.5px; color: #8C734B; font-weight: 600; margin-bottom: 0;">{duracion}</p>
                 </div>
-                <div class="turrucares-bonus">
-                    <div style="font-size: 14px; font-weight: 600; color: #EAD8B8; margin-bottom: 4px;">
-                        📍 BENEFICIO DESBLOQUEADO (VÁLIDO SOLO EN SEDE TURRÚCARES)
-                    </div>
-                    <div style="font-size: 13.5px; line-height: 1.5;">
-                        {regalo_turrucares}
-                    </div>
-                </div>
             """, unsafe_allow_html=True)
+
+            if es_turrucares:
+                st.markdown(f"""
+                    <div class="turrucares-bonus">
+                        <div style="font-size: 13.5px; font-weight: 700; color: #EAD8B8; margin-bottom: 4px;">
+                            📍 BENEFICIO EXCLUSIVO DESBLOQUEADO (SEDE TURRÚCARES)
+                        </div>
+                        <div style="font-size: 13.5px; line-height: 1.5;">
+                            {regalo_turrucares}
+                        </div>
+                    </div>
+                """, unsafe_allow_html=True)
+            else:
+                st.info("🏠 Has seleccionado **Servicio a Domicilio** (Turrúcares / San Ramón). *Nota: Si decides asistir a nuestra cabina en Turrúcares, desbloqueas nuestras promociones y minutos extra de cortesía.*")
 
             mi_numero_whatsapp = "50660218458"
             mensaje = (
                 f"Hola Priskah, soy {nombre.strip()}. "
                 f"Realicé el diagnóstico en tu web para {categoria}. "
-                f"Mi resultado fue *{tratamiento}* (Observaciones: {texto_condiciones}) "
-                f"y me gustaría agendar mi cita en tu sede de *Turrúcares* para aplicar mi beneficio de diagnóstico."
+                f"Mi resultado fue *{tratamiento}* en modalidad *{modalidad}* "
+                f"(Observaciones: {texto_condiciones}) y me gustaría agendar mi cita."
             )
             mensaje_codificado = urllib.parse.quote(mensaje)
             link_whatsapp = f"https://wa.me/{mi_numero_whatsapp}?text={mensaje_codificado}"
@@ -615,53 +643,102 @@ if st.session_state.pagina_activa == "diagnostico":
             st.markdown(f"""
                 <div style="text-align: center; margin-top: 10px; margin-bottom: 15px;">
                     <a href="{link_whatsapp}" target="_blank" class="wa-btn">
-                        💬 Agendar en Turrúcares y Reclamar Beneficio
+                        💬 Agendar mi cita por WhatsApp
                     </a>
                 </div>
             """, unsafe_allow_html=True)
 
-    # --- PREGUNTAS FRECUENTES (FAQ) ---
-    st.write("")
-    st.markdown("<div class='section-title' style='font-size: 19px; margin-bottom: 10px;'>❓ Preguntas Frecuentes</div>", unsafe_allow_html=True)
-    with st.expander("📍 ¿Dónde están ubicados y cómo funciona la atención?"):
-        st.write("Nos ubicamos en **Turrúcares de Alajuela**, en un espacio privado, seguro y relajante. Trabajamos únicamente bajo modalidad de **cita previa** para brindarte atención 100% personalizada y sin prisas. Contamos con espacio seguro para estacionar tu vehículo.")
-    with st.expander("💳 ¿Cuáles son los métodos de pago disponibles?"):
-        st.write("Puedes realizar tu pago cómodamente mediante **SINPE Móvil**, transferencia bancaria o efectivo.")
-    with st.expander("🏷️ ¿Cómo aplican las promociones de la página web?"):
-        st.write("Todas nuestras promociones y cortesías de diagnóstico son **exclusivas para tratamientos realizados presencialmente en nuestra sede en Turrúcares, Alajuela**.")
+    # --- TARJETA DE FIDELIDAD VISIBLE ---
+    st.markdown("""
+        <div class="loyalty-banner">
+            <div style="font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; color: #2C3A2E; margin-bottom: 4px;">
+                🖤 Premiamos tu Fidelidad en Priskah_m
+            </div>
+            <p style="font-size: 14px; color: #4A5249; margin: 0;">
+                Por cada <strong>5 tratamientos realizados</strong>, recibe tu <strong>6° tratamiento con 50% de descuento</strong> o un <strong>Kit de Belleza</strong> especial.
+            </p>
+        </div>
+    """, unsafe_allow_html=True)
 
 # ==========================================
-# VISTA 2: PROMOCIONES Y EVENTOS (EXCLUSIVO TURRÚCARES)
+# VISTA 2: PROMOCIONES Y TALLER EN VIVO
 # ==========================================
 elif st.session_state.pagina_activa == "promos":
+    # --- TALLER VIRTUAL DE AUTOMASAJE CON VIDEO ---
+    with st.container(border=True):
+        link_taller = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, quiero reservar mi espacio para el Taller de Automasaje del 15 de diciembre (Inversión: ₡6,000).')}"
+        st.markdown("<div class='result-badge'>💻 Evento Especial En Vivo • Vía Zoom Online</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'>🌿 Taller de Automasaje Relajante y Descontracturante</div>", unsafe_allow_html=True)
+        st.markdown("""
+            <p class="service-text" style="margin-bottom: 12px;">
+                <strong>¡Libera tu tensión online en diciembre!</strong> Aprende técnicas profesionales para aliviar el estrés y la tensión muscular desde casa.
+                <br>• <strong>Temas:</strong> Relajación de cuello, hombros y espalda, liberación de puntos gatillo y técnicas de bienestar personal.
+                <br>• <strong>Instructora:</strong> Priscilla Morales
+            </p>
+            <div style="background-color: #FAF9F6; border: 1px solid #DFD3C0; border-radius: 12px; padding: 12px 16px; margin-bottom: 14px; font-size: 13.5px; color: #2C3A2E;">
+                📅 <strong>Fecha:</strong> 15 de Diciembre &nbsp;|&nbsp; 🕖 <strong>Hora:</strong> 7:00 pm (Hora Local) <br>
+                ⏱️ <strong>Duración:</strong> 1.5 Horas &nbsp;|&nbsp; 💳 <strong>Inversión:</strong> ₡6,000 colones
+            </div>
+        """, unsafe_allow_html=True)
+
+        # Mostrar el video del taller si está subido al repositorio
+        try:
+            st.video("video_1.mp4")
+        except:
+            pass
+
+        st.markdown(f"""
+            <div style="text-align: center; margin-top: 12px;">
+                <a href="{link_taller}" target="_blank" class="wa-btn">
+                    🎟️ Reservar mi espacio al Taller (₡6,000)
+                </a>
+            </div>
+        """, unsafe_allow_html=True)
+
+    # --- PROMOCIONES EXCLUSIVAS SEDE TURRÚCARES ---
     with st.container(border=True):
         st.markdown("<div class='result-badge'>📍 Exclusivo en Cabina • Turrúcares, Alajuela</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-title'>🎁 Promociones Especiales en Sede Turrúcares</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-desc'>Beneficios diseñados para consentirte cuando nos visitas directamente en nuestro espacio en Turrúcares.</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'>🎁 Promociones Exclusivas en Sede Turrúcares</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-desc'>Estos beneficios aplican únicamente cuando nos visitas para realizarte tu tratamiento en nuestra sede de Turrúcares.</div>", unsafe_allow_html=True)
+
+        # Fidelidad
+        link_fid = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, quiero agendar en Turrúcares y empezar mi tarjeta de fidelidad (5 tratamientos = 6° al 50% OFF).')}"
+        st.markdown(f"""
+            <div class="promo-card" style="border-left: 5px solid #2C3A2E;">
+                <span class="promo-tag">🖤 Tarjeta de Fidelidad Priskah_m</span>
+                <div class="promo-title">🎁 50% de Descuento o Kit de Belleza en tu 6° Tratamiento</div>
+                <p class="service-text" style="margin-bottom: 10px;">
+                    Premiamos tu constancia: acumula <strong>5 tratamientos</strong> con nosotros y en el <strong>6° tratamiento</strong> elige entre un <strong>50% de descuento</strong> o un <strong>Kit de Belleza</strong> de regalo.
+                </p>
+                <a href="{link_fid}" target="_blank" style="color: #2C3A2E; font-weight: 700; font-size: 13.5px; text-decoration: underline;">
+                    👉 Empezar mi Tarjeta de Fidelidad por WhatsApp
+                </a>
+            </div>
+        """, unsafe_allow_html=True)
 
         # Promo 1: Dúo Renovación Total
-        link_p1 = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, quiero consultar por la Promo Dúo Renovación Total (Masaje + Hidratación Capilar) en tu sede de Turrúcares.')}"
+        link_p1 = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, quiero consultar por la Promo Dúo en tu sede de Turrúcares (Masaje + Recuperación Capilar Colesterol y Miel).')}"
         st.markdown(f"""
             <div class="promo-card">
                 <span class="promo-tag">📍 Válido solo en sede Turrúcares</span>
-                <div class="promo-title">🌿 Ritual Dúo: Cuerpo & Cabello Renovado</div>
-                <p class="service-text" style="margin-bottom: 12px;">
-                    Combina un <strong>Masaje Relajante o Descontracturante (60 min)</strong> + un protocolo de <strong>Botox Capilar o Nutrición Profunda</strong> en una misma visita con <strong>15% de descuento especial</strong> en el paquete completo.
+                <div class="promo-title">🍯 Ritual Dúo: Masaje + Recuperación Capilar (Colesterol y Miel)</div>
+                <p class="service-text" style="margin-bottom: 10px;">
+                    Realízate en nuestra cabina de Turrúcares un <strong>Masaje Relajante o Descontracturante (60 min)</strong> junto con nuestra <strong>Recuperación Capilar de Colesterol y Miel o Botox Capilar</strong> con un <strong>15% de descuento especial</strong> en el paquete.
                 </p>
                 <a href="{link_p1}" target="_blank" style="color: #2C3A2E; font-weight: 700; font-size: 13.5px; text-decoration: underline;">
-                    👉 Reservar este Ritual en Turrúcares por WhatsApp
+                    👉 Reservar este Ritual en Turrúcares
                 </a>
             </div>
         """, unsafe_allow_html=True)
 
         # Promo 2: Especial Alisados & Nanoqueratina
-        link_p2 = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, me interesa la promoción de Nanoqueratina / Taninoplastia en tu sede de Turrúcares.')}"
+        link_p2 = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, me interesa la promoción de Nanoqueratina / Alisado en tu sede de Turrúcares.')}"
         st.markdown(f"""
             <div class="promo-card">
                 <span class="promo-tag">📍 Válido solo en sede Turrúcares</span>
                 <div class="promo-title">✨ Especial Brillo Espejo (Nanoqueratina o Taninoplastia)</div>
-                <p class="service-text" style="margin-bottom: 12px;">
-                    Al realizarte tu <strong>Nanoqueratina o Taninoplastia</strong> en nuestra cabina de Turrúcares, recibe de cortesía un <strong>masaje relajante craneofacial y de hombros</strong> durante el tiempo de pose + sellado nutritivo final.
+                <p class="service-text" style="margin-bottom: 10px;">
+                    Al realizarte tu <strong>Nanoqueratina, Queratina o Alisado</strong> en nuestra cabina de Turrúcares, recibe de cortesía un <strong>masaje relajante de cuello y hombros</strong> durante el tiempo de pose + sellado nutritivo.
                 </p>
                 <a href="{link_p2}" target="_blank" style="color: #2C3A2E; font-weight: 700; font-size: 13.5px; text-decoration: underline;">
                     👉 Cotizar mi largo de cabello en Turrúcares
@@ -669,117 +746,68 @@ elif st.session_state.pagina_activa == "promos":
             </div>
         """, unsafe_allow_html=True)
 
-        # Promo 3: Pack Descarga Muscular / Drenaje
-        link_p3 = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, me interesa información del Plan de 3 Sesiones Corporales en Turrúcares.')}"
-        st.markdown(f"""
-            <div class="promo-card">
-                <span class="promo-tag">📍 Válido solo en sede Turrúcares</span>
-                <div class="promo-title">💆‍♀️ Plan Bienestar Constante (Paquete de 3 Sesiones)</div>
-                <p class="service-text" style="margin-bottom: 12px;">
-                    Adquiere tu paquete de <strong>3 sesiones de Masaje (Descontracturante, Deportivo, Drenaje Brasileño o Moldeo)</strong> para realizar en nuestra cabina en Turrúcares y obtén una tarifa preferencial de paquete.
-                </p>
-                <a href="{link_p3}" target="_blank" style="color: #2C3A2E; font-weight: 700; font-size: 13.5px; text-decoration: underline;">
-                    👉 Consultar precio del paquete en Turrúcares
-                </a>
-            </div>
-        """, unsafe_allow_html=True)
-
-        # Promo 4: Certificados de Regalo
-        link_p4 = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, me gustaría adquirir un Certificado de Regalo para canjear en tu sede de Turrúcares.')}"
-        st.markdown(f"""
-            <div class="promo-card">
-                <span class="promo-tag">🎀 Regalo Ideal • Canjeable en Turrúcares</span>
-                <div class="promo-title">💌 Tarjetas de Regalo Personalizadas (Gift Cards)</div>
-                <p class="service-text" style="margin-bottom: 12px;">
-                    Sorprende a esa persona especial con un certificado digital personalizado para masajes o cuidado capilar en nuestra cabina de Turrúcares. Incluye <strong>10 minutos adicionales de cortesía</strong> para tu persona homenajeada.
-                </p>
-                <a href="{link_p4}" target="_blank" style="color: #2C3A2E; font-weight: 700; font-size: 13.5px; text-decoration: underline;">
-                    👉 Solicitar Tarjeta de Regalo por WhatsApp
-                </a>
-            </div>
-        """, unsafe_allow_html=True)
-
-        st.caption("⚠️ Nota: Todas las promociones, paquetes y cortesías aplican única y exclusivamente cuando el cliente asiste a realizarse el tratamiento en nuestra cabina ubicada en Turrúcares, Alajuela.")
-
-    # --- EVENTO ESPECIAL: TALLER VIRTUAL DE AUTOMASAJE ---
-    with st.container(border=True):
-        link_taller = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, quiero información para inscribirme en el Taller Virtual de Automasaje del 15 de diciembre.')}"
-        st.markdown("<div class='result-badge'>💻 Evento Especial En Vivo (Vía Zoom)</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-title'>🌿 Taller Virtual de Automasaje</div>", unsafe_allow_html=True)
-        st.markdown("""
-            <p class="service-text" style="margin-bottom: 12px;">
-                Aprende técnicas profesionales desde casa para liberar tensión en cuello, rostro y hombros, mejorar tu descanso y reconectar con tu bienestar diario.
-            </p>
-            <p style="font-size: 13.5px; font-weight: 600; color: #2C3A2E; margin-bottom: 16px;">
-                📅 Fecha: 15 de Diciembre, 2026 • 🕖 Hora: 7:00 PM • 💻 Modalidad: Zoom (Cupos limitados)
-            </p>
-        """, unsafe_allow_html=True)
-        st.markdown(f"""
-            <div style="text-align: center;">
-                <a href="{link_taller}" target="_blank" class="wa-btn">
-                    🎟️ Reservar mi cupo al Taller por WhatsApp
-                </a>
-            </div>
-        """, unsafe_allow_html=True)
+        st.caption("⚠️ Nota: Los descuentos de cabina aplican exclusivamente asistiendo a nuestra sede en Turrúcares, Alajuela.")
 
 # ==========================================
 # VISTA 3: QUÉ OFRECEMOS (PORTAFOLIO)
 # ==========================================
 elif st.session_state.pagina_activa == "servicios":
     with st.container(border=True):
-        st.markdown("<div class='section-title'>💆‍♀️ Bienestar Corporal y Masajes</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-desc'>Servicios personalizados en Turrúcares, Alajuela, con valoración previa de necesidades y contraindicaciones bajo estrictos estándares de higiene y bioseguridad.</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'>💆‍♀️ Masajes Especializados y Reducción de Medidas</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-desc'>Disponibles en nuestra sede en Turrúcares y A Domicilio (Turrúcares y San Ramón). Servicio exclusivamente profesional y terapéutico.</div>", unsafe_allow_html=True)
 
         st.markdown("""
             <div class="service-item">
-                <div class="service-name">Masaje Relajante y Descontracturante</div>
-                <div class="service-meta">⏱️ Sesiones de 60 min • Valoración muscular inicial incluida</div>
-                <p class="service-text">Terapias manuales adaptadas para liberar tensión muscular profunda, aliviar contracturas en espalda, cuello y hombros, y calmar el estrés físico y mental.</p>
+                <div class="service-name">Masajes Relajantes, Terapéuticos y Descontracturantes</div>
+                <div class="service-meta">⏱️ Sesiones de 60 min • Liberación de puntos gatillo y estrés</div>
+                <p class="service-text">Terapias manuales adaptadas para liberar tensión muscular profunda, aliviar contracturas en espalda, cuello y hombros, y relajar tu mente y energía.</p>
             </div>
             <div class="service-item">
                 <div class="service-name">Masaje Deportivo y Descarga Muscular</div>
                 <div class="service-meta">⏱️ Sesiones de 60 min • Pre y Post Entrenamiento</div>
-                <p class="service-text">Protocolos enfocados en la preparación y recuperación de tejidos musculares sometidos a exigencia física o entrenamiento constante.</p>
+                <p class="service-text">Protocolos enfocados en la preparación y recuperación de tejidos musculares sometidos a exigencia física o deporte.</p>
             </div>
             <div class="service-item">
-                <div class="service-name">Drenaje Linfático Brasileño y Retorno Venoso</div>
+                <div class="service-name">Drenaje Linfático y Retorno Venoso</div>
                 <div class="service-meta">⏱️ Sesiones de 60 a 75 min • Estimulación circulatoria</div>
-                <p class="service-text">Técnicas especializadas para favorecer el drenaje de líquidos retenidos, desinflamar tejidos, mejorar la circulación y aliviar la pesadez corporal.</p>
+                <p class="service-text">Técnicas especializadas para favorecer el drenaje de líquidos retenidos, desinflamar tejidos y aliviar piernas cansadas.</p>
             </div>
             <div class="service-item">
-                <div class="service-name">Cierre de Costillas y Marcaje Abdominal</div>
+                <div class="service-name">Reducción de Medidas: Marcación, Cierre de Costillas y Drenaje Brasileño</div>
                 <div class="service-meta">⏱️ Sesiones personalizadas • Moldeo estético manual</div>
-                <p class="service-text">Técnicas corporales especializadas orientadas al moldeo estético y definición armónica de la silueta.</p>
+                <p class="service-text">Técnicas corporales especializadas orientadas a la reducción de medidas, marcaje abdominal y definición armónica de la silueta.</p>
             </div>
         """, unsafe_allow_html=True)
 
     with st.container(border=True):
-        st.markdown("<div class='section-title'>✨ Cuidado y Recuperación Capilar</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-desc'>Tratamientos profesionales aplicados según el diagnóstico de cada hebra y las especificaciones técnicas de cada producto.</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'>✨ Tratamientos Capilares y Recuperación</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-desc'>Fórmulas profesionales aplicadas según el diagnóstico de tu hebra capilar.</div>", unsafe_allow_html=True)
 
         st.markdown("""
             <div class="service-item" style="border-left-color: #C5A880;">
-                <div class="service-name">Queratinas y Nanoqueratinas</div>
+                <div class="service-name">Recuperación Capilar (Colesterol y Miel) y Botox Capilar</div>
+                <div class="service-meta">🍯 Nutrición profunda • Restauración de hebras maltratadas</div>
+                <p class="service-text">Acondicionamiento y nutrición intensiva con activos como colesterol y miel para devolver suavidad, elasticidad y vitalidad al cabello seco o procesado.</p>
+            </div>
+            <div class="service-item" style="border-left-color: #C5A880;">
+                <div class="service-name">Alisados, Queratinas, Nanoqueratina y Taninoplastia</div>
                 <div class="service-meta">✨ Sellado térmico • Cero Frizz y Brillo Espejo</div>
-                <p class="service-text">Reconstrucción y sellado de la cutícula capilar para eliminar el frizz, aportar brillo intenso y suavidad duradera.</p>
-            </div>
-            <div class="service-item" style="border-left-color: #C5A880;">
-                <div class="service-name">Taninoplastia y Alisados Capilares</div>
-                <div class="service-meta">🍃 Alisado progresivo • Control de volumen</div>
-                <p class="service-text">Tratamientos de alisado y disciplina capilar que respetan la estructura del cabello dejando un acabado natural y sedoso.</p>
-            </div>
-            <div class="service-item" style="border-left-color: #C5A880;">
-                <div class="service-name">Botox Capilar y Nutrición Profunda</div>
-                <div class="service-meta">💧 Recuperación intensiva • Hebras sensibilizadas</div>
-                <p class="service-text">Acondicionamiento intensivo para recuperar la hidratación, elasticidad y vitalidad del cabello maltratado por calor o procesos químicos.</p>
+                <p class="service-text">Reconstrucción y sellado de la cutícula capilar para eliminar el frizz, controlar el volumen y aportar un brillo espejo duradero.</p>
             </div>
         """, unsafe_allow_html=True)
 
-    link_wa_general = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, estuve viendo los servicios en tu web y me gustaría consultar disponibilidad en tu sede de Turrúcares.')}"
+        # Mostrar afiche oficial si está en el repositorio
+        with st.expander("📋 Ver Afiche Oficial de Servicios Priskah_m"):
+            try:
+                st.image("PRISKA BANNER 1.jpeg", use_container_width=True)
+            except:
+                st.info("Sube el archivo 'PRISKA BANNER 1.jpeg' a tu GitHub para visualizar el afiche aquí.")
+
+    link_wa_general = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, estuve viendo los servicios en tu web y me gustaría agendar una cita.')}"
     st.markdown(f"""
         <div style="text-align: center; margin-top: 10px;">
             <a href="{link_wa_general}" target="_blank" class="wa-btn">
-                💬 Consultar disponibilidad por WhatsApp
+                💬 Agendar mi cita hoy por WhatsApp
             </a>
         </div>
     """, unsafe_allow_html=True)
@@ -791,10 +819,12 @@ elif st.session_state.pagina_activa == "fundadora":
     with st.container(border=True):
         f1, f2, f3 = st.columns([1.3, 1, 1.3])
         with f2:
+            st.markdown("<div class='logo-circle'>", unsafe_allow_html=True)
             try:
                 st.image("PRISCILLA.jpeg", use_container_width=True)
             except:
                 pass
+            st.markdown("</div>", unsafe_allow_html=True)
 
         st.markdown("<div style='text-align: center; margin-top: 10px;'><span class='result-badge'>Perfil Profesional y Trayectoria</span></div>", unsafe_allow_html=True)
         st.markdown("<div class='section-title' style='font-size: 28px; text-align: center; margin-bottom: 14px;'>Priscilla Morales Segura</div>", unsafe_allow_html=True)
@@ -804,7 +834,7 @@ elif st.session_state.pagina_activa == "fundadora":
                 Profesional con sólida trayectoria en entornos multinacionales y gestión empresarial, integrando competencias de <strong>servicio al cliente, planificación, control de calidad y mejora continua</strong> en cada atención personalizada.
             </p>
             <p class='result-desc' style='margin-bottom: 20px;'>
-                Como fundadora de <strong>Priskah_m</strong>, combina su formación académica y técnica para ofrecer un servicio ético, seguro y altamente personalizado en bienestar corporal y recuperación capilar, realizando siempre una valoración inicial de necesidades y aplicando estrictos protocolos de higiene y bioseguridad.
+                Como fundadora de <strong>Priskah_m</strong>, combina su formación académica y técnica para ofrecer un servicio exclusivamente profesional, ético y personalizado en bienestar corporal y recuperación capilar, realizando siempre una valoración inicial de necesidades y aplicando estrictos protocolos de higiene y bioseguridad.
             </p>
         """, unsafe_allow_html=True)
 
@@ -854,11 +884,11 @@ elif st.session_state.pagina_activa == "fundadora":
                 <span class="credential-pill">🧼 Higiene y Bioseguridad</span>
                 <span class="credential-pill">📋 Valoración Previa de Contraindicaciones</span>
                 <span class="credential-pill">⭐ Control de Calidad y Mejora Continua</span>
-                <span class="credential-pill">📅 Organización y Gestión Profesional</span>
+                <span class="credential-pill">🛡️ Servicio 100% Profesional y Terapéutico</span>
             </div>
         """, unsafe_allow_html=True)
 
-    link_wa_fundadora = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola, me encantó conocer tu formación y servicios en Priskah_m. Me gustaría agendar una cita en Turrúcares.')}"
+    link_wa_fundadora = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, me encantó conocer tu formación y servicios en Priskah_m. Me gustaría agendar una cita.')}"
     st.markdown(f"""
         <div style="text-align: center; margin-top: 10px;">
             <a href="{link_wa_fundadora}" target="_blank" class="wa-btn">
@@ -872,7 +902,7 @@ st.markdown("<hr class='gold-divider'>", unsafe_allow_html=True)
 st.markdown("""
     <div style="text-align: center; margin-bottom: 24px;">
         <p style="font-family: 'Playfair Display', serif; font-size: 18px; color: #2C3A2E; margin-bottom: 10px;">
-            Síguenos en nuestras redes sociales
+            Síguenos y agenda tu cita hoy
         </p>
         <a href="https://www.instagram.com/priskah_m" target="_blank" class="social-btn">
             📸 Instagram @priskah_m
@@ -884,7 +914,7 @@ st.markdown("""
             📲 WhatsApp 6021-8458
         </a>
         <p style="font-size: 11.5px; color: #8C857B; margin-top: 14px;">
-            © 2026 Priskah_m • Masajes y Cabellos con Recuperación Capilar • Turrúcares, Alajuela, Costa Rica
+            © 2026 Priskah_m • Turrúcares, Alajuela & San Ramón • Servicio Exclusivamente Profesional y Terapéutico
         </p>
     </div>
 """, unsafe_allow_html=True)
@@ -898,7 +928,7 @@ with st.expander("🔒 Acceso Propietaria"):
         try:
             df_registros = pd.read_csv(
                 "clientes_priskah.csv",
-                names=["Fecha", "Nombre", "WhatsApp", "Área", "Selección", "Condiciones", "Recomendación"],
+                names=["Fecha", "Nombre", "WhatsApp", "Modalidad", "Área", "Selección", "Condiciones", "Recomendación"],
                 on_bad_lines="skip"
             )
             st.dataframe(df_registros, use_container_width=True)
