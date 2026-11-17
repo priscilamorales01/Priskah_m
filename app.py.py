@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime
 import urllib.parse
+import re
 
 # 1. Configurar la página
 st.set_page_config(
@@ -11,16 +12,21 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# --- ESTÉTICA LUXURY SPA (CSS AVANZADO Y RESPONSIVO PARA MÓVIL) ---
+# --- ESTÉTICA LUXURY SPA (CSS AVANZADO Y BLINDAJE CONTRA MODO OSCURO) ---
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,400&display=swap');
 
+    /* Forzar esquema de color claro en cualquier celular */
+    :root {
+        color-scheme: light !important;
+    }
+
     /* Fondo general y tipografía */
-    [data-testid="stAppViewContainer"] {
-        background: linear-gradient(180deg, #F9F7F3 0%, #F1ECE3 100%);
+    [data-testid="stAppViewContainer"], .stApp {
+        background: linear-gradient(180deg, #F9F7F3 0%, #F1ECE3 100%) !important;
         font-family: 'Montserrat', sans-serif;
-        color: #2C362B;
+        color: #2C362B !important;
     }
 
     /* Ocultar barra superior y pie de página de Streamlit */
@@ -32,7 +38,7 @@ st.markdown("""
     /* Contenedor principal */
     .block-container {
         padding-top: 1.5rem;
-        padding-bottom: 3rem;
+        padding-bottom: 2.5rem;
         max-width: 720px;
     }
 
@@ -55,6 +61,13 @@ st.markdown("""
         text-align: center;
         text-transform: uppercase;
         letter-spacing: 2px;
+        margin-bottom: 6px;
+    }
+    .brand-location {
+        font-size: 12.5px;
+        color: #8C734B;
+        text-align: center;
+        font-weight: 500;
         margin-bottom: 18px;
     }
     .section-title {
@@ -70,7 +83,6 @@ st.markdown("""
     }
 
     /* --- MENÚ DE NAVEGACIÓN RESPONSIVO (BOTONES) --- */
-    /* Botón Activo (Primary) */
     div[data-testid="stButton"] button[kind="primary"] {
         background: linear-gradient(135deg, #2C3A2E 0%, #3B4D3E 100%) !important;
         color: #FFFFFF !important;
@@ -84,7 +96,6 @@ st.markdown("""
         transition: all 0.25s ease !important;
     }
 
-    /* Botones Inactivos (Secondary) */
     div[data-testid="stButton"] button[kind="secondary"] {
         background-color: #FFFFFF !important;
         color: #2C3A2E !important;
@@ -105,7 +116,7 @@ st.markdown("""
 
     /* Estilo de tarjetas (contenedores con borde) */
     [data-testid="stVerticalBlockBorderWrapper"] {
-        background-color: #FFFFFF;
+        background-color: #FFFFFF !important;
         border-radius: 18px !important;
         border: 1px solid #EAE4D8 !important;
         box-shadow: 0 10px 30px rgba(44, 58, 46, 0.05) !important;
@@ -113,8 +124,8 @@ st.markdown("""
         margin-bottom: 18px !important;
     }
 
-    /* Inputs de texto */
-    .stTextInput label {
+    /* Inputs de texto y Multiselect */
+    .stTextInput label, .stMultiSelect label {
         font-size: 13px !important;
         font-weight: 600 !important;
         color: #3B4D3E !important;
@@ -126,27 +137,32 @@ st.markdown("""
         padding: 12px 14px !important;
         font-size: 14px !important;
         color: #2C362B !important;
-        transition: all 0.25s ease;
     }
     .stTextInput > div > div > input:focus {
         border-color: #C5A880 !important;
         box-shadow: 0 0 0 2px rgba(197, 168, 128, 0.2) !important;
         background-color: #FFFFFF !important;
     }
+    div[data-baseweb="select"] > div {
+        background-color: #FAF9F6 !important;
+        border-radius: 10px !important;
+        border: 1px solid #DDD6C8 !important;
+        color: #2C362B !important;
+    }
 
     /* Opciones de Radio estilo tarjetas interactivas */
     div[role="radiogroup"] > label {
-        background-color: #FAF9F6;
-        border: 1px solid #EAE4D8;
-        border-radius: 12px;
+        background-color: #FAF9F6 !important;
+        border: 1px solid #EAE4D8 !important;
+        border-radius: 12px !important;
         padding: 14px 16px !important;
         margin-bottom: 10px !important;
         transition: all 0.25s ease;
         cursor: pointer;
     }
     div[role="radiogroup"] > label:hover {
-        border-color: #C5A880;
-        background-color: #FFFFFF;
+        border-color: #C5A880 !important;
+        background-color: #FFFFFF !important;
         transform: translateY(-1px);
         box-shadow: 0 4px 12px rgba(197, 168, 128, 0.12);
     }
@@ -154,6 +170,17 @@ st.markdown("""
         font-size: 14px !important;
         color: #2C362B !important;
         line-height: 1.45;
+    }
+
+    /* Expander (Acceso Propietaria) legible en modo oscuro */
+    [data-testid="stExpander"] {
+        background-color: #FFFFFF !important;
+        border-radius: 12px !important;
+        border: 1px solid #EAE4D8 !important;
+    }
+    [data-testid="stExpander"] summary p {
+        color: #2C3A2E !important;
+        font-weight: 600 !important;
     }
 
     /* Tarjeta de Resultado de Diagnóstico */
@@ -189,7 +216,7 @@ st.markdown("""
         font-size: 14.5px;
         color: #4A5249;
         line-height: 1.65;
-        margin-bottom: 0;
+        margin-bottom: 10px;
     }
 
     /* Tarjetas de Servicios y Fundadora */
@@ -206,7 +233,15 @@ st.markdown("""
         font-size: 18px;
         font-weight: 600;
         color: #2C3A2E;
-        margin-bottom: 6px;
+        margin-bottom: 4px;
+    }
+    .service-meta {
+        font-size: 11.5px;
+        font-weight: 600;
+        color: #8C734B;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 8px;
     }
     .service-text {
         font-size: 13.5px;
@@ -244,7 +279,7 @@ st.markdown("""
         margin: 0;
     }
 
-    /* Botón de WhatsApp */
+    /* Botón de WhatsApp y Redes Sociales */
     .wa-btn {
         background: linear-gradient(135deg, #25D366 0%, #1DA851 100%);
         color: white !important;
@@ -261,6 +296,25 @@ st.markdown("""
     .wa-btn:hover {
         transform: translateY(-2px);
         box-shadow: 0 12px 25px rgba(37, 211, 102, 0.38);
+    }
+    .social-btn {
+        background-color: #FFFFFF;
+        color: #2C3A2E !important;
+        border: 1px solid #DFD3C0;
+        padding: 9px 18px;
+        border-radius: 30px;
+        text-decoration: none !important;
+        font-size: 13px;
+        font-weight: 600;
+        margin: 4px 6px;
+        display: inline-block;
+        box-shadow: 0 3px 10px rgba(44, 58, 46, 0.05);
+        transition: all 0.25s ease;
+    }
+    .social-btn:hover {
+        border-color: #C5A880;
+        background-color: #FAF6F0;
+        transform: translateY(-1px);
     }
 
     /* Línea divisora elegante */
@@ -298,8 +352,9 @@ with col2:
 
 st.markdown("<div class='brand-title'>Priskah_m</div>", unsafe_allow_html=True)
 st.markdown("<div class='brand-subtitle'>Masajes y Cabellos con Recuperación Capilar</div>", unsafe_allow_html=True)
+st.markdown("<div class='brand-location'>📍 Turrúcares, Alajuela • Atención personalizada con cita previa</div>", unsafe_allow_html=True)
 
-# --- MENÚ PRINCIPAL DE NAVEGACIÓN (SE ADAPTA AL CELULAR SIN CORTARSE) ---
+# --- MENÚ PRINCIPAL DE NAVEGACIÓN ---
 nav1, nav2, nav3 = st.columns(3)
 with nav1:
     st.button(
@@ -333,17 +388,17 @@ st.markdown("<hr class='gold-divider'>", unsafe_allow_html=True)
 # ==========================================
 if st.session_state.pagina_activa == "diagnostico":
     with st.container(border=True):
-        st.markdown("<div class='section-title'>Tus Datos</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'>1. Tus Datos</div>", unsafe_allow_html=True)
         st.markdown("<div class='section-desc'>Completa tu información para identificar tus necesidades y recomendar el protocolo ideal.</div>", unsafe_allow_html=True)
         
         c1, c2 = st.columns(2)
         with c1:
             nombre = st.text_input("Nombre completo", placeholder="Ej: María José Pérez")
         with c2:
-            telefono = st.text_input("Número de WhatsApp", placeholder="Ej: 60218458")
+            telefono = st.text_input("Número de WhatsApp (8 dígitos)", placeholder="Ej: 60218458")
 
     with st.container(border=True):
-        st.markdown("<div class='section-title'>¿Qué área deseas consentir hoy?</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'>2. ¿Qué área deseas consentir hoy?</div>", unsafe_allow_html=True)
         st.markdown("<div class='section-desc'>Elige la experiencia que mejor se adapte a lo que buscas.</div>", unsafe_allow_html=True)
         
         categoria = st.radio(
@@ -354,7 +409,7 @@ if st.session_state.pagina_activa == "diagnostico":
 
     with st.container(border=True):
         if "Corporal" in categoria:
-            st.markdown("<div class='section-title'>¿Cuál es tu objetivo o molestia principal?</div>", unsafe_allow_html=True)
+            st.markdown("<div class='section-title'>3. ¿Cuál es tu objetivo o molestia principal?</div>", unsafe_allow_html=True)
             st.markdown("<div class='section-desc'>Selecciona la opción que mejor describa cómo se siente tu cuerpo hoy.</div>", unsafe_allow_html=True)
             opcion = st.radio(
                 "Enfoque corporal",
@@ -367,8 +422,22 @@ if st.session_state.pagina_activa == "diagnostico":
                 ],
                 label_visibility="collapsed"
             )
+            
+            st.write("")
+            condiciones = st.multiselect(
+                "🩺 Valoración de Seguridad (Selecciona si presentas alguna condición actual):",
+                [
+                    "Ninguna condición especial",
+                    "Embarazo o lactancia",
+                    "Cirugía reciente (menos de 6 meses)",
+                    "Lesión muscular o articular aguda",
+                    "Problemas circulatorios severos / trombosis",
+                    "Piel sensible o alergias a aceites"
+                ],
+                default=["Ninguna condición especial"]
+            )
         else:
-            st.markdown("<div class='section-title'>¿Cómo se encuentra tu cabello actualmente?</div>", unsafe_allow_html=True)
+            st.markdown("<div class='section-title'>3. ¿Cómo se encuentra tu cabello actualmente?</div>", unsafe_allow_html=True)
             st.markdown("<div class='section-desc'>Selecciona tu necesidad capilar principal.</div>", unsafe_allow_html=True)
             opcion = st.radio(
                 "Necesidad capilar",
@@ -381,56 +450,85 @@ if st.session_state.pagina_activa == "diagnostico":
                 label_visibility="collapsed"
             )
 
+            st.write("")
+            condiciones = st.multiselect(
+                "🩺 Valoración Capilar Previa (Selecciona si aplica algún caso):",
+                [
+                    "Ninguna condición especial",
+                    "Decoloración reciente o mechas muy claras",
+                    "Cuero cabelludo sensible, irritado o con alergias",
+                    "Uso previo de henna o tintes metálicos",
+                    "Embarazo o lactancia",
+                    "Caída capilar severa"
+                ],
+                default=["Ninguna condición especial"]
+            )
+
     if st.button("✨ Descubrir mi Tratamiento Ideal", type="primary", use_container_width=True):
-        if nombre.strip() == "" or telefono.strip() == "":
-            st.warning("⚠️ Por favor, ingresa tu nombre y número de WhatsApp para ver tu diagnóstico.")
+        # Limpiar teléfono para validar que tenga al menos 8 dígitos numéricos
+        solo_digitos = re.sub(r"\D", "", telefono)
+        
+        if nombre.strip() == "" or len(solo_digitos) < 8:
+            st.warning("⚠️ Por favor, ingresa tu nombre completo y un número de WhatsApp válido (mínimo 8 dígitos).")
         else:
             if "Corporal" in categoria:
                 if "Descontracturante" in opcion:
                     tratamiento = "Masaje Descontracturante Profundo"
                     descripcion = "Enfocado en trabajar las capas profundas del músculo para liberar nudos y tensión acumulada en espalda, cuello y hombros."
+                    duracion = "⏱️ Duración estimada: 60 min • Valoración previa incluida"
                     icono = "💆‍♀️"
                 elif "Relajante" in opcion:
                     tratamiento = "Masaje Relajante Integral"
                     descripcion = "Diseñado para calmar el sistema nervioso, reducir el estrés y brindarte un descanso físico y mental profundo."
+                    duracion = "⏱️ Duración estimada: 60 min • Ambiente de aromaterapia y relax"
                     icono = "🌿"
                 elif "Deportivo" in opcion:
                     tratamiento = "Masaje Deportivo y Descarga Muscular"
                     descripcion = "Ideal para aliviar la sobrecarga física tras el ejercicio, oxigenar el tejido muscular y acelerar tu recuperación."
+                    duracion = "⏱️ Duración estimada: 60 min • Enfoque en recuperación muscular"
                     icono = "⚡"
                 elif "Drenaje" in opcion:
                     tratamiento = "Drenaje Linfático Brasileño y Retorno Venoso"
                     descripcion = "Técnica especializada para estimular el sistema linfático, favorecer la eliminación de líquidos retenidos y aliviar la pesadez en las piernas."
+                    duracion = "⏱️ Duración estimada: 60 - 75 min • Estimulación circulatoria y linfática"
                     icono = "🌊"
                 else:
                     tratamiento = "Protocolo de Moldeo: Cierre de Costillas y Marcaje Abdominal"
                     descripcion = "Técnicas manuales especializadas enfocadas en estilizar el contorno corporal y activar la circulación local."
+                    duracion = "⏱️ Duración estimada: 60 - 75 min • Valoración personalizada"
                     icono = "✨"
             else:
                 if "Nanoqueratina" in opcion:
                     tratamiento = "Nanoqueratina Capilar"
                     descripcion = "Tratamiento de reconstrucción que sella la cutícula, elimina el frizz y aporta un brillo espejo duradero."
+                    duracion = "⏱️ Duración según largo y volumen • Diagnóstico de hebra incluido"
                     icono = "✨"
                 elif "Botox" in opcion:
                     tratamiento = "Botox Capilar y Nutrición Profunda"
                     descripcion = "Devuelve la suavidad, elasticidad y vitalidad a las hebras deshidratadas o sensibilizadas."
+                    duracion = "⏱️ Duración estimada: 90 - 120 min • Hidratación intensiva"
                     icono = "💧"
                 elif "Taninoplastia" in opcion:
                     tratamiento = "Taninoplastia / Alisado Capilar"
                     descripcion = "Alisado de origen vegetal que disciplina la fibra capilar, reduce el volumen y deja el cabello sedoso y manejable."
+                    duracion = "⏱️ Duración según largo y volumen • Acabado liso y natural"
                     icono = "🍃"
                 else:
                     tratamiento = "Tratamiento de Recuperación y Acondicionamiento Capilar"
                     descripcion = "Protocolo restaurador diseñado para devolver fuerza, hidratación y salud integral a tu cabello."
+                    duracion = "⏱️ Duración estimada: 60 - 90 min • Restauración capilar"
                     icono = "🌱"
+
+            texto_condiciones = ", ".join(condiciones) if condiciones else "Ninguna reportada"
 
             # Guardar en CSV
             nuevo_registro = pd.DataFrame({
                 "Fecha": [datetime.now().strftime("%Y-%m-%d %H:%M")],
-                "Nombre": [nombre],
-                "WhatsApp": [telefono],
+                "Nombre": [nombre.strip()],
+                "WhatsApp": [solo_digitos],
                 "Área": [categoria],
                 "Selección": [opcion],
+                "Condiciones": [texto_condiciones],
                 "Recomendación": [tratamiento]
             })
             nuevo_registro.to_csv("clientes_priskah.csv", mode='a', header=False, index=False)
@@ -440,21 +538,27 @@ if st.session_state.pagina_activa == "diagnostico":
                     <div class="result-badge">✨ Tu Recomendación Personalizada</div>
                     <div class="result-title">{icono} {tratamiento}</div>
                     <p class="result-desc">{descripcion}</p>
+                    <p style="font-size: 12.5px; color: #8C734B; font-weight: 600; margin-bottom: 0;">{duracion}</p>
                 </div>
             """, unsafe_allow_html=True)
 
             mi_numero_whatsapp = "50660218458"
-            mensaje = f"Hola Priskah, soy {nombre}. Realicé el diagnóstico en tu web para {categoria}, mi resultado fue *{tratamiento}* y me gustaría agendar una cita."
+            mensaje = (
+                f"Hola Priskah, soy {nombre.strip()}. "
+                f"Realicé el diagnóstico en tu web para {categoria}. "
+                f"Mi resultado fue *{tratamiento}* (Observaciones: {texto_condiciones}) "
+                f"y me gustaría consultar disponibilidad para agendar una cita."
+            )
             mensaje_codificado = urllib.parse.quote(mensaje)
             link_whatsapp = f"https://wa.me/{mi_numero_whatsapp}?text={mensaje_codificado}"
 
             st.markdown(f"""
                 <div style="text-align: center; margin-top: 10px; margin-bottom: 15px;">
                     <a href="{link_whatsapp}" target="_blank" class="wa-btn">
-                        💬 Agendar mi cita por WhatsApp
+                        💬 Enviar mi Diagnóstico por WhatsApp
                     </a>
                     <p style="font-size: 12px; color: #8C857B; margin-top: 12px;">
-                        Tus datos han sido registrados de forma segura.
+                        Al tocar el botón, se abrirá nuestro chat directo con tu diagnóstico listo para enviar.
                     </p>
                 </div>
             """, unsafe_allow_html=True)
@@ -470,19 +574,23 @@ elif st.session_state.pagina_activa == "servicios":
         st.markdown("""
             <div class="service-item">
                 <div class="service-name">Masaje Relajante y Descontracturante</div>
-                <p class="service-text">Terapias manuales adaptadas para liberar tensión muscular profunda, aliviar contracturas y calmar el estrés físico y mental.</p>
+                <div class="service-meta">⏱️ Sesiones de 60 min • Valoración muscular inicial incluida</div>
+                <p class="service-text">Terapias manuales adaptadas para liberar tensión muscular profunda, aliviar contracturas en espalda, cuello y hombros, y calmar el estrés físico y mental.</p>
             </div>
             <div class="service-item">
                 <div class="service-name">Masaje Deportivo y Descarga Muscular</div>
-                <p class="service-text">Protocolos enfocados en la preparación y recuperación de tejidos musculares sometidos a exigencia física o entrenamiento.</p>
+                <div class="service-meta">⏱️ Sesiones de 60 min • Pre y Post Entrenamiento</div>
+                <p class="service-text">Protocolos enfocados en la preparación y recuperación de tejidos musculares sometidos a exigencia física o entrenamiento constante.</p>
             </div>
             <div class="service-item">
                 <div class="service-name">Drenaje Linfático Brasileño y Retorno Venoso</div>
-                <p class="service-text">Técnicas especializadas para favorecer el drenaje de líquidos, mejorar la circulación y aliviar la pesadez corporal.</p>
+                <div class="service-meta">⏱️ Sesiones de 60 a 75 min • Estimulación circulatoria</div>
+                <p class="service-text">Técnicas especializadas para favorecer el drenaje de líquidos retenidos, desinflamar tejidos, mejorar la circulación y aliviar la pesadez corporal.</p>
             </div>
             <div class="service-item">
                 <div class="service-name">Cierre de Costillas y Marcaje Abdominal</div>
-                <p class="service-text">Técnicas corporales especializadas orientadas al moldeo estético y el cuidado integral de la silueta.</p>
+                <div class="service-meta">⏱️ Sesiones personalizadas • Moldeo estético manual</div>
+                <p class="service-text">Técnicas corporales especializadas orientadas al moldeo estético y definición armónica de la silueta.</p>
             </div>
         """, unsafe_allow_html=True)
 
@@ -493,15 +601,18 @@ elif st.session_state.pagina_activa == "servicios":
         st.markdown("""
             <div class="service-item" style="border-left-color: #C5A880;">
                 <div class="service-name">Queratinas y Nanoqueratinas</div>
+                <div class="service-meta">✨ Sellado térmico • Cero Frizz y Brillo Espejo</div>
                 <p class="service-text">Reconstrucción y sellado de la cutícula capilar para eliminar el frizz, aportar brillo intenso y suavidad duradera.</p>
             </div>
             <div class="service-item" style="border-left-color: #C5A880;">
                 <div class="service-name">Taninoplastia y Alisados Capilares</div>
+                <div class="service-meta">🍃 Alisado progresivo • Control de volumen</div>
                 <p class="service-text">Tratamientos de alisado y disciplina capilar que respetan la estructura del cabello dejando un acabado natural y sedoso.</p>
             </div>
             <div class="service-item" style="border-left-color: #C5A880;">
                 <div class="service-name">Botox Capilar y Nutrición Profunda</div>
-                <p class="service-text">Acondicionamiento intensivo para recuperar la hidratación, elasticidad y vitalidad del cabello maltratado.</p>
+                <div class="service-meta">💧 Recuperación intensiva • Hebras sensibilizadas</div>
+                <p class="service-text">Acondicionamiento intensivo para recuperar la hidratación, elasticidad y vitalidad del cabello maltratado por calor o procesos químicos.</p>
             </div>
         """, unsafe_allow_html=True)
 
@@ -597,7 +708,27 @@ elif st.session_state.pagina_activa == "fundadora":
         </div>
     """, unsafe_allow_html=True)
 
+# --- PIE DE PÁGINA CON REDES SOCIALES OFICIALES ---
 st.markdown("<hr class='gold-divider'>", unsafe_allow_html=True)
+st.markdown("""
+    <div style="text-align: center; margin-bottom: 24px;">
+        <p style="font-family: 'Playfair Display', serif; font-size: 18px; color: #2C3A2E; margin-bottom: 10px;">
+            Síguenos en nuestras redes sociales
+        </p>
+        <a href="https://www.instagram.com/priskah_m" target="_blank" class="social-btn">
+            📸 Instagram @priskah_m
+        </a>
+        <a href="https://www.tiktok.com/@priskah_m" target="_blank" class="social-btn">
+            🎵 TikTok @priskah_m
+        </a>
+        <a href="https://wa.me/50660218458" target="_blank" class="social-btn">
+            📲 WhatsApp 6021-8458
+        </a>
+        <p style="font-size: 11.5px; color: #8C857B; margin-top: 14px;">
+            © 2026 Priskah_m • Masajes y Cabellos con Recuperación Capilar • Turrúcares, Alajuela, Costa Rica
+        </p>
+    </div>
+""", unsafe_allow_html=True)
 
 # --- PANEL DE ADMINISTRACIÓN PROTEGIDO ---
 with st.expander("🔒 Acceso Propietaria"):
@@ -608,7 +739,8 @@ with st.expander("🔒 Acceso Propietaria"):
         try:
             df_registros = pd.read_csv(
                 "clientes_priskah.csv",
-                names=["Fecha", "Nombre", "WhatsApp", "Área", "Selección", "Recomendación"]
+                names=["Fecha", "Nombre", "WhatsApp", "Área", "Selección", "Condiciones", "Recomendación"],
+                on_bad_lines="skip"
             )
             st.dataframe(df_registros, use_container_width=True)
             
