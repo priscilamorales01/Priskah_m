@@ -186,12 +186,12 @@ st.markdown("""
         margin-bottom: 18px !important;
     }
 
-    .stTextInput label, .stMultiSelect label, .stDateInput label, .stSelectbox label {
+    .stTextInput label, .stMultiSelect label, .stDateInput label, .stSelectbox label, .stNumberInput label {
         font-size: 13px !important;
         font-weight: 700 !important;
         color: #0B6638 !important;
     }
-    .stTextInput > div > div > input, .stDateInput > div > div > input {
+    .stTextInput > div > div > input, .stDateInput > div > div > input, .stNumberInput > div > div > input {
         background-color: #FBF9FC !important;
         border-radius: 10px !important;
         border: 1.5px solid #D4C4DF !important;
@@ -428,8 +428,8 @@ st.markdown("""
         flex-wrap: wrap;
     }
     .stamp-slot {
-        width: 50px;
-        height: 50px;
+        width: 52px;
+        height: 52px;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -444,6 +444,7 @@ st.markdown("""
         background: linear-gradient(135deg, #0B6638 0%, #148F50 100%);
         color: #FFFFFF;
         border: 2px solid #D4AF37;
+        box-shadow: 0 4px 10px rgba(11, 102, 56, 0.25);
     }
     .stamp-reward {
         background: linear-gradient(135deg, #6A1B7A 0%, #D4AF37 100%);
@@ -624,32 +625,32 @@ st.markdown(f"""
 PREMIOS_RULETA = [
     {
         "titulo": "🎁 Bono de ₡2,500 OFF en tu próximo Masaje en Sede Turrúcares",
-        "detalle": "Válido al adquirir tu entrada al Taller de Automasaje (₡6,000) o reservar sesión en cabina.",
+        "detalle": "Premio activado por tu compra. Aplica en tu sesión presencial en cabina Turrúcares.",
         "icono": "💆‍♀️"
     },
     {
         "titulo": "🍯 Ampolla Capilar / Sellado Nutritivo de Puntas GRATIS",
-        "detalle": "Regalo exclusivo al inscribirte al Taller o agendar tu tratamiento capilar en Turrúcares.",
+        "detalle": "Premio activado por tu compra. Canjeable en tu cita capilar o masaje en Turrúcares.",
         "icono": "✨"
     },
     {
         "titulo": "🌿 +15 Minutos Extra de Masaje Craneofacial y Cuello",
-        "detalle": "Cortesía adicional en tu próxima cita presencial por la compra de tu Taller Online.",
+        "detalle": "Premio activado por tu compra. Disfrútalo en tu próxima cita en cabina Turrúcares.",
         "icono": "🌸"
     },
     {
         "titulo": "💎 20% de Descuento en Recuperación Capilar (Colesterol y Miel)",
-        "detalle": "Descuento especial en cabina Turrúcares al participar en nuestros talleres.",
+        "detalle": "Premio activado por tu compra. Exclusivo en nuestra cabina en Turrúcares.",
         "icono": "💇‍♀️"
     },
     {
-        "titulo": "🎀 Mini Kit de Bienestar / Guía PDF de Puntos Gatillo + 1 Sello Extra",
-        "detalle": "Recibe material exclusivo de automasaje + 1 sello de regalo en tu Tarjeta de Fidelidad.",
+        "titulo": "🎀 Guía Digital de Puntos Gatillo + 1 Sello Extra de Fidelidad",
+        "detalle": "Recibe material exclusivo de automasaje + 1 sello adicional rumbo a tu 6° cita al 50% OFF.",
         "icono": "👑"
     },
     {
         "titulo": "🔥 15% OFF en Nanoqueratina, Botox Capilar o Drenaje Brasileño",
-        "detalle": "Aplica en sede Turrúcares presentando tu código ganador al reservar.",
+        "detalle": "Premio activado por tu compra. Aplica en sede Turrúcares presentando tu código ganador.",
         "icono": "🌟"
     }
 ]
@@ -717,17 +718,47 @@ def cargar_comentarios_ig():
             pass
     return comentarios
 
-def obtener_visitas_cliente(telefono_limpio):
-    try:
-        df = pd.read_csv(
-            "clientes_priskah.csv",
-            names=["Fecha", "Nombre", "WhatsApp", "Modalidad", "Fecha_Cita", "Horario", "Área", "Selección", "Condiciones", "Recomendación"],
-            on_bad_lines="skip"
-        )
-        df["WhatsApp_Str"] = df["WhatsApp"].astype(str).str.replace(r"\D", "", regex=True)
-        return int((df["WhatsApp_Str"] == telefono_limpio).sum())
-    except FileNotFoundError:
-        return 0
+# --- FUNCIONES DE CONTROL DE COMPRAS, SELLOS Y RULETA ---
+def obtener_estado_cliente(telefono_limpio):
+    """
+    Devuelve:
+    - sellos_confirmados: suma de sellos por compras reales registradas por Priskah.
+    - nombre_registrado: nombre del cliente si existe.
+    - tiene_pase_ruleta: True si compró taller/servicio con derecho a ruleta.
+    - pines_validos: lista de PINes asignados a ese cliente.
+    - ya_giro: True si ya usó su giro.
+    """
+    sellos_confirmados = 0
+    nombre_registrado = ""
+    tiene_pase_ruleta = False
+    pines_validos = []
+    ya_giro = False
+
+    if os.path.exists("compras_confirmadas.csv"):
+        try:
+            df_c = pd.read_csv("compras_confirmadas.csv", on_bad_lines="skip")
+            df_c["WhatsApp_Str"] = df_c["WhatsApp"].astype(str).str.replace(r"\D", "", regex=True)
+            df_cliente = df_c[df_c["WhatsApp_Str"] == telefono_limpio]
+            if not df_cliente.empty:
+                sellos_confirmados = int(df_cliente["Sellos_Sumados"].sum())
+                nombre_registrado = str(df_cliente.iloc[-1]["Nombre"])
+                pases = df_cliente[df_cliente["Activa_Ruleta"] == "Sí"]
+                if not pases.empty:
+                    tiene_pase_ruleta = True
+                    pines_validos = [str(p).strip() for p in pases["PIN_Ruleta"].tolist()]
+        except:
+            pass
+
+    if os.path.exists("ruleta_priskah.csv"):
+        try:
+            df_r = pd.read_csv("ruleta_priskah.csv", on_bad_lines="skip")
+            df_r["WhatsApp_Str"] = df_r["WhatsApp"].astype(str).str.replace(r"\D", "", regex=True)
+            if not df_r[df_r["WhatsApp_Str"] == telefono_limpio].empty:
+                ya_giro = True
+        except:
+            pass
+
+    return sellos_confirmados, nombre_registrado, tiene_pase_ruleta, pines_validos, ya_giro
 
 # --- CONTROL DE NAVEGACIÓN ---
 if "pagina_activa" not in st.session_state:
@@ -783,7 +814,7 @@ with nav2:
     )
 with nav3:
     st.button(
-        "🎡 Ruleta & Promos",
+        "🎡 Ruleta & Sellos",
         use_container_width=True,
         type="primary" if st.session_state.pagina_activa == "promos" else "secondary",
         on_click=cambiar_pagina,
@@ -819,7 +850,7 @@ if st.session_state.pagina_activa == "diagnostico":
                 <span class='step-circle'>1</span>
                 <h3 class='section-title'>Tus Datos y Modalidad</h3>
             </div>
-            <div class='section-desc'>Completa tus datos para crear tu recomendación y sumar sellos en tu Tarjeta de Fidelidad (5 citas = 6° al 50% OFF).</div>
+            <div class='section-desc'>Completa tus datos para crear tu recomendación. Cada tratamiento realizado suma sellos en tu Tarjeta de Fidelidad (5 tratamientos = 6° al 50% OFF).</div>
         """, unsafe_allow_html=True)
         
         c1, c2 = st.columns(2)
@@ -949,7 +980,7 @@ if st.session_state.pagina_activa == "diagnostico":
             st.warning("⚠️ Por favor, ingresa tu nombre completo y un número de WhatsApp válido (mínimo 8 dígitos).")
         else:
             if "Masajes" in categoria:
-                regalo_turrucares = "🎁 Cortesía exclusiva en Sede Turrúcares: +10 minutos de masaje craneofacial relajante + 1 sello para tu Tarjeta de Fidelidad (50% OFF en tu 6° cita)."
+                regalo_turrucares = "🎁 Cortesía exclusiva en Sede Turrúcares: +10 minutos de masaje craneofacial relajante + 1 sello para tu Tarjeta de Fidelidad al realizar tu sesión."
                 if "Descontracturante" in opcion:
                     tratamiento = "Masaje Terapéutico y Descontracturante Profundo"
                     descripcion = "Protocolo manual enfocado en liberar fascias, puntos gatillo y contracturas profundas en espalda, cuello y hombros, devolviendo ligereza inmediata."
@@ -1061,33 +1092,12 @@ if st.session_state.pagina_activa == "diagnostico":
                 </div>
             """, unsafe_allow_html=True)
 
-    # --- INVITACIÓN RÁPIDA A LA RULETA EN LA PORTADA ---
+    # --- INVITACIÓN RÁPIDA A CONSULTAR SELLOS Y RULETA ---
     with st.container(border=True):
-        st.markdown("<div class='result-badge'>🎡 Nuevo • Premios por Compra de Talleres</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-title-purple'>¿Ya giraste nuestra Ruleta de Bienestar?</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-desc'>Gira la ruleta y gana descuentos, minutos extra de masaje o regalos capilares al inscribirte en nuestros Talleres o agendar en Turrúcares.</div>", unsafe_allow_html=True)
-        st.button("🎰 Ir a Girar la Ruleta de Premios →", on_click=cambiar_pagina, args=("promos",), type="primary", use_container_width=True)
-
-    # --- RESUMEN DE COMENTARIOS DE INSTAGRAM EN LA PORTADA ---
-    with st.container(border=True):
-        st.markdown("<div class='result-badge-purple'>📸 Destacados de Instagram @priskah_m</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-title-purple' style='margin-bottom: 12px;'>Lo que comentan en nuestros posts</div>", unsafe_allow_html=True)
-        comentarios_portada = cargar_comentarios_ig()[:2]
-        col_ig1, col_ig2 = st.columns(2)
-        for idx, item in enumerate(comentarios_portada):
-            with (col_ig1 if idx == 0 else col_ig2):
-                tag_class = "ig-tag-green" if item["tipo"] == "masaje" else "ig-tag"
-                st.markdown(f"""
-                    <div class="ig-card">
-                        <div class="ig-header">
-                            <span class="ig-user">{item['usuario']}</span>
-                            <span class="{tag_class}">{item['categoria']}</span>
-                        </div>
-                        <div class="ig-comment">“{item['comentario']}”</div>
-                        <div class="ig-likes">{item['likes']}</div>
-                    </div>
-                """, unsafe_allow_html=True)
-        st.button("📸 Ver todos los comentarios de Masajes y Cabello →", on_click=cambiar_pagina, args=("resenas",), use_container_width=True)
+        st.markdown("<div class='result-badge'>🎡 Exclusivo para Clientes y Participantes de Talleres</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title-purple'>Consulta tus Sellos de Fidelidad o Activa tu Ruleta</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-desc'>¿Ya realizaste una compra de Taller o un tratamiento con nosotros? Revisa cuántos sellos llevas o ingresa tu PIN de compra para girar la ruleta de regalos.</div>", unsafe_allow_html=True)
+        st.button("🎰 Consultar mis Sellos y Girar Ruleta →", on_click=cambiar_pagina, args=("promos",), type="primary", use_container_width=True)
 
 # ==========================================
 # VISTA 2: CATÁLOGO DE SERVICIOS ORDENADO POR COLOR
@@ -1155,19 +1165,58 @@ elif st.session_state.pagina_activa == "servicios":
     """, unsafe_allow_html=True)
 
 # ==========================================
-# VISTA 3: RULETA DE PREMIOS, TALLER Y PROMOS TURRÚCARES
+# VISTA 3: CONSULTA DE SELLOS, ACTIVACIÓN DE RULETA Y TALLER
 # ==========================================
 elif st.session_state.pagina_activa == "promos":
 
-    # --- 1. RULETA DE PREMIOS POR COMPRA DE TALLERES O CITAS EN TURRÚCARES ---
+    # --- 1. CONSULTA DE SELLOS REALES DE FIDELIDAD ---
+    with st.container(border=True):
+        st.markdown("<div class='result-badge'>🖤 Control Oficial de Fidelidad</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'>Consulta tus Sellos Acumulados</div>", unsafe_allow_html=True)
+        st.markdown("""
+            <div class='section-desc'>
+                Por cada tratamiento o compra confirmada con Priskah_m sumas <strong>1 sello oficial</strong>. 
+                Al completar <strong>5 tratamientos</strong>, tu <strong>6° tratamiento tiene 50% de descuento</strong> o recibes un <strong>Kit de Belleza</strong>.
+            </div>
+        """, unsafe_allow_html=True)
+
+        tel_consulta = st.text_input("🔍 Escribe tu número de WhatsApp (8 dígitos) para ver tu tarjeta:", placeholder="Ej: 60218458", key="input_consulta_sellos")
+        
+        sellos_mostrar = 0
+        if tel_consulta.strip() != "":
+            digitos_c = re.sub(r"\D", "", tel_consulta)
+            sellos_conf, nom_c, pase_rul, _, ya_giro_c = obtener_estado_cliente(digitos_c)
+            sellos_mostrar = sellos_conf % 6
+            if sellos_conf > 0 and sellos_mostrar == 0:
+                sellos_mostrar = 5
+
+            if sellos_conf > 0:
+                faltan = max(0, 5 - sellos_mostrar)
+                st.success(f"✨ Hola **{nom_c}**: Tienes **{sellos_conf} tratamiento(s) confirmado(s)** en sistema. {'🎉 ¡Ya desbloqueaste tu 50% OFF o Kit de Belleza en tu próxima cita!' if faltan == 0 else f'Te faltan solo **{faltan} sello(s)** para tu premio.'}")
+            else:
+                st.info("Aún no tienes compras confirmadas asociadas a este número. Si ya realizaste tu pago o tratamiento, escríbenos por WhatsApp para acreditarte tu sello.")
+
+        stamps_html = "<div class='stamp-grid'>"
+        for i in range(1, 6):
+            if i <= sellos_mostrar:
+                stamps_html += f"<div class='stamp-slot stamp-filled'>🌿</div>"
+            else:
+                stamps_html += f"<div class='stamp-slot'>{i}</div>"
+        stamps_html += "<div class='stamp-slot stamp-reward' title='50% OFF o Kit de Belleza'>🎁</div></div>"
+        st.markdown(stamps_html, unsafe_allow_html=True)
+        st.markdown("<p style='text-align: center; font-size: 12.5px; color: #6A1B7A; font-weight: 700; margin-bottom: 0;'>5 Sellos Confirmados 🌿 = 6° Tratamiento al 50% OFF o Kit de Belleza 🎁</p>", unsafe_allow_html=True)
+
+    # --- 2. RULETA DE PREMIOS CON ACTIVACIÓN POR COMPRA (PIN) ---
     with st.container(border=True):
         st.markdown("""
             <div class="wheel-container">
-                <span class="result-badge-purple">🎰 Ruleta de la Suerte Priskah_m</span>
-                <div class="section-title-purple" style="font-size: 30px; margin-top: 4px;">Gira y Gana Premios con tu Taller</div>
+                <span class="result-badge-purple">🎰 Exclusivo por Compra de Taller o Tratamiento</span>
+                <div class="section-title-purple" style="font-size: 30px; margin-top: 4px;">Ruleta de Premios Priskah_m</div>
                 <p style="font-size: 13.5px; color: #333F38; margin-bottom: 10px;">
-                    Ingresa tus datos y gira la ruleta. <strong>¡Todos los giros tienen premio!</strong><br>
-                    Tu premio se activa automáticamente al <strong>inscribirte en nuestro Taller de Automasaje (₡6,000)</strong> o al realizar tu tratamiento en nuestra <strong>Sede Turrúcares</strong>.
+                    <strong>¿Cómo se activa tu giro?</strong><br>
+                    1️⃣ Realiza la compra de tu cupo al <strong>Taller de Automasaje (₡6,000)</strong> o tu tratamiento por SINPE Móvil.<br>
+                    2️⃣ Priskah activará tu número y te entregará tu <strong>PIN de Compra de 4 dígitos</strong>.<br>
+                    3️⃣ Ingresa tu WhatsApp y tu PIN abajo para desbloquear tu premio seguro.
                 </p>
                 <div class="wheel-circle">
                     <div class="wheel-center">🎁</div>
@@ -1175,78 +1224,89 @@ elif st.session_state.pagina_activa == "promos":
             </div>
         """, unsafe_allow_html=True)
 
-        r_col1, r_col2 = st.columns(2)
+        r_col1, r_col2, r_col3 = st.columns([1.2, 1, 1])
         with r_col1:
             nombre_ruleta = st.text_input("Tu nombre completo:", key="nom_rul", placeholder="Ej: Laura Morales")
         with r_col2:
             tel_ruleta = st.text_input("Tu WhatsApp (8 dígitos):", key="tel_rul", placeholder="Ej: 60218458")
+        with r_col3:
+            pin_cliente = st.text_input("🔑 PIN de Compra:", key="pin_rul", placeholder="PIN de 4 dígitos", type="password")
 
-        if st.button("🎡 ¡GIRAR LA RULETA AHORA!", type="primary", use_container_width=True):
+        if st.button("🎡 VALIDAR MI COMPRA Y GIRAR LA RULETA", type="primary", use_container_width=True):
             digitos_rul = re.sub(r"\D", "", tel_ruleta)
-            if nombre_ruleta.strip() == "" or len(digitos_rul) < 8:
-                st.warning("⚠️ Por favor escribe tu nombre y un número de WhatsApp válido (8 dígitos) para registrar tu premio.")
+            if nombre_ruleta.strip() == "" or len(digitos_rul) < 8 or pin_cliente.strip() == "":
+                st.warning("⚠️ Ingresa tu nombre, tu número de WhatsApp (8 dígitos) y el PIN de compra que te entregó Priskah.")
             else:
-                with st.spinner("🎡 Girando la ruleta de Priskah_m... ¡Mucha suerte!"):
-                    time.sleep(1.4)
-                    premio_elegido = random.choice(PREMIOS_RULETA)
-                    codigo_generado = f"PRISKA-{random.randint(1000, 9999)}"
-                    st.session_state.premio_ganado = premio_elegido
-                    st.session_state.codigo_premio = codigo_generado
+                _, _, tiene_pase, pines_cliente, ya_giro = obtener_estado_cliente(digitos_rul)
+                # Se permite girar si el cliente tiene su número activado con ese PIN, o si usa el PIN maestro de taller "1512"
+                pin_correcto = (tiene_pase and pin_cliente.strip() in pines_cliente) or (pin_cliente.strip() == "1512")
 
-                    # Guardar ganador en CSV de ruleta
-                    df_ganador = pd.DataFrame([{
-                        "Fecha": datetime.now().strftime("%Y-%m-%d %H:%M"),
-                        "Nombre": nombre_ruleta.strip(),
-                        "WhatsApp": digitos_rul,
-                        "Codigo": codigo_generado,
-                        "Premio": premio_elegido["titulo"]
-                    }])
-                    header_rul = not os.path.exists("ruleta_priskah.csv")
-                    df_ganador.to_csv("ruleta_priskah.csv", mode="a", header=header_rul, index=False)
-                st.balloons()
+                if ya_giro:
+                    st.error("⚠️ Este número de WhatsApp ya utilizó su giro de ruleta anteriormente. ¡Reclama tu premio ganado por WhatsApp!")
+                elif not pin_correcto:
+                    st.error("❌ Tu PIN o número aún no tiene una compra activada para la ruleta. Si ya pagaste tu Taller (₡6,000), solicítale tu PIN de activación a Priskah por WhatsApp.")
+                else:
+                    with st.spinner("🎡 Compra verificada... Girando la ruleta de Priskah_m..."):
+                        time.sleep(1.4)
+                        premio_elegido = random.choice(PREMIOS_RULETA)
+                        codigo_generado = f"PRISKA-{random.randint(1000, 9999)}"
+                        st.session_state.premio_ganado = premio_elegido
+                        st.session_state.codigo_premio = codigo_generado
+
+                        df_ganador = pd.DataFrame([{
+                            "Fecha": datetime.now().strftime("%Y-%m-%d %H:%M"),
+                            "Nombre": nombre_ruleta.strip(),
+                            "WhatsApp": digitos_rul,
+                            "PIN_Usado": pin_cliente.strip(),
+                            "Codigo": codigo_generado,
+                            "Premio": premio_elegido["titulo"]
+                        }])
+                        header_rul = not os.path.exists("ruleta_priskah.csv")
+                        df_ganador.to_csv("ruleta_priskah.csv", mode="a", header=header_rul, index=False)
+                    st.balloons()
 
         if st.session_state.premio_ganado is not None:
             p = st.session_state.premio_ganado
             cod = st.session_state.codigo_premio
             msg_ruleta = (
                 f"Hola Priskah, soy {nombre_ruleta.strip()}. "
-                f"¡Giré la ruleta en tu web y gané: *{p['titulo']}* con el código *{cod}*! "
-                f"Quiero inscribirme al Taller de Automasaje (₡6,000) o agendar en Turrúcares para hacer efectivo mi premio."
+                f"¡Activé mi ruleta con mi compra y gané: *{p['titulo']}* (Código: *{cod}*)! "
+                f"Quiero registrarlo para mi próxima cita en Turrúcares."
             )
             link_wa_ruleta = f"https://wa.me/50660218458?text={urllib.parse.quote(msg_ruleta)}"
 
             st.markdown(f"""
                 <div class="prize-winner-box">
                     <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: #FFE082; font-weight: 700;">
-                        🎉 ¡FELICIDADES! GANASTE ESTE PREMIO:
+                        🎉 ¡COMPRA VERIFICADA! GANASTE ESTE PREMIO:
                     </div>
                     <div style="font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; margin: 6px 0;">
                         {p['icono']} {p['titulo']}
                     </div>
-                    <div class="prize-code">CÓDIGO: {cod}</div>
+                    <div class="prize-code">CÓDIGO GANADOR: {cod}</div>
                     <p style="font-size: 13px; color: #F3E5F5; margin-bottom: 14px;">
                         {p['detalle']}
                     </p>
                     <a href="{link_wa_ruleta}" target="_blank" class="wa-btn">
-                        💬 Reclamar mi Premio + Cupo al Taller por WhatsApp
+                        💬 Enviar mi Código Ganador por WhatsApp
                     </a>
                 </div>
             """, unsafe_allow_html=True)
 
-    # --- 2. TALLER VIRTUAL DE AUTOMASAJE (15 DE DICIEMBRE) ---
+    # --- 3. TALLER VIRTUAL DE AUTOMASAJE (15 DE DICIEMBRE) ---
     with st.container(border=True):
-        link_taller = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, quiero reservar mi espacio para el Taller de Automasaje del 15 de diciembre (Inversión: ₡6,000) y activar mi premio de la ruleta.')}"
+        link_taller = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, quiero comprar mi entrada al Taller de Automasaje del 15 de diciembre (₡6,000) por SINPE Móvil y recibir mi PIN para girar la ruleta.')}"
         st.markdown("<div class='result-badge-purple'>💻 Evento Especial En Vivo • Zoom Online</div>", unsafe_allow_html=True)
         st.markdown("<div class='section-title-purple'>🌿 Taller de Automasaje Relajante y Descontracturante</div>", unsafe_allow_html=True)
         st.markdown("""
             <p class="service-text" style="margin-bottom: 12px;">
-                <strong>¡Libera tu tensión online en diciembre y activa tu premio de la ruleta!</strong> Aprende con <strong>Priscilla Morales</strong> técnicas profesionales para aliviar el estrés desde casa:
+                <strong>¡Al comprar tu cupo recibes tu PIN para girar la Ruleta de Premios!</strong> Aprende con <strong>Priscilla Morales</strong> técnicas profesionales para aliviar el estrés desde casa:
                 <br>• Relajación de cuello, hombros y espalda.
                 <br>• Liberación de puntos gatillo y técnicas de bienestar personal.
             </p>
             <div style="background-color: #FBF6FC; border: 1.5px solid #D4AF37; border-radius: 12px; padding: 12px 16px; margin-bottom: 14px; font-size: 13.5px; color: #4A154B;">
                 📅 <strong>Fecha:</strong> 15 de Diciembre &nbsp;|&nbsp; 🕖 <strong>Hora:</strong> 7:00 pm (Hora Local) <br>
-                ⏱️ <strong>Duración:</strong> 1.5 Horas &nbsp;|&nbsp; 💳 <strong>Inversión:</strong> ₡6,000 colones (Incluye derecho a premio de la Ruleta)
+                ⏱️ <strong>Duración:</strong> 1.5 Horas &nbsp;|&nbsp; 💳 <strong>Inversión:</strong> ₡6,000 colones (Incluye PIN para Ruleta + 1 Sello de Fidelidad)
             </div>
         """, unsafe_allow_html=True)
 
@@ -1258,41 +1318,10 @@ elif st.session_state.pagina_activa == "promos":
         st.markdown(f"""
             <div style="text-align: center; margin-top: 12px;">
                 <a href="{link_taller}" target="_blank" class="wa-btn">
-                    🎟️ Reservar mi cupo al Taller (₡6,000)
+                    🎟️ Comprar mi cupo al Taller (₡6,000) y Pedir mi PIN
                 </a>
             </div>
         """, unsafe_allow_html=True)
-
-    # --- 3. CLUB DE FIDELIDAD PRISKAH_M ---
-    with st.container(border=True):
-        st.markdown("<div class='result-badge'>🖤 Programa de Lealtad Oficial</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-title'>Club de Fidelidad Priskah_m</div>", unsafe_allow_html=True)
-        st.markdown("""
-            <div class='section-desc'>
-                <strong>¡Premiamos tu constancia!</strong> Cada <strong>5 tratamientos realizados</strong>, tu <strong>6° tratamiento tiene 50% de descuento</strong> o recibes un <strong>Kit de Belleza</strong> especial.
-            </div>
-        """, unsafe_allow_html=True)
-
-        tel_consulta = st.text_input("🔍 Ingresa tu número de WhatsApp para consultar tus sellos acumulados:", placeholder="Ej: 60218458")
-        
-        sellos_actuales = 0
-        if tel_consulta.strip() != "":
-            digitos_consulta = re.sub(r"\D", "", tel_consulta)
-            total_visitas = obtener_visitas_cliente(digitos_consulta)
-            sellos_actuales = total_visitas % 6
-            if total_visitas > 0 and sellos_actuales == 0:
-                sellos_actuales = 5
-            st.caption(f"Registros encontrados con el número {digitos_consulta}: **{total_visitas} visita(s)**.")
-
-        stamps_html = "<div class='stamp-grid'>"
-        for i in range(1, 6):
-            if i <= sellos_actuales:
-                stamps_html += f"<div class='stamp-slot stamp-filled'>🌿</div>"
-            else:
-                stamps_html += f"<div class='stamp-slot'>{i}</div>"
-        stamps_html += "<div class='stamp-slot stamp-reward' title='50% OFF o Kit de Belleza'>🎁</div></div>"
-        st.markdown(stamps_html, unsafe_allow_html=True)
-        st.markdown("<p style='text-align: center; font-size: 12.5px; color: #6A1B7A; font-weight: 700; margin-bottom: 0;'>Completa tus 5 sellos 🌿 y desbloquea tu regalo 🎁 en la 6° cita</p>", unsafe_allow_html=True)
 
     # --- 4. PROMOCIONES EXCLUSIVAS SEDE TURRÚCARES ---
     with st.container(border=True):
@@ -1479,14 +1508,91 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# --- PANEL DE ADMINISTRACIÓN: CRM + GANADORES RULETA + COMENTARIOS IG ---
-with st.expander("🔒 Acceso Propietaria (CRM, Ganadores de Ruleta y Comentarios IG)"):
+# ==============================================================================
+# PANEL DE PROPIETARIA: ACTIVAR RULETA, ACREDITAR SELLOS Y VER BASES DE DATOS
+# ==============================================================================
+with st.expander("🔒 Acceso Propietaria (Registrar Compras, Activar Ruleta y Sellos)"):
     password_ingresada = st.text_input("Contraseña de administración:", type="password")
     
     if password_ingresada == "Priskah2026*":
-        st.success("Acceso concedido al panel administrativo de Priskah_m.")
+        st.success("Bienvenida Priscilla. Desde aquí controlas quién compró, cuántos sellos tiene y quién puede girar la ruleta.")
         
-        st.markdown("#### 🎡 Ganadores de la Ruleta de Talleres")
+        # --- SECCIÓN A: REGISTRAR UNA COMPRA REAL / ACTIVAR RULETA Y SELLOS ---
+        st.markdown("### 💳 1. Registrar Compra Confirmada (Acreditar Sello y Activar Ruleta)")
+        st.caption("Usa este formulario cuando una clienta ya te pagó el Taller (₡6,000) o se realizó un masaje/tratamiento capilar.")
+        with st.form("form_registrar_compra"):
+            c_col1, c_col2 = st.columns(2)
+            with c_col1:
+                comp_nombre = st.text_input("Nombre de la clienta:")
+                comp_tel = st.text_input("WhatsApp de la clienta (8 dígitos):")
+            with c_col2:
+                comp_servicio = st.selectbox(
+                    "¿Qué compró o realizó?",
+                    [
+                        "🎟️ Compra de Taller Automasaje (₡6,000)",
+                        "💆‍♀️ Sesión de Masaje Realizada",
+                        "✨ Tratamiento Capilar Realizado",
+                        "🍯 Ritual Dúo Realizado"
+                    ]
+                )
+                comp_sellos = st.number_input("Sellos de fidelidad a sumar:", min_value=1, max_value=5, value=1)
+            
+            comp_ruleta = st.selectbox("¿Habilitar giro en la Ruleta de Premios?", ["Sí", "No"])
+            pin_sugerido = str(random.randint(1000, 9999))
+            btn_guardar_compra = st.form_submit_button("✅ Guardar Compra y Generar PIN de Ruleta")
+
+            if btn_guardar_compra:
+                tel_limpio_comp = re.sub(r"\D", "", comp_tel)
+                if comp_nombre.strip() == "" or len(tel_limpio_comp) < 8:
+                    st.warning("⚠️ Ingresa el nombre y los 8 dígitos del WhatsApp de la clienta.")
+                else:
+                    nueva_compra = pd.DataFrame([{
+                        "Fecha": datetime.now().strftime("%Y-%m-%d %H:%M"),
+                        "Nombre": comp_nombre.strip(),
+                        "WhatsApp": tel_limpio_comp,
+                        "Servicio_Pagado": comp_servicio,
+                        "Sellos_Sumados": int(comp_sellos),
+                        "Activa_Ruleta": comp_ruleta,
+                        "PIN_Ruleta": pin_sugerido if comp_ruleta == "Sí" else "N/A"
+                    }])
+                    header_comp = not os.path.exists("compras_confirmadas.csv")
+                    nueva_compra.to_csv("compras_confirmadas.csv", mode="a", header=header_comp, index=False)
+                    
+                    st.success(f"✅ ¡Compra registrada! Se sumó {comp_sellos} sello(s) a {comp_nombre}. PIN de Ruleta asignado: **{pin_sugerido}**")
+                    
+                    # Botón directo para enviarle a la clienta su confirmación y PIN por WhatsApp
+                    msg_confirmacion = (
+                        f"¡Hola {comp_nombre.strip()}! 🌿 Muchas gracias por tu compra en *Priskah_m* ({comp_servicio}).\n\n"
+                        f"✅ Ya sumamos *{comp_sellos} sello(s)* a tu Tarjeta de Fidelidad.\n"
+                        f"🎰 Tu PIN personal para girar la *Ruleta de Premios* en nuestra web es: *{pin_sugerido}*\n\n"
+                        f"Entra aquí a la pestaña '🎡 Ruleta & Sellos' para ver tus sellos y descubrir tu premio: https://priskahm.streamlit.app/"
+                    )
+                    link_enviar_pin = f"https://wa.me/506{tel_limpio_comp}?text={urllib.parse.quote(msg_confirmacion)}"
+                    st.markdown(f"[📲 **Toca aquí para enviarle el PIN y sus sellos a {comp_nombre} por WhatsApp**]({link_enviar_pin})")
+
+        st.write("---")
+        # --- SECCIÓN B: TABLA DE COMPRAS Y SELLOS REALES ---
+        st.markdown("### 🏆 2. Control de Clientes con Compras Reales y Sellos Acumulados")
+        if os.path.exists("compras_confirmadas.csv"):
+            df_compras = pd.read_csv("compras_confirmadas.csv", on_bad_lines="skip")
+            resumen_real = (
+                df_compras.groupby(["WhatsApp", "Nombre"])["Sellos_Sumados"]
+                .sum()
+                .reset_index(name="Total_Sellos_Confirmados")
+                .sort_values(by="Total_Sellos_Confirmados", ascending=False)
+            )
+            resumen_real["Estado_Premio_6ta_Cita"] = resumen_real["Total_Sellos_Confirmados"].apply(
+                lambda s: "🎁 ¡TIENE 50% OFF O KIT DISPONIBLE!" if s >= 5 and s % 5 == 0 else f"Lleva {s % 5}/5 sellos"
+            )
+            st.dataframe(resumen_real, use_container_width=True)
+            with st.expander("Ver detalle de cada pago registrado y PINes generados"):
+                st.dataframe(df_compras, use_container_width=True)
+        else:
+            st.info("Aún no has registrado compras confirmadas.")
+
+        st.write("---")
+        # --- SECCIÓN C: GANADORES DE LA RULETA ---
+        st.markdown("### 🎡 3. Registro de Premios Ganados en la Ruleta")
         if os.path.exists("ruleta_priskah.csv"):
             df_rul = pd.read_csv("ruleta_priskah.csv", on_bad_lines="skip")
             st.dataframe(df_rul, use_container_width=True)
@@ -1494,7 +1600,28 @@ with st.expander("🔒 Acceso Propietaria (CRM, Ganadores de Ruleta y Comentario
             st.info("Aún no se han registrado giros en la ruleta.")
 
         st.write("---")
-        st.markdown("#### 📸 Agregar un nuevo comentario desde tu Instagram `@priskah_m`")
+        # --- SECCIÓN D: PROSPECTOS QUE HICIERON EL DIAGNÓSTICO ---
+        st.markdown("### 📋 4. Personas que llenaron el Diagnóstico en la Web (Prospectos)")
+        if os.path.exists("clientes_priskah.csv"):
+            df_registros = pd.read_csv(
+                "clientes_priskah.csv",
+                names=["Fecha", "Nombre", "WhatsApp", "Modalidad", "Fecha_Cita", "Horario", "Área", "Selección", "Condiciones", "Recomendación"],
+                on_bad_lines="skip"
+            )
+            st.dataframe(df_registros, use_container_width=True)
+            csv_data = df_registros.to_csv(index=False).encode('utf-8')
+            st.download_button(
+                label="📥 Descargar base de datos en CSV / Excel",
+                data=csv_data,
+                file_name="clientes_priskah.csv",
+                mime="text/csv"
+            )
+        else:
+            st.info("Aún no hay diagnósticos registrados.")
+
+        st.write("---")
+        # --- SECCIÓN E: PUBLICAR COMENTARIOS DE INSTAGRAM ---
+        st.markdown("### 📸 5. Agregar comentario desde tu Instagram `@priskah_m`")
         with st.form("form_nuevo_comentario_ig"):
             ig_user = st.text_input("Usuario o título del Post (Ej: @maria_cr • Post de Nanoqueratina)")
             ig_cat = st.text_input("Tratamiento mencionado (Ej: ✨ Nanoqueratina / 💆‍♀️ Masaje Descontracturante)")
@@ -1511,39 +1638,6 @@ with st.expander("🔒 Acceso Propietaria (CRM, Ganadores de Ruleta y Comentario
                 }])
                 header_ig = not os.path.exists("comentarios_ig.csv")
                 nuevo_ig.to_csv("comentarios_ig.csv", mode="a", header=header_ig, index=False)
-                st.success("¡Comentario publicado! Ya aparece en la pestaña '📸 Reseñas IG' y en la portada.")
-
-        st.write("---")
-        try:
-            df_registros = pd.read_csv(
-                "clientes_priskah.csv",
-                names=["Fecha", "Nombre", "WhatsApp", "Modalidad", "Fecha_Cita", "Horario", "Área", "Selección", "Condiciones", "Recomendación"],
-                on_bad_lines="skip"
-            )
-            
-            st.markdown("#### 🏆 Control de Fidelidad por Cliente (Cada 5 citas = 6° al 50% OFF)")
-            resumen_fidelidad = (
-                df_registros.groupby(["WhatsApp", "Nombre"])
-                .size()
-                .reset_index(name="Total_Diagnosticos_Citas")
-                .sort_values(by="Total_Diagnosticos_Citas", ascending=False)
-            )
-            resumen_fidelidad["Estado_Premio"] = resumen_fidelidad["Total_Diagnosticos_Citas"].apply(
-                lambda x: "🎁 ¡PREMIO DISPONIBLE (6° Cita)!" if x >= 5 and x % 5 == 0 else f"Lleva {x % 5}/5 sellos"
-            )
-            st.dataframe(resumen_fidelidad, use_container_width=True)
-
-            st.markdown("#### 📋 Historial Completo de Diagnósticos y Citas")
-            st.dataframe(df_registros, use_container_width=True)
-            
-            csv_data = df_registros.to_csv(index=False).encode('utf-8')
-            st.download_button(
-                label="📥 Descargar base de datos en CSV / Excel",
-                data=csv_data,
-                file_name="clientes_priskah.csv",
-                mime="text/csv"
-            )
-        except FileNotFoundError:
-            st.info("Aún no hay registros guardados en el sistema.")
+                st.success("¡Comentario publicado!")
     elif password_ingresada != "":
         st.error("❌ Contraseña incorrecta.")
