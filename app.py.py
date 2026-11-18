@@ -4,6 +4,8 @@ from datetime import datetime, date
 import urllib.parse
 import re
 import os
+import random
+import time
 
 # 1. Configurar la página
 st.set_page_config(
@@ -22,7 +24,6 @@ st.markdown("""
         color-scheme: light !important;
     }
 
-    /* Fondo limpio con degradado suave crema/lavanda/esmeralda muy sutil */
     [data-testid="stAppViewContainer"], .stApp {
         background: linear-gradient(160deg, #FDFBF7 0%, #F6F0F8 50%, #EEF6F1 100%) !important;
         font-family: 'Plus Jakarta Sans', sans-serif;
@@ -140,7 +141,7 @@ st.markdown("""
         font-size: 26px;
         font-weight: 700;
         color: #6A1B7A;
-        margin: 0;
+        margin-bottom: 4px;
     }
     .section-desc {
         font-size: 13px;
@@ -149,7 +150,7 @@ st.markdown("""
         line-height: 1.5;
     }
 
-    /* --- MENÚ DE NAVEGACIÓN COLORIDO Y ORDENADO --- */
+    /* --- MENÚ DE NAVEGACIÓN --- */
     div[data-testid="stButton"] button[kind="primary"] {
         background: linear-gradient(135deg, #0B6638 0%, #6A1B7A 100%) !important;
         color: #FFFFFF !important;
@@ -176,7 +177,6 @@ st.markdown("""
         border-color: #6A1B7A !important;
     }
 
-    /* --- TARJETAS CON BORDE DEFINIDO --- */
     [data-testid="stVerticalBlockBorderWrapper"] {
         background-color: #FFFFFF !important;
         border-radius: 20px !important;
@@ -186,7 +186,6 @@ st.markdown("""
         margin-bottom: 18px !important;
     }
 
-    /* Inputs y Selectores */
     .stTextInput label, .stMultiSelect label, .stDateInput label, .stSelectbox label {
         font-size: 13px !important;
         font-weight: 700 !important;
@@ -205,7 +204,6 @@ st.markdown("""
         color: #1E2923 !important;
     }
 
-    /* Opciones de Radio interactivas */
     div[role="radiogroup"] > label {
         background-color: #FAFDFB !important;
         border: 1.5px solid #D5E6DC !important;
@@ -225,7 +223,6 @@ st.markdown("""
         font-weight: 600 !important;
     }
 
-    /* Expander */
     [data-testid="stExpander"] {
         background-color: #FFFFFF !important;
         border-radius: 14px !important;
@@ -236,6 +233,70 @@ st.markdown("""
         color: #6A1B7A !important;
         font-weight: 700 !important;
         font-size: 14px !important;
+    }
+
+    /* --- RULETA VISUAL PRISKAH_M --- */
+    .wheel-container {
+        background: radial-gradient(circle, #FFFDF9 0%, #F7ECF9 60%, #E8F5E9 100%);
+        border: 3px solid #D4AF37;
+        border-radius: 22px;
+        padding: 22px;
+        text-align: center;
+        box-shadow: 0 12px 30px rgba(106, 27, 122, 0.12);
+        margin-bottom: 16px;
+    }
+    .wheel-circle {
+        width: 150px;
+        height: 150px;
+        margin: 10px auto 14px auto;
+        border-radius: 50%;
+        border: 6px solid #D4AF37;
+        background: conic-gradient(
+            #0B6638 0deg 60deg,
+            #6A1B7A 60deg 120deg,
+            #B8860B 120deg 180deg,
+            #0B6638 180deg 240deg,
+            #6A1B7A 240deg 300deg,
+            #B8860B 300deg 360deg
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.18);
+    }
+    .wheel-center {
+        width: 68px;
+        height: 68px;
+        background-color: #FFFFFF;
+        border: 3px solid #D4AF37;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .prize-winner-box {
+        background: linear-gradient(135deg, #6A1B7A 0%, #0B6638 100%);
+        color: #FFFFFF;
+        border: 2.5px solid #D4AF37;
+        border-radius: 18px;
+        padding: 22px;
+        text-align: center;
+        margin-top: 14px;
+        box-shadow: 0 12px 28px rgba(106, 27, 122, 0.25);
+    }
+    .prize-code {
+        display: inline-block;
+        background-color: #FFF8E7;
+        color: #4A154B;
+        font-weight: 800;
+        font-size: 16px;
+        letter-spacing: 1.5px;
+        padding: 6px 18px;
+        border-radius: 10px;
+        border: 2px dashed #D4AF37;
+        margin: 10px 0;
     }
 
     /* --- TARJETA DE RESULTADO CERTIFICADO --- */
@@ -296,7 +357,6 @@ st.markdown("""
         margin-top: 10px;
     }
 
-    /* Bono Turrúcares */
     .turrucares-bonus {
         background: linear-gradient(135deg, #0B6638 0%, #6A1B7A 100%);
         color: #FFFFFF;
@@ -560,7 +620,41 @@ st.markdown(f"""
     </a>
 """, unsafe_allow_html=True)
 
-# --- RESEÑAS BASE DE INSTAGRAM (@priskah_m) + RESEÑAS NUEVAS QUE AGREGUES ---
+# --- LISTA DE PREMIOS DE LA RULETA PRISKAH_M ---
+PREMIOS_RULETA = [
+    {
+        "titulo": "🎁 Bono de ₡2,500 OFF en tu próximo Masaje en Sede Turrúcares",
+        "detalle": "Válido al adquirir tu entrada al Taller de Automasaje (₡6,000) o reservar sesión en cabina.",
+        "icono": "💆‍♀️"
+    },
+    {
+        "titulo": "🍯 Ampolla Capilar / Sellado Nutritivo de Puntas GRATIS",
+        "detalle": "Regalo exclusivo al inscribirte al Taller o agendar tu tratamiento capilar en Turrúcares.",
+        "icono": "✨"
+    },
+    {
+        "titulo": "🌿 +15 Minutos Extra de Masaje Craneofacial y Cuello",
+        "detalle": "Cortesía adicional en tu próxima cita presencial por la compra de tu Taller Online.",
+        "icono": "🌸"
+    },
+    {
+        "titulo": "💎 20% de Descuento en Recuperación Capilar (Colesterol y Miel)",
+        "detalle": "Descuento especial en cabina Turrúcares al participar en nuestros talleres.",
+        "icono": "💇‍♀️"
+    },
+    {
+        "titulo": "🎀 Mini Kit de Bienestar / Guía PDF de Puntos Gatillo + 1 Sello Extra",
+        "detalle": "Recibe material exclusivo de automasaje + 1 sello de regalo en tu Tarjeta de Fidelidad.",
+        "icono": "👑"
+    },
+    {
+        "titulo": "🔥 15% OFF en Nanoqueratina, Botox Capilar o Drenaje Brasileño",
+        "detalle": "Aplica en sede Turrúcares presentando tu código ganador al reservar.",
+        "icono": "🌟"
+    }
+]
+
+# --- RESEÑAS BASE DE INSTAGRAM (@priskah_m) ---
 COMENTARIOS_IG_DEFAULT = [
     {
         "usuario": "@cliente_verificada • Post de Masajes",
@@ -635,9 +729,13 @@ def obtener_visitas_cliente(telefono_limpio):
     except FileNotFoundError:
         return 0
 
-# --- CONTROL DE NAVEGACIÓN (5 SECCIONES BIEN ORDENADAS) ---
+# --- CONTROL DE NAVEGACIÓN ---
 if "pagina_activa" not in st.session_state:
     st.session_state.pagina_activa = "diagnostico"
+if "premio_ganado" not in st.session_state:
+    st.session_state.premio_ganado = None
+if "codigo_premio" not in st.session_state:
+    st.session_state.codigo_premio = None
 
 def cambiar_pagina(nombre_pagina):
     st.session_state.pagina_activa = nombre_pagina
@@ -685,7 +783,7 @@ with nav2:
     )
 with nav3:
     st.button(
-        "🎁 Promos",
+        "🎡 Ruleta & Promos",
         use_container_width=True,
         type="primary" if st.session_state.pagina_activa == "promos" else "secondary",
         on_click=cambiar_pagina,
@@ -963,6 +1061,13 @@ if st.session_state.pagina_activa == "diagnostico":
                 </div>
             """, unsafe_allow_html=True)
 
+    # --- INVITACIÓN RÁPIDA A LA RULETA EN LA PORTADA ---
+    with st.container(border=True):
+        st.markdown("<div class='result-badge'>🎡 Nuevo • Premios por Compra de Talleres</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title-purple'>¿Ya giraste nuestra Ruleta de Bienestar?</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-desc'>Gira la ruleta y gana descuentos, minutos extra de masaje o regalos capilares al inscribirte en nuestros Talleres o agendar en Turrúcares.</div>", unsafe_allow_html=True)
+        st.button("🎰 Ir a Girar la Ruleta de Premios →", on_click=cambiar_pagina, args=("promos",), type="primary", use_container_width=True)
+
     # --- RESUMEN DE COMENTARIOS DE INSTAGRAM EN LA PORTADA ---
     with st.container(border=True):
         st.markdown("<div class='result-badge-purple'>📸 Destacados de Instagram @priskah_m</div>", unsafe_allow_html=True)
@@ -1050,10 +1155,115 @@ elif st.session_state.pagina_activa == "servicios":
     """, unsafe_allow_html=True)
 
 # ==========================================
-# VISTA 3: PROMOS TURRÚCARES, CLUB DE FIDELIDAD Y TALLER
+# VISTA 3: RULETA DE PREMIOS, TALLER Y PROMOS TURRÚCARES
 # ==========================================
 elif st.session_state.pagina_activa == "promos":
-    
+
+    # --- 1. RULETA DE PREMIOS POR COMPRA DE TALLERES O CITAS EN TURRÚCARES ---
+    with st.container(border=True):
+        st.markdown("""
+            <div class="wheel-container">
+                <span class="result-badge-purple">🎰 Ruleta de la Suerte Priskah_m</span>
+                <div class="section-title-purple" style="font-size: 30px; margin-top: 4px;">Gira y Gana Premios con tu Taller</div>
+                <p style="font-size: 13.5px; color: #333F38; margin-bottom: 10px;">
+                    Ingresa tus datos y gira la ruleta. <strong>¡Todos los giros tienen premio!</strong><br>
+                    Tu premio se activa automáticamente al <strong>inscribirte en nuestro Taller de Automasaje (₡6,000)</strong> o al realizar tu tratamiento en nuestra <strong>Sede Turrúcares</strong>.
+                </p>
+                <div class="wheel-circle">
+                    <div class="wheel-center">🎁</div>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+
+        r_col1, r_col2 = st.columns(2)
+        with r_col1:
+            nombre_ruleta = st.text_input("Tu nombre completo:", key="nom_rul", placeholder="Ej: Laura Morales")
+        with r_col2:
+            tel_ruleta = st.text_input("Tu WhatsApp (8 dígitos):", key="tel_rul", placeholder="Ej: 60218458")
+
+        if st.button("🎡 ¡GIRAR LA RULETA AHORA!", type="primary", use_container_width=True):
+            digitos_rul = re.sub(r"\D", "", tel_ruleta)
+            if nombre_ruleta.strip() == "" or len(digitos_rul) < 8:
+                st.warning("⚠️ Por favor escribe tu nombre y un número de WhatsApp válido (8 dígitos) para registrar tu premio.")
+            else:
+                with st.spinner("🎡 Girando la ruleta de Priskah_m... ¡Mucha suerte!"):
+                    time.sleep(1.4)
+                    premio_elegido = random.choice(PREMIOS_RULETA)
+                    codigo_generado = f"PRISKA-{random.randint(1000, 9999)}"
+                    st.session_state.premio_ganado = premio_elegido
+                    st.session_state.codigo_premio = codigo_generado
+
+                    # Guardar ganador en CSV de ruleta
+                    df_ganador = pd.DataFrame([{
+                        "Fecha": datetime.now().strftime("%Y-%m-%d %H:%M"),
+                        "Nombre": nombre_ruleta.strip(),
+                        "WhatsApp": digitos_rul,
+                        "Codigo": codigo_generado,
+                        "Premio": premio_elegido["titulo"]
+                    }])
+                    header_rul = not os.path.exists("ruleta_priskah.csv")
+                    df_ganador.to_csv("ruleta_priskah.csv", mode="a", header=header_rul, index=False)
+                st.balloons()
+
+        if st.session_state.premio_ganado is not None:
+            p = st.session_state.premio_ganado
+            cod = st.session_state.codigo_premio
+            msg_ruleta = (
+                f"Hola Priskah, soy {nombre_ruleta.strip()}. "
+                f"¡Giré la ruleta en tu web y gané: *{p['titulo']}* con el código *{cod}*! "
+                f"Quiero inscribirme al Taller de Automasaje (₡6,000) o agendar en Turrúcares para hacer efectivo mi premio."
+            )
+            link_wa_ruleta = f"https://wa.me/50660218458?text={urllib.parse.quote(msg_ruleta)}"
+
+            st.markdown(f"""
+                <div class="prize-winner-box">
+                    <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: #FFE082; font-weight: 700;">
+                        🎉 ¡FELICIDADES! GANASTE ESTE PREMIO:
+                    </div>
+                    <div style="font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; margin: 6px 0;">
+                        {p['icono']} {p['titulo']}
+                    </div>
+                    <div class="prize-code">CÓDIGO: {cod}</div>
+                    <p style="font-size: 13px; color: #F3E5F5; margin-bottom: 14px;">
+                        {p['detalle']}
+                    </p>
+                    <a href="{link_wa_ruleta}" target="_blank" class="wa-btn">
+                        💬 Reclamar mi Premio + Cupo al Taller por WhatsApp
+                    </a>
+                </div>
+            """, unsafe_allow_html=True)
+
+    # --- 2. TALLER VIRTUAL DE AUTOMASAJE (15 DE DICIEMBRE) ---
+    with st.container(border=True):
+        link_taller = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, quiero reservar mi espacio para el Taller de Automasaje del 15 de diciembre (Inversión: ₡6,000) y activar mi premio de la ruleta.')}"
+        st.markdown("<div class='result-badge-purple'>💻 Evento Especial En Vivo • Zoom Online</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title-purple'>🌿 Taller de Automasaje Relajante y Descontracturante</div>", unsafe_allow_html=True)
+        st.markdown("""
+            <p class="service-text" style="margin-bottom: 12px;">
+                <strong>¡Libera tu tensión online en diciembre y activa tu premio de la ruleta!</strong> Aprende con <strong>Priscilla Morales</strong> técnicas profesionales para aliviar el estrés desde casa:
+                <br>• Relajación de cuello, hombros y espalda.
+                <br>• Liberación de puntos gatillo y técnicas de bienestar personal.
+            </p>
+            <div style="background-color: #FBF6FC; border: 1.5px solid #D4AF37; border-radius: 12px; padding: 12px 16px; margin-bottom: 14px; font-size: 13.5px; color: #4A154B;">
+                📅 <strong>Fecha:</strong> 15 de Diciembre &nbsp;|&nbsp; 🕖 <strong>Hora:</strong> 7:00 pm (Hora Local) <br>
+                ⏱️ <strong>Duración:</strong> 1.5 Horas &nbsp;|&nbsp; 💳 <strong>Inversión:</strong> ₡6,000 colones (Incluye derecho a premio de la Ruleta)
+            </div>
+        """, unsafe_allow_html=True)
+
+        try:
+            st.video("video_1.mp4")
+        except:
+            pass
+
+        st.markdown(f"""
+            <div style="text-align: center; margin-top: 12px;">
+                <a href="{link_taller}" target="_blank" class="wa-btn">
+                    🎟️ Reservar mi cupo al Taller (₡6,000)
+                </a>
+            </div>
+        """, unsafe_allow_html=True)
+
+    # --- 3. CLUB DE FIDELIDAD PRISKAH_M ---
     with st.container(border=True):
         st.markdown("<div class='result-badge'>🖤 Programa de Lealtad Oficial</div>", unsafe_allow_html=True)
         st.markdown("<div class='section-title'>Club de Fidelidad Priskah_m</div>", unsafe_allow_html=True)
@@ -1084,35 +1294,7 @@ elif st.session_state.pagina_activa == "promos":
         st.markdown(stamps_html, unsafe_allow_html=True)
         st.markdown("<p style='text-align: center; font-size: 12.5px; color: #6A1B7A; font-weight: 700; margin-bottom: 0;'>Completa tus 5 sellos 🌿 y desbloquea tu regalo 🎁 en la 6° cita</p>", unsafe_allow_html=True)
 
-    with st.container(border=True):
-        link_taller = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, quiero reservar mi espacio para el Taller de Automasaje del 15 de diciembre (Inversión: ₡6,000).')}"
-        st.markdown("<div class='result-badge-purple'>💻 Evento Especial En Vivo • Zoom Online</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-title-purple'>🌿 Taller de Automasaje Relajante y Descontracturante</div>", unsafe_allow_html=True)
-        st.markdown("""
-            <p class="service-text" style="margin-bottom: 12px;">
-                <strong>¡Libera tu tensión online en diciembre!</strong> Aprende con <strong>Priscilla Morales</strong> técnicas profesionales para aliviar el estrés desde casa:
-                <br>• Relajación de cuello, hombros y espalda.
-                <br>• Liberación de puntos gatillo y técnicas de bienestar personal.
-            </p>
-            <div style="background-color: #FBF6FC; border: 1.5px solid #D4AF37; border-radius: 12px; padding: 12px 16px; margin-bottom: 14px; font-size: 13.5px; color: #4A154B;">
-                📅 <strong>Fecha:</strong> 15 de Diciembre &nbsp;|&nbsp; 🕖 <strong>Hora:</strong> 7:00 pm (Hora Local) <br>
-                ⏱️ <strong>Duración:</strong> 1.5 Horas &nbsp;|&nbsp; 💳 <strong>Inversión:</strong> ₡6,000 colones
-            </div>
-        """, unsafe_allow_html=True)
-
-        try:
-            st.video("video_1.mp4")
-        except:
-            pass
-
-        st.markdown(f"""
-            <div style="text-align: center; margin-top: 12px;">
-                <a href="{link_taller}" target="_blank" class="wa-btn">
-                    🎟️ Reservar mi cupo al Taller (₡6,000)
-                </a>
-            </div>
-        """, unsafe_allow_html=True)
-
+    # --- 4. PROMOCIONES EXCLUSIVAS SEDE TURRÚCARES ---
     with st.container(border=True):
         st.markdown("<div class='result-badge'>📍 Exclusivo en Cabina • Turrúcares, Alajuela</div>", unsafe_allow_html=True)
         st.markdown("<div class='section-title'>🎁 Promociones Exclusivas en Sede Turrúcares</div>", unsafe_allow_html=True)
@@ -1297,13 +1479,21 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# --- PANEL DE ADMINISTRACIÓN: CRM + PUBLICADOR DE COMENTARIOS DE INSTAGRAM ---
-with st.expander("🔒 Acceso Propietaria (CRM, Fidelidad y Comentarios de Instagram)"):
+# --- PANEL DE ADMINISTRACIÓN: CRM + GANADORES RULETA + COMENTARIOS IG ---
+with st.expander("🔒 Acceso Propietaria (CRM, Ganadores de Ruleta y Comentarios IG)"):
     password_ingresada = st.text_input("Contraseña de administración:", type="password")
     
     if password_ingresada == "Priskah2026*":
         st.success("Acceso concedido al panel administrativo de Priskah_m.")
         
+        st.markdown("#### 🎡 Ganadores de la Ruleta de Talleres")
+        if os.path.exists("ruleta_priskah.csv"):
+            df_rul = pd.read_csv("ruleta_priskah.csv", on_bad_lines="skip")
+            st.dataframe(df_rul, use_container_width=True)
+        else:
+            st.info("Aún no se han registrado giros en la ruleta.")
+
+        st.write("---")
         st.markdown("#### 📸 Agregar un nuevo comentario desde tu Instagram `@priskah_m`")
         with st.form("form_nuevo_comentario_ig"):
             ig_user = st.text_input("Usuario o título del Post (Ej: @maria_cr • Post de Nanoqueratina)")
@@ -1314,46 +1504,4 @@ with st.expander("🔒 Acceso Propietaria (CRM, Fidelidad y Comentarios de Insta
             
             if guardar_ig and ig_texto.strip() != "":
                 nuevo_ig = pd.DataFrame([{
-                    "usuario": ig_user if ig_user.strip() != "" else "@cliente_ig • Post de @priskah_m",
-                    "categoria": ig_cat if ig_cat.strip() != "" else "✨ Servicio Priskah_m",
-                    "tipo": ig_tipo,
-                    "comentario": ig_texto.strip()
-                }])
-                header_ig = not os.path.exists("comentarios_ig.csv")
-                nuevo_ig.to_csv("comentarios_ig.csv", mode="a", header=header_ig, index=False)
-                st.success("¡Comentario publicado! Ya aparece en la pestaña '📸 Reseñas IG' y en la portada.")
-
-        st.write("---")
-        try:
-            df_registros = pd.read_csv(
-                "clientes_priskah.csv",
-                names=["Fecha", "Nombre", "WhatsApp", "Modalidad", "Fecha_Cita", "Horario", "Área", "Selección", "Condiciones", "Recomendación"],
-                on_bad_lines="skip"
-            )
-            
-            st.markdown("#### 🏆 Control de Fidelidad por Cliente (Cada 5 citas = 6° al 50% OFF)")
-            resumen_fidelidad = (
-                df_registros.groupby(["WhatsApp", "Nombre"])
-                .size()
-                .reset_index(name="Total_Diagnosticos_Citas")
-                .sort_values(by="Total_Diagnosticos_Citas", ascending=False)
-            )
-            resumen_fidelidad["Estado_Premio"] = resumen_fidelidad["Total_Diagnosticos_Citas"].apply(
-                lambda x: "🎁 ¡PREMIO DISPONIBLE (6° Cita)!" if x >= 5 and x % 5 == 0 else f"Lleva {x % 5}/5 sellos"
-            )
-            st.dataframe(resumen_fidelidad, use_container_width=True)
-
-            st.markdown("#### 📋 Historial Completo de Diagnósticos y Citas")
-            st.dataframe(df_registros, use_container_width=True)
-            
-            csv_data = df_registros.to_csv(index=False).encode('utf-8')
-            st.download_button(
-                label="📥 Descargar base de datos en CSV / Excel",
-                data=csv_data,
-                file_name="clientes_priskah.csv",
-                mime="text/csv"
-            )
-        except FileNotFoundError:
-            st.info("Aún no hay registros guardados en el sistema.")
-    elif password_ingresada != "":
-        st.error("❌ Contraseña incorrecta.")
+                    "usuario": ig_user if ig_user.strip() != "" else "@cliente_ig • Post de @priskah_m
