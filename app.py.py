@@ -1504,4 +1504,46 @@ with st.expander("🔒 Acceso Propietaria (CRM, Ganadores de Ruleta y Comentario
             
             if guardar_ig and ig_texto.strip() != "":
                 nuevo_ig = pd.DataFrame([{
-                    "usuario": ig_user if ig_user.strip() != "" else "@cliente_ig • Post de @priskah_m
+                    "usuario": ig_user if ig_user.strip() != "" else "@cliente_ig • Post de @priskah_m",
+                    "categoria": ig_cat if ig_cat.strip() != "" else "✨ Servicio Priskah_m",
+                    "tipo": ig_tipo,
+                    "comentario": ig_texto.strip()
+                }])
+                header_ig = not os.path.exists("comentarios_ig.csv")
+                nuevo_ig.to_csv("comentarios_ig.csv", mode="a", header=header_ig, index=False)
+                st.success("¡Comentario publicado! Ya aparece en la pestaña '📸 Reseñas IG' y en la portada.")
+
+        st.write("---")
+        try:
+            df_registros = pd.read_csv(
+                "clientes_priskah.csv",
+                names=["Fecha", "Nombre", "WhatsApp", "Modalidad", "Fecha_Cita", "Horario", "Área", "Selección", "Condiciones", "Recomendación"],
+                on_bad_lines="skip"
+            )
+            
+            st.markdown("#### 🏆 Control de Fidelidad por Cliente (Cada 5 citas = 6° al 50% OFF)")
+            resumen_fidelidad = (
+                df_registros.groupby(["WhatsApp", "Nombre"])
+                .size()
+                .reset_index(name="Total_Diagnosticos_Citas")
+                .sort_values(by="Total_Diagnosticos_Citas", ascending=False)
+            )
+            resumen_fidelidad["Estado_Premio"] = resumen_fidelidad["Total_Diagnosticos_Citas"].apply(
+                lambda x: "🎁 ¡PREMIO DISPONIBLE (6° Cita)!" if x >= 5 and x % 5 == 0 else f"Lleva {x % 5}/5 sellos"
+            )
+            st.dataframe(resumen_fidelidad, use_container_width=True)
+
+            st.markdown("#### 📋 Historial Completo de Diagnósticos y Citas")
+            st.dataframe(df_registros, use_container_width=True)
+            
+            csv_data = df_registros.to_csv(index=False).encode('utf-8')
+            st.download_button(
+                label="📥 Descargar base de datos en CSV / Excel",
+                data=csv_data,
+                file_name="clientes_priskah.csv",
+                mime="text/csv"
+            )
+        except FileNotFoundError:
+            st.info("Aún no hay registros guardados en el sistema.")
+    elif password_ingresada != "":
+        st.error("❌ Contraseña incorrecta.")
