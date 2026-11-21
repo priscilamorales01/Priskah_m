@@ -597,6 +597,17 @@ st.markdown("""
         font-weight: 700;
         margin: 4px 4px 4px 0;
     }
+    .credential-pill-tech {
+        display: inline-block;
+        background-color: #F3E5F5;
+        color: #6A1B7A !important;
+        border: 1px solid #D4AF37;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+        margin: 4px 4px 4px 0;
+    }
     .edu-box {
         background-color: #FAFDFB;
         border: 1px solid #D5E6DC;
@@ -605,10 +616,24 @@ st.markdown("""
         padding: 12px 14px;
         margin-bottom: 10px;
     }
+    .edu-box-tech {
+        background-color: #FBF6FC;
+        border: 1px solid #E1BEE7;
+        border-left: 4px solid #6A1B7A;
+        border-radius: 12px;
+        padding: 12px 14px;
+        margin-bottom: 10px;
+    }
     .edu-title {
         font-weight: 700;
         font-size: 14px;
         color: #0B6638 !important;
+        margin-bottom: 2px;
+    }
+    .edu-title-purple {
+        font-weight: 700;
+        font-size: 14px;
+        color: #6A1B7A !important;
         margin-bottom: 2px;
     }
     .edu-sub {
@@ -892,7 +917,6 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# Botones individuales a todo el ancho para garantizar visibilidad total en teléfono
 st.button(
     "✅ 1. Diagnóstico Personalizado" if st.session_state.pagina_activa == "diagnostico" else "✨ 1. Diagnóstico Personalizado",
     key="btn_nav_1",
@@ -1604,7 +1628,7 @@ elif st.session_state.pagina_activa == "resenas":
         """, unsafe_allow_html=True)
 
 # ==========================================
-# VISTA 5: CONOCE A LA FUNDADORA
+# VISTA 5: CONOCE A LA FUNDADORA (BIENESTAR + TECNOLOGÍA & IA)
 # ==========================================
 elif st.session_state.pagina_activa == "fundadora":
     with st.container(border=True):
@@ -1617,19 +1641,41 @@ elif st.session_state.pagina_activa == "fundadora":
                 pass
             st.markdown("</div>", unsafe_allow_html=True)
 
-        st.markdown("<div style='text-align: center; margin-top: 10px;'><span class='result-badge-purple'>Perfil Profesional y Respaldo Técnico</span></div>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: center; margin-top: 10px;'><span class='result-badge-purple'>Fundadora • Especialista en Bienestar & Tecnología</span></div>", unsafe_allow_html=True)
         st.markdown("<div class='section-title' style='font-size: 32px; text-align: center; margin-bottom: 14px;'>Priscilla Morales Segura</div>", unsafe_allow_html=True)
         
         st.markdown("""
-            <p class='result-desc' style='margin-bottom: 16px;'>
-                Profesional con sólida trayectoria en entornos multinacionales y gestión empresarial, integrando competencias de <strong>servicio al cliente, planificación, control de calidad y mejora continua</strong> en cada atención personalizada.
+            <p class='result-desc' style='margin-bottom: 14px;'>
+                Profesional multidisciplinaria que fusiona el mundo de la <strong>Tecnología, la Ciencia de Datos y la Inteligencia Artificial</strong> con el <strong>Bienestar Corporal y la Recuperación Capilar</strong>.
+            </p>
+            <p class='result-desc' style='margin-bottom: 14px;'>
+                En el ámbito corporativo y tecnológico, se desempeña como <strong>Analista de Datos e Industria (Sales & CS Industry Analyst)</strong> en empresas multinacionales, con certificación oficial como <strong>Microsoft Certified: Power BI Data Analyst Associate (PL-300)</strong>, dominio de <strong>Python, SQL, automatización de procesos e Inteligencia Artificial</strong>. De hecho, <strong>Priscilla es la creadora y programadora de esta misma plataforma web interactiva</strong>, diseñada con código propio para ofrecer diagnósticos personalizados y una experiencia digital moderna a cada cliente.
             </p>
             <p class='result-desc' style='margin-bottom: 20px;'>
-                Como fundadora de <strong>Priskah_m</strong>, combina su formación académica y técnica para ofrecer un servicio exclusivamente profesional, ético y seguro en bienestar corporal y recuperación capilar, realizando siempre una valoración inicial de necesidades y aplicando estrictos protocolos de higiene y bioseguridad.
+                Paralelamente, como fundadora de <strong>Priskah_m</strong>, aplica esa misma precisión analítica, control de calidad, higiene y mejora continua en sus terapias de masaje y recuperación capilar, realizando siempre una valoración previa de necesidades y garantizando un servicio 100% profesional y ético.
             </p>
         """, unsafe_allow_html=True)
 
-        st.markdown("<div class='section-title-purple' style='font-size: 22px; margin-top: 10px; margin-bottom: 12px;'>🎓 Formación Técnica y Capacitación Profesional</div>", unsafe_allow_html=True)
+        # --- BLOQUE 1: TECNOLOGÍA, DATOS E INTELIGENCIA ARTIFICIAL ---
+        st.markdown("<div class='section-title-purple' style='font-size: 22px; margin-top: 10px; margin-bottom: 12px;'>💻 Experiencia en Tecnología, Datos e Inteligencia Artificial</div>", unsafe_allow_html=True)
+
+        st.markdown("""
+            <div class="edu-box-tech">
+                <div class="edu-title-purple">🏆 Microsoft Certified: Power BI Data Analyst Associate (PL-300)</div>
+                <p class="edu-sub">Certificación internacional en modelado de datos, Business Intelligence y analítica avanzada.</p>
+            </div>
+            <div class="edu-box-tech">
+                <div class="edu-title-purple">📊 Analista de Datos e Industria (Industry & Data Analytics)</div>
+                <p class="edu-sub">Análisis comercial global, auditoría de datos y desarrollo de soluciones estratégicas en multinacionales.</p>
+            </div>
+            <div class="edu-box-tech">
+                <div class="edu-title-purple">🤖 Desarrollo en Python, Inteligencia Artificial y Automatización</div>
+                <p class="edu-sub">Creadora de esta aplicación web en Python/Streamlit, herramientas de automatización y soluciones impulsadas por IA.</p>
+            </div>
+        """, unsafe_allow_html=True)
+
+        # --- BLOQUE 2: FORMACIÓN TÉCNICA EN MASAJES Y RECUPERACIÓN CAPILAR ---
+        st.markdown("<div class='section-title' style='font-size: 22px; margin-top: 22px; margin-bottom: 12px;'>🌿 Formación Técnica en Bienestar y Recuperación Capilar</div>", unsafe_allow_html=True)
         
         st.markdown("""
             <div class="edu-box">
@@ -1646,6 +1692,7 @@ elif st.session_state.pagina_activa == "fundadora":
             </div>
         """, unsafe_allow_html=True)
 
+        # --- BLOQUE 3: FORMACIÓN UNIVERSITARIA ---
         st.markdown("<div class='section-title' style='font-size: 22px; margin-top: 22px; margin-bottom: 12px;'>🏛️ Formación Académica Universitaria</div>", unsafe_allow_html=True)
 
         st.markdown("""
@@ -1667,14 +1714,18 @@ elif st.session_state.pagina_activa == "fundadora":
             </div>
         """, unsafe_allow_html=True)
 
-        st.markdown("<div class='section-title-purple' style='font-size: 22px; margin-top: 22px; margin-bottom: 10px;'>💎 Pilares de Atención</div>", unsafe_allow_html=True)
+        # --- INSIGNIAS DE COMPETENCIAS ---
+        st.markdown("<div class='section-title-purple' style='font-size: 22px; margin-top: 22px; margin-bottom: 10px;'>💎 Competencias y Pilares Profesionales</div>", unsafe_allow_html=True)
         
         st.markdown("""
             <div style="margin-bottom: 14px;">
-                <span class="credential-pill">✨ Atención Personalizada y Seguimiento</span>
+                <span class="credential-pill-tech">📊 Power BI (PL-300)</span>
+                <span class="credential-pill-tech">🐍 Python & Desarrollo Web</span>
+                <span class="credential-pill-tech">🤖 Inteligencia Artificial</span>
+                <span class="credential-pill-tech">📈 Análisis de Industria & Datos</span>
+                <span class="credential-pill">✨ Atención Personalizada</span>
                 <span class="credential-pill">🧼 Higiene y Bioseguridad</span>
-                <span class="credential-pill">📋 Valoración Previa de Contraindicaciones</span>
-                <span class="credential-pill">⭐ Control de Calidad y Mejora Continua</span>
+                <span class="credential-pill">📋 Valoración Clínica Previa</span>
                 <span class="credential-pill">🛡️ Servicio 100% Profesional y Terapéutico</span>
             </div>
         """, unsafe_allow_html=True)
@@ -1707,7 +1758,7 @@ st.markdown(f"""
             📲 WhatsApp 6021-8458
         </a>
         <p style="font-size: 11.5px; color: #555E58; margin-top: 14px;">
-            © 2026 Priskah_m • Turrúcares, Alajuela y Escazú • Servicio Exclusivamente Profesional y Terapéutico
+            © 2026 Priskah_m • Desarrollado por Priscilla Morales Segura • Turrúcares, Alajuela y Escazú
         </p>
     </div>
 """, unsafe_allow_html=True)
