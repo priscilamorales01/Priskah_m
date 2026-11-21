@@ -18,7 +18,7 @@ st.set_page_config(
 # --- DISEÑO VIBRANTE CON LOS COLORES DEL LOGO (ESMERALDA, PÚRPURA REAL Y DORADO) ---
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
     :root {
         color-scheme: light !important;
@@ -49,7 +49,7 @@ st.markdown("""
         padding: 22px 18px 18px 18px;
         text-align: center;
         box-shadow: 0 12px 30px rgba(106, 27, 122, 0.08);
-        margin-bottom: 16px;
+        margin-bottom: 18px;
     }
     .brand-title {
         font-family: 'Cormorant Garamond', serif;
@@ -117,49 +117,88 @@ st.markdown("""
         border: 1px solid #D4AF37;
     }
 
-    /* --- MENÚ DE NAVEGACIÓN ULTRA VISIBLE PARA MÓVIL --- */
-    .nav-container-title {
-        background: linear-gradient(90deg, #0B6638 0%, #6A1B7A 100%);
+    /* --- MENÚ DE NAVEGACIÓN GRANDE Y ATRACTIVO --- */
+    .mega-menu-banner {
+        background: linear-gradient(135deg, #0B6638 0%, #6A1B7A 100%);
         color: #FFFFFF;
         text-align: center;
-        font-size: 12px;
+        padding: 14px 16px;
+        border-radius: 18px;
+        border: 2.5px solid #D4AF37;
+        box-shadow: 0 8px 22px rgba(106, 27, 122, 0.22);
+        margin-bottom: 12px;
+    }
+    .mega-menu-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 26px;
         font-weight: 700;
         letter-spacing: 1px;
-        text-transform: uppercase;
-        padding: 6px 12px;
-        border-radius: 12px 12px 0 0;
-        border: 1.5px solid #D4AF37;
-        border-bottom: none;
+        color: #FFE082;
+        margin: 0;
+        line-height: 1.15;
     }
-    div[data-testid="stRadio"] > div[role="radiogroup"] {
-        gap: 8px;
+    .mega-menu-sub {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: #FFFFFF;
+        margin-top: 3px;
+        opacity: 0.95;
     }
 
-    /* Botones de navegación principales */
+    /* Estilizar el radio del menú como tarjetas grandes y llamativas */
+    div[data-testid="stRadio"] > div[role="radiogroup"] {
+        gap: 10px !important;
+        justify-content: center;
+    }
+    div[data-testid="stRadio"] > div[role="radiogroup"] > label {
+        background: linear-gradient(145deg, #FFFFFF 0%, #FAF6FC 100%) !important;
+        border: 2px solid #D4AF37 !important;
+        border-radius: 16px !important;
+        padding: 15px 18px !important;
+        margin-bottom: 6px !important;
+        box-shadow: 0 5px 14px rgba(106, 27, 122, 0.08) !important;
+        transition: all 0.25s ease !important;
+        cursor: pointer !important;
+        min-width: 185px;
+    }
+    div[data-testid="stRadio"] > div[role="radiogroup"] > label:hover {
+        background: linear-gradient(135deg, #F3E5F5 0%, #E8F5E9 100%) !important;
+        border-color: #6A1B7A !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 18px rgba(106, 27, 122, 0.16) !important;
+    }
+    div[data-testid="stRadio"] > div[role="radiogroup"] > label p {
+        font-size: 16px !important;
+        font-weight: 800 !important;
+        color: #1E2923 !important;
+        letter-spacing: 0.2px !important;
+    }
+
+    /* Botones de acción principales */
     div[data-testid="stButton"] button[kind="primary"] {
         background: linear-gradient(135deg, #0B6638 0%, #6A1B7A 100%) !important;
         color: #FFFFFF !important;
         border: 2px solid #D4AF37 !important;
         border-radius: 14px !important;
         font-weight: 700 !important;
-        font-size: 14px !important;
-        padding: 0.75rem 0.5rem !important;
+        font-size: 15px !important;
+        padding: 0.8rem 0.6rem !important;
         box-shadow: 0 6px 15px rgba(106, 27, 122, 0.25) !important;
     }
     div[data-testid="stButton"] button[kind="secondary"] {
         background-color: #FFFFFF !important;
-        color: #1E2923 !important;
+        color: #6A1B7A !important;
         border: 1.5px solid #D4AF37 !important;
         border-radius: 14px !important;
         font-weight: 700 !important;
-        font-size: 14px !important;
-        padding: 0.75rem 0.5rem !important;
+        font-size: 14.5px !important;
+        padding: 0.75rem 0.6rem !important;
         box-shadow: 0 3px 8px rgba(0,0,0,0.05) !important;
     }
     div[data-testid="stButton"] button[kind="secondary"]:hover {
         background-color: #F8F2FA !important;
-        color: #6A1B7A !important;
-        border-color: #6A1B7A !important;
+        color: #0B6638 !important;
+        border-color: #0B6638 !important;
     }
 
     /* --- ENCABEZADOS DE SECCIÓN ORDENADOS --- */
@@ -232,25 +271,6 @@ st.markdown("""
         border-radius: 10px !important;
         border: 1.5px solid #D4C4DF !important;
         color: #1E2923 !important;
-    }
-
-    div[role="radiogroup"] > label {
-        background-color: #FAFDFB !important;
-        border: 1.5px solid #D5E6DC !important;
-        border-radius: 12px !important;
-        padding: 13px 15px !important;
-        margin-bottom: 8px !important;
-        transition: all 0.2s ease;
-    }
-    div[role="radiogroup"] > label:hover {
-        border-color: #6A1B7A !important;
-        background-color: #FBF7FC !important;
-        transform: translateX(3px);
-    }
-    div[role="radiogroup"] p {
-        font-size: 13.8px !important;
-        color: #1E2923 !important;
-        font-weight: 600 !important;
     }
 
     [data-testid="stExpander"] {
@@ -877,8 +897,14 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# --- BARRA DE NAVEGACIÓN ULTRA VISIBLE PARA TELÉFONOS ---
-st.markdown("<div class='nav-container-title'>🧭 EXPLORA NUESTRAS SECCIONES (TOCA UNA OPCIÓN)</div>", unsafe_allow_html=True)
+# --- MENÚ GRANDE Y LLAMATIVO: MENU PARA CONOCER PRISKA ---
+st.markdown("""
+    <div class='mega-menu-banner'>
+        <div class='mega-menu-title'>✨ MENU PARA CONOCER PRISKA ✨</div>
+        <div class='mega-menu-sub'>👇 Toca cualquiera de las opciones para explorar nuestros servicios, precios, premios y trayectoria 👇</div>
+    </div>
+""", unsafe_allow_html=True)
+
 opciones_menu = [
     "✨ Diagnóstico",
     "💲 Servicios y Precios",
@@ -887,7 +913,7 @@ opciones_menu = [
     "👩‍⚕️ Fundadora"
 ]
 seleccion_menu = st.radio(
-    "Menú principal",
+    "MENU PARA CONOCER PRISKA",
     opciones_menu,
     index=opciones_menu.index(st.session_state.pagina_activa) if st.session_state.pagina_activa in opciones_menu else 0,
     horizontal=True,
@@ -1094,7 +1120,6 @@ if st.session_state.pagina_activa == "✨ Diagnóstico":
             es_turrucares = "Sede Turrúcares" in modalidad
             modalidad_corta = modalidad.split("(")[0].strip()
 
-            # Guardar en sesión para que WhatsApp e Instagram lo lleven siempre
             st.session_state.ultimo_nombre = nombre.strip()
             st.session_state.ultimo_diagnostico = tratamiento
             st.session_state.ultima_modalidad = modalidad_corta
@@ -1164,6 +1189,13 @@ if st.session_state.pagina_activa == "✨ Diagnóstico":
             with st.expander("📋 Si nos escribes por Instagram, copia aquí tu mensaje listo para pegar en el DM:"):
                 st.code(mensaje_completo, language=None)
 
+    # --- INVITACIÓN RÁPIDA A CONSULTAR SELLOS Y RULETA ---
+    with st.container(border=True):
+        st.markdown("<div class='result-badge'>🎡 Exclusivo para Clientes y Participantes de Talleres</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title-purple'>Consulta tus Sellos de Fidelidad o Activa tu Ruleta</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-desc'>¿Ya realizaste una compra de Taller o un tratamiento con nosotros? Revisa cuántos sellos llevas o ingresa tu PIN de compra para girar la ruleta de regalos.</div>", unsafe_allow_html=True)
+        st.button("🎰 Consultar mis Sellos y Girar Ruleta →", on_click=cambiar_pagina, args=("🎡 Ruleta & Sellos",), type="primary", use_container_width=True)
+
     # --- VISTA PREVIA DE TESTIMONIOS REALES EN PORTADA ---
     with st.container(border=True):
         st.markdown("<div class='result-badge-purple'>📸 Opiniones Reales de Nuestros Clientes</div>", unsafe_allow_html=True)
@@ -1200,7 +1232,6 @@ if st.session_state.pagina_activa == "✨ Diagnóstico":
 # ==========================================
 elif st.session_state.pagina_activa == "💲 Servicios y Precios":
     
-    # --- TABLA DE PRECIOS OFICIAL ---
     with st.container(border=True):
         st.markdown("<div class='result-badge'>💲 Tarifario Oficial • Sede Turrúcares</div>", unsafe_allow_html=True)
         st.markdown("<div class='section-title'>Tabla de Precios y Tarifas</div>", unsafe_allow_html=True)
@@ -1271,7 +1302,6 @@ elif st.session_state.pagina_activa == "💲 Servicios y Precios":
         """, unsafe_allow_html=True)
         st.caption("🖤 Recuerda: Al acumular 5 tratamientos realizados, tu 6° tratamiento tiene 50% de descuento o un Kit de Belleza de regalo.")
 
-    # --- DETALLE DE SERVICIOS ---
     with st.container(border=True):
         st.markdown("<div class='result-badge'>🌿 Área Corporal</div>", unsafe_allow_html=True)
         st.markdown("<div class='section-title'>💆‍♀️ Masajes Especializados y Reducción de Medidas</div>", unsafe_allow_html=True)
