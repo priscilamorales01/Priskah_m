@@ -15,19 +15,22 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# --- DISEÑO VIBRANTE MOBILE-FIRST CON CONTRASTE GARANTIZADO ---
+# --- DISEÑO VIBRANTE MOBILE-FIRST CON CONTRASTE BLINDADO CONTRA MODO OSCURO ---
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-    :root {
+    /* Bloquear el modo oscuro automático del navegador móvil */
+    html, body, [data-testid="stAppViewContainer"], .stApp {
         color-scheme: light !important;
+        background: linear-gradient(160deg, #FDFBF7 0%, #F6F0F8 50%, #EEF6F1 100%) !important;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
+        color: #1E2923 !important;
     }
 
-    [data-testid="stAppViewContainer"], .stApp {
-        background: linear-gradient(160deg, #FDFBF7 0%, #F6F0F8 50%, #EEF6F1 100%) !important;
-        font-family: 'Plus Jakarta Sans', sans-serif;
-        color: #1E2923 !important;
+    /* Forzar texto oscuro legible en todos los elementos generales */
+    p, span, label, li, div, h1, h2, h3, h4, small {
+        color: #1E2923;
     }
 
     /* Ocultar barras e insignias de Streamlit que estorban en móvil */
@@ -45,8 +48,8 @@ st.markdown("""
 
     /* --- BANNER PRINCIPAL --- */
     .hero-box {
-        background: linear-gradient(135deg, #FFFFFF 0%, #FBF8FF 50%, #F4FBF7 100%);
-        border: 2px solid #D4AF37;
+        background-color: #FFFFFF !important;
+        border: 2px solid #D4AF37 !important;
         border-radius: 24px;
         padding: 20px 16px 16px 16px;
         text-align: center;
@@ -54,28 +57,28 @@ st.markdown("""
         margin-bottom: 16px;
     }
     .brand-title {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 46px;
-        font-weight: 700;
-        color: #0B6638;
+        font-family: 'Cormorant Garamond', serif !important;
+        font-size: 46px !important;
+        font-weight: 700 !important;
+        color: #0B6638 !important;
         line-height: 1.05;
         margin-top: 6px;
         margin-bottom: 4px;
     }
     .brand-slogan {
-        font-family: 'Cormorant Garamond', serif;
+        font-family: 'Cormorant Garamond', serif !important;
         font-style: italic;
-        font-size: 18px;
-        font-weight: 600;
-        color: #6A1B7A;
+        font-size: 18px !important;
+        font-weight: 600 !important;
+        color: #6A1B7A !important;
         margin-bottom: 8px;
     }
     .brand-subtitle {
         display: inline-block;
-        background-color: #6A1B7A;
+        background-color: #6A1B7A !important;
         color: #FFFFFF !important;
-        font-size: 11px;
-        font-weight: 700;
+        font-size: 11px !important;
+        font-weight: 700 !important;
         text-transform: uppercase;
         letter-spacing: 1.5px;
         padding: 5px 14px;
@@ -84,61 +87,60 @@ st.markdown("""
     }
     .location-pill {
         display: inline-block;
-        background-color: #E8F5E9;
-        border: 1px solid #0B6638;
+        background-color: #E8F5E9 !important;
+        border: 1px solid #0B6638 !important;
         color: #0B6638 !important;
-        font-size: 12px;
-        font-weight: 700;
+        font-size: 12px !important;
+        font-weight: 700 !important;
         padding: 5px 12px;
         border-radius: 30px;
         margin: 3px;
     }
     .location-pill-purple {
         display: inline-block;
-        background-color: #F3E5F5;
-        border: 1px solid #6A1B7A;
+        background-color: #F3E5F5 !important;
+        border: 1px solid #6A1B7A !important;
         color: #6A1B7A !important;
-        font-size: 11.5px;
-        font-weight: 700;
+        font-size: 11.5px !important;
+        font-weight: 700 !important;
         padding: 5px 12px;
         border-radius: 30px;
         margin: 3px;
     }
     .ethics-badge {
-        background-color: #FFF8E7;
+        background-color: #FFF8E7 !important;
         color: #4A154B !important;
-        font-size: 11.5px;
-        font-weight: 700;
+        font-size: 11.5px !important;
+        font-weight: 700 !important;
         padding: 6px 14px;
         border-radius: 20px;
         display: inline-block;
         margin-top: 8px;
-        border: 1px solid #D4AF37;
+        border: 1px solid #D4AF37 !important;
     }
 
     /* --- ENCABEZADO DEL MENÚ --- */
     .mega-menu-banner {
-        background: linear-gradient(135deg, #0B6638 0%, #6A1B7A 100%);
-        color: #FFFFFF !important;
+        background: linear-gradient(135deg, #0B6638 0%, #6A1B7A 100%) !important;
         text-align: center;
         padding: 14px 14px;
         border-radius: 16px;
-        border: 2.5px solid #D4AF37;
+        border: 2.5px solid #D4AF37 !important;
         box-shadow: 0 6px 18px rgba(106, 27, 122, 0.22);
         margin-bottom: 12px;
     }
     .mega-menu-title {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 25px;
-        font-weight: 700;
+        font-family: 'Cormorant Garamond', serif !important;
+        font-size: 25px !important;
+        font-weight: 700 !important;
         letter-spacing: 0.8px;
         color: #FFE082 !important;
         margin: 0;
         line-height: 1.15;
     }
     .mega-menu-sub {
-        font-size: 12.5px;
-        font-weight: 600;
+        font-size: 12.5px !important;
+        font-weight: 600 !important;
         color: #FFFFFF !important;
         margin-top: 4px;
     }
@@ -152,7 +154,9 @@ st.markdown("""
         min-height: 50px !important;
         box-shadow: 0 6px 15px rgba(106, 27, 122, 0.28) !important;
     }
-    div[data-testid="stButton"] button[kind="primary"] p {
+    div[data-testid="stButton"] button[kind="primary"] *,
+    div[data-testid="stButton"] button[kind="primary"] p,
+    div[data-testid="stButton"] button[kind="primary"] span {
         color: #FFFFFF !important;
         font-size: 16px !important;
         font-weight: 800 !important;
@@ -166,7 +170,9 @@ st.markdown("""
         min-height: 48px !important;
         box-shadow: 0 3px 10px rgba(0,0,0,0.06) !important;
     }
-    div[data-testid="stButton"] button[kind="secondary"] p {
+    div[data-testid="stButton"] button[kind="secondary"] *,
+    div[data-testid="stButton"] button[kind="secondary"] p,
+    div[data-testid="stButton"] button[kind="secondary"] span {
         color: #1E2923 !important;
         font-size: 15.5px !important;
         font-weight: 700 !important;
@@ -180,7 +186,9 @@ st.markdown("""
         padding: 12px 14px !important;
         margin-bottom: 8px !important;
     }
-    div[data-testid="stRadio"] > div[role="radiogroup"] > label p {
+    div[data-testid="stRadio"] > div[role="radiogroup"] > label *,
+    div[data-testid="stRadio"] > div[role="radiogroup"] > label p,
+    div[data-testid="stRadio"] > div[role="radiogroup"] > label span {
         color: #1E2923 !important;
         font-size: 14px !important;
         font-weight: 600 !important;
@@ -196,7 +204,7 @@ st.markdown("""
         padding-bottom: 8px;
     }
     .step-circle {
-        background: linear-gradient(135deg, #0B6638 0%, #6A1B7A 100%);
+        background: linear-gradient(135deg, #0B6638 0%, #6A1B7A 100%) !important;
         color: #FFFFFF !important;
         width: 30px;
         height: 30px;
@@ -204,28 +212,28 @@ st.markdown("""
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: 14px;
-        font-weight: 700;
+        font-size: 14px !important;
+        font-weight: 700 !important;
         flex-shrink: 0;
-        border: 1.5px solid #D4AF37;
+        border: 1.5px solid #D4AF37 !important;
     }
     .section-title {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 25px;
-        font-weight: 700;
+        font-family: 'Cormorant Garamond', serif !important;
+        font-size: 25px !important;
+        font-weight: 700 !important;
         color: #0B6638 !important;
         margin: 0;
     }
     .section-title-purple {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 25px;
-        font-weight: 700;
+        font-family: 'Cormorant Garamond', serif !important;
+        font-size: 25px !important;
+        font-weight: 700 !important;
         color: #6A1B7A !important;
         margin-bottom: 4px;
     }
     .section-desc {
-        font-size: 13px;
-        color: #454F49 !important;
+        font-size: 13px !important;
+        color: #333F38 !important;
         margin-bottom: 14px;
         line-height: 1.5;
     }
@@ -240,6 +248,7 @@ st.markdown("""
         margin-bottom: 16px !important;
     }
 
+    /* Inputs, Calendario y Selectores legibles en cualquier modo */
     .stTextInput label, .stMultiSelect label, .stDateInput label, .stSelectbox label, .stNumberInput label {
         font-size: 13.5px !important;
         font-weight: 700 !important;
@@ -250,24 +259,29 @@ st.markdown("""
         border-radius: 10px !important;
         border: 1.5px solid #D4C4DF !important;
         color: #1E2923 !important;
+        -webkit-text-fill-color: #1E2923 !important;
     }
-    div[data-baseweb="select"] > div {
+    div[data-baseweb="select"] > div, div[data-baseweb="select"] span {
         background-color: #FBF9FC !important;
         border-radius: 10px !important;
-        border: 1.5px solid #D4C4DF !important;
+        border-color: #D4C4DF !important;
         color: #1E2923 !important;
     }
 
+    /* Expanders legibles */
     [data-testid="stExpander"] {
         background-color: #FFFFFF !important;
         border-radius: 14px !important;
         border: 1.5px solid #D4AF37 !important;
         margin-bottom: 10px !important;
     }
-    [data-testid="stExpander"] summary p {
+    [data-testid="stExpander"] summary *, [data-testid="stExpander"] summary p {
         color: #6A1B7A !important;
         font-weight: 700 !important;
         font-size: 14px !important;
+    }
+    [data-testid="stExpanderDetails"] p, [data-testid="stExpanderDetails"] li {
+        color: #1E2923 !important;
     }
 
     /* --- TABLA DE PRECIOS ELEGANTE --- */
@@ -275,54 +289,60 @@ st.markdown("""
         width: 100%;
         border-collapse: collapse;
         margin: 14px 0;
-        font-size: 13px;
+        font-size: 13px !important;
         border-radius: 14px;
         overflow: hidden;
         box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
     .price-table th {
-        background: linear-gradient(90deg, #0B6638 0%, #6A1B7A 100%);
+        background: linear-gradient(90deg, #0B6638 0%, #6A1B7A 100%) !important;
         color: #FFFFFF !important;
         text-align: left;
         padding: 11px 12px;
-        font-weight: 700;
+        font-weight: 700 !important;
     }
     .price-table td {
         padding: 10px 12px;
         border-bottom: 1px solid #EAE2D3;
         color: #1E2923 !important;
-        background-color: #FFFFFF;
+        background-color: #FFFFFF !important;
+    }
+    .price-table td strong {
+        color: #1E2923 !important;
     }
     .price-table tr:nth-child(even) td {
-        background-color: #FAF8FC;
+        background-color: #FAF8FC !important;
     }
     .price-tag {
-        font-weight: 800;
+        font-weight: 800 !important;
         color: #0B6638 !important;
         white-space: nowrap;
     }
     .price-tag-purple {
-        font-weight: 800;
+        font-weight: 800 !important;
         color: #6A1B7A !important;
         white-space: nowrap;
     }
 
     /* --- RULETA VISUAL PRISKAH_M --- */
     .wheel-container {
-        background: radial-gradient(circle, #FFFDF9 0%, #F7ECF9 60%, #E8F5E9 100%);
-        border: 3px solid #D4AF37;
+        background-color: #FAF5FC !important;
+        border: 3px solid #D4AF37 !important;
         border-radius: 22px;
         padding: 20px;
         text-align: center;
         box-shadow: 0 12px 30px rgba(106, 27, 122, 0.12);
         margin-bottom: 16px;
     }
+    .wheel-container p, .wheel-container strong {
+        color: #1E2923 !important;
+    }
     .wheel-circle {
         width: 140px;
         height: 140px;
         margin: 10px auto 14px auto;
         border-radius: 50%;
-        border: 6px solid #D4AF37;
+        border: 6px solid #D4AF37 !important;
         background: conic-gradient(
             #0B6638 0deg 60deg,
             #6A1B7A 60deg 120deg,
@@ -339,8 +359,8 @@ st.markdown("""
     .wheel-center {
         width: 64px;
         height: 64px;
-        background-color: #FFFFFF;
-        border: 3px solid #D4AF37;
+        background-color: #FFFFFF !important;
+        border: 3px solid #D4AF37 !important;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -348,33 +368,36 @@ st.markdown("""
         font-size: 26px;
     }
     .prize-winner-box {
-        background: linear-gradient(135deg, #6A1B7A 0%, #0B6638 100%);
+        background: linear-gradient(135deg, #6A1B7A 0%, #0B6638 100%) !important;
         color: #FFFFFF !important;
-        border: 2.5px solid #D4AF37;
+        border: 2.5px solid #D4AF37 !important;
         border-radius: 18px;
         padding: 20px;
         text-align: center;
         margin-top: 14px;
         box-shadow: 0 12px 28px rgba(106, 27, 122, 0.25);
     }
+    .prize-winner-box div, .prize-winner-box p {
+        color: #FFFFFF !important;
+    }
     .prize-code {
         display: inline-block;
-        background-color: #FFF8E7;
+        background-color: #FFF8E7 !important;
         color: #4A154B !important;
-        font-weight: 800;
-        font-size: 16px;
+        font-weight: 800 !important;
+        font-size: 16px !important;
         letter-spacing: 1.5px;
         padding: 6px 18px;
         border-radius: 10px;
-        border: 2px dashed #D4AF37;
+        border: 2px dashed #D4AF37 !important;
         margin: 10px 0;
     }
 
     /* --- TARJETA DE RESULTADO CERTIFICADO --- */
     .result-card {
-        background: linear-gradient(145deg, #FFFFFF 0%, #FAF5FC 100%);
-        border: 2px solid #D4AF37;
-        border-top: 6px solid #6A1B7A;
+        background-color: #FFFFFF !important;
+        border: 2px solid #D4AF37 !important;
+        border-top: 6px solid #6A1B7A !important;
         border-radius: 20px;
         padding: 22px;
         margin-top: 16px;
@@ -383,10 +406,10 @@ st.markdown("""
     }
     .result-badge {
         display: inline-block;
-        background-color: #0B6638;
+        background-color: #0B6638 !important;
         color: #FFFFFF !important;
-        font-size: 11px;
-        font-weight: 700;
+        font-size: 11px !important;
+        font-weight: 700 !important;
         text-transform: uppercase;
         letter-spacing: 1.2px;
         padding: 5px 14px;
@@ -395,10 +418,10 @@ st.markdown("""
     }
     .result-badge-purple {
         display: inline-block;
-        background-color: #6A1B7A;
+        background-color: #6A1B7A !important;
         color: #FFFFFF !important;
-        font-size: 11px;
-        font-weight: 700;
+        font-size: 11px !important;
+        font-weight: 700 !important;
         text-transform: uppercase;
         letter-spacing: 1.2px;
         padding: 5px 14px;
@@ -406,43 +429,52 @@ st.markdown("""
         margin-bottom: 10px;
     }
     .result-title {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 28px;
-        font-weight: 700;
+        font-family: 'Cormorant Garamond', serif !important;
+        font-size: 28px !important;
+        font-weight: 700 !important;
         color: #6A1B7A !important;
         margin-bottom: 8px;
     }
     .result-desc {
-        font-size: 14px;
-        color: #333F38 !important;
+        font-size: 14px !important;
+        color: #1E2923 !important;
         line-height: 1.6;
         margin-bottom: 12px;
     }
+    .result-desc strong {
+        color: #0B6638 !important;
+    }
     .appointment-summary {
-        background-color: #F4FBF7;
+        background-color: #F4FBF7 !important;
         border-radius: 12px;
         padding: 12px 14px;
-        font-size: 13px;
+        font-size: 13px !important;
         color: #0B6638 !important;
-        border-left: 4px solid #0B6638;
+        border-left: 4px solid #0B6638 !important;
         margin-top: 10px;
+    }
+    .appointment-summary strong {
+        color: #0B6638 !important;
     }
 
     .turrucares-bonus {
-        background: linear-gradient(135deg, #0B6638 0%, #6A1B7A 100%);
+        background: linear-gradient(135deg, #0B6638 0%, #6A1B7A 100%) !important;
         color: #FFFFFF !important;
         border-radius: 16px;
         padding: 16px 18px;
         margin-bottom: 18px;
-        border: 2px solid #D4AF37;
+        border: 2px solid #D4AF37 !important;
         box-shadow: 0 10px 24px rgba(11, 102, 56, 0.2);
+    }
+    .turrucares-bonus div {
+        color: #FFFFFF !important;
     }
 
     /* --- TARJETAS DE INSTAGRAM (@priskah_m) --- */
     .ig-card {
-        background: #FFFFFF;
-        border: 1.5px solid #E5D4EC;
-        border-top: 4px solid #C13584;
+        background-color: #FFFFFF !important;
+        border: 1.5px solid #E5D4EC !important;
+        border-top: 4px solid #C13584 !important;
         border-radius: 16px;
         padding: 15px;
         margin-bottom: 12px;
@@ -459,37 +491,37 @@ st.markdown("""
         gap: 4px;
     }
     .ig-user {
-        font-size: 13px;
-        font-weight: 700;
+        font-size: 13px !important;
+        font-weight: 700 !important;
         color: #6A1B7A !important;
     }
     .ig-tag {
-        font-size: 10.5px;
-        font-weight: 700;
-        background-color: #FCE4EC;
+        font-size: 10.5px !important;
+        font-weight: 700 !important;
+        background-color: #FCE4EC !important;
         color: #AD1457 !important;
         padding: 3px 9px;
         border-radius: 12px;
     }
     .ig-tag-green {
-        font-size: 10.5px;
-        font-weight: 700;
-        background-color: #E8F5E9;
+        font-size: 10.5px !important;
+        font-weight: 700 !important;
+        background-color: #E8F5E9 !important;
         color: #0B6638 !important;
         padding: 3px 9px;
         border-radius: 12px;
     }
     .ig-comment {
-        font-size: 13.5px;
-        color: #2E3832 !important;
+        font-size: 13.5px !important;
+        color: #1E2923 !important;
         font-style: italic;
         line-height: 1.5;
         margin-bottom: 8px;
     }
     .ig-likes {
-        font-size: 11.5px;
+        font-size: 11.5px !important;
         color: #C13584 !important;
-        font-weight: 600;
+        font-weight: 600 !important;
     }
 
     /* --- SELLOS DE FIDELIDAD --- */
@@ -507,166 +539,169 @@ st.markdown("""
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 17px;
-        font-weight: 700;
-        border: 2px dashed #D4AF37;
-        background-color: #FFFDF9;
-        color: #9E8C70 !important;
+        font-size: 17px !important;
+        font-weight: 700 !important;
+        border: 2px dashed #D4AF37 !important;
+        background-color: #FFFDF9 !important;
+        color: #6B5D47 !important;
     }
     .stamp-filled {
-        background-color: #0B6638;
+        background-color: #0B6638 !important;
         color: #FFFFFF !important;
-        border: 2px solid #D4AF37;
+        border: 2px solid #D4AF37 !important;
     }
     .stamp-reward {
-        background: linear-gradient(135deg, #6A1B7A 0%, #D4AF37 100%);
+        background: linear-gradient(135deg, #6A1B7A 0%, #D4AF37 100%) !important;
         color: #FFFFFF !important;
-        border: 2px solid #0B6638;
+        border: 2px solid #0B6638 !important;
     }
 
     /* Tarjetas de Servicios y Promociones */
     .promo-card {
-        background-color: #FDF9FF;
-        border: 1.5px solid #D4AF37;
-        border-left: 6px solid #6A1B7A;
+        background-color: #FDF9FF !important;
+        border: 1.5px solid #D4AF37 !important;
+        border-left: 6px solid #6A1B7A !important;
         border-radius: 16px;
         padding: 16px 18px;
         margin-bottom: 14px;
     }
     .promo-title {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 21px;
-        font-weight: 700;
+        font-family: 'Cormorant Garamond', serif !important;
+        font-size: 21px !important;
+        font-weight: 700 !important;
         color: #6A1B7A !important;
         margin-bottom: 4px;
     }
 
     .service-item {
-        background-color: #F6FBF8;
-        border: 1px solid #C8E6C9;
-        border-left: 5px solid #0B6638;
+        background-color: #F6FBF8 !important;
+        border: 1px solid #C8E6C9 !important;
+        border-left: 5px solid #0B6638 !important;
         border-radius: 14px;
         padding: 14px 16px;
         margin-bottom: 12px;
     }
     .service-item-hair {
-        background-color: #FBF6FC;
-        border: 1px solid #E1BEE7;
-        border-left: 5px solid #6A1B7A;
+        background-color: #FBF6FC !important;
+        border: 1px solid #E1BEE7 !important;
+        border-left: 5px solid #6A1B7A !important;
         border-radius: 14px;
         padding: 14px 16px;
         margin-bottom: 12px;
     }
     .service-name {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 20px;
-        font-weight: 700;
+        font-family: 'Cormorant Garamond', serif !important;
+        font-size: 20px !important;
+        font-weight: 700 !important;
         color: #0B6638 !important;
         margin-bottom: 2px;
     }
     .service-name-purple {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 20px;
-        font-weight: 700;
+        font-family: 'Cormorant Garamond', serif !important;
+        font-size: 20px !important;
+        font-weight: 700 !important;
         color: #6A1B7A !important;
         margin-bottom: 2px;
     }
     .service-meta {
-        font-size: 11px;
-        font-weight: 700;
-        color: #B8860B !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        color: #9A6E08 !important;
         text-transform: uppercase;
         letter-spacing: 0.8px;
         margin-bottom: 6px;
     }
     .service-text {
-        font-size: 13.5px;
-        color: #333F38 !important;
+        font-size: 13.5px !important;
+        color: #1E2923 !important;
         line-height: 1.5;
         margin: 0;
+    }
+    .service-text strong {
+        color: #1E2923 !important;
     }
 
     .credential-pill {
         display: inline-block;
-        background-color: #E8F5E9;
+        background-color: #E8F5E9 !important;
         color: #0B6638 !important;
-        border: 1px solid #D4AF37;
+        border: 1px solid #D4AF37 !important;
         padding: 6px 12px;
         border-radius: 20px;
-        font-size: 12px;
-        font-weight: 700;
+        font-size: 12px !important;
+        font-weight: 700 !important;
         margin: 4px 4px 4px 0;
     }
     .credential-pill-tech {
         display: inline-block;
-        background-color: #F3E5F5;
+        background-color: #F3E5F5 !important;
         color: #6A1B7A !important;
-        border: 1px solid #D4AF37;
+        border: 1px solid #D4AF37 !important;
         padding: 6px 12px;
         border-radius: 20px;
-        font-size: 12px;
-        font-weight: 700;
+        font-size: 12px !important;
+        font-weight: 700 !important;
         margin: 4px 4px 4px 0;
     }
     .edu-box {
-        background-color: #FAFDFB;
-        border: 1px solid #D5E6DC;
-        border-left: 4px solid #D4AF37;
+        background-color: #FAFDFB !important;
+        border: 1px solid #D5E6DC !important;
+        border-left: 4px solid #D4AF37 !important;
         border-radius: 12px;
         padding: 12px 14px;
         margin-bottom: 10px;
     }
     .edu-box-tech {
-        background-color: #FBF6FC;
-        border: 1px solid #E1BEE7;
-        border-left: 4px solid #6A1B7A;
+        background-color: #FBF6FC !important;
+        border: 1px solid #E1BEE7 !important;
+        border-left: 4px solid #6A1B7A !important;
         border-radius: 12px;
         padding: 12px 14px;
         margin-bottom: 10px;
     }
     .edu-title {
-        font-weight: 700;
-        font-size: 14px;
+        font-weight: 700 !important;
+        font-size: 14px !important;
         color: #0B6638 !important;
         margin-bottom: 2px;
     }
     .edu-title-purple {
-        font-weight: 700;
-        font-size: 14px;
+        font-weight: 700 !important;
+        font-size: 14px !important;
         color: #6A1B7A !important;
         margin-bottom: 2px;
     }
     .edu-sub {
-        font-size: 12.5px;
-        color: #555E58 !important;
+        font-size: 12.5px !important;
+        color: #333F38 !important;
         margin: 0;
     }
 
     /* Botones de WhatsApp e Instagram */
     .wa-btn {
-        background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+        background: linear-gradient(135deg, #25D366 0%, #128C7E 100%) !important;
         color: #FFFFFF !important;
         padding: 13px 22px;
         border-radius: 50px;
         text-decoration: none !important;
-        font-weight: 700;
-        font-size: 14px;
+        font-weight: 700 !important;
+        font-size: 14px !important;
         display: inline-block;
         box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
-        border: 2px solid #FFFFFF;
+        border: 2px solid #FFFFFF !important;
         margin: 4px;
     }
     .ig-btn {
-        background: linear-gradient(45deg, #F58529 0%, #DD2A7B 50%, #8134AF 100%);
+        background: linear-gradient(45deg, #F58529 0%, #DD2A7B 50%, #8134AF 100%) !important;
         color: #FFFFFF !important;
         padding: 13px 22px;
         border-radius: 50px;
         text-decoration: none !important;
-        font-weight: 700;
-        font-size: 14px;
+        font-weight: 700 !important;
+        font-size: 14px !important;
         display: inline-block;
         box-shadow: 0 6px 16px rgba(221, 42, 123, 0.25);
-        border: 2px solid #FFFFFF;
+        border: 2px solid #FFFFFF !important;
         margin: 4px;
     }
 
@@ -675,27 +710,27 @@ st.markdown("""
         position: fixed;
         bottom: 92px;
         right: 16px;
-        background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+        background: linear-gradient(135deg, #25D366 0%, #128C7E 100%) !important;
         color: #FFFFFF !important;
         padding: 12px 18px;
         border-radius: 50px;
-        font-size: 13.5px;
-        font-weight: 800;
+        font-size: 13.5px !important;
+        font-weight: 800 !important;
         text-decoration: none !important;
         box-shadow: 0 8px 25px rgba(18, 140, 126, 0.45);
         z-index: 999999 !important;
-        border: 2.5px solid #FFFFFF;
+        border: 2.5px solid #FFFFFF !important;
     }
 
     .social-btn {
-        background-color: #FFFFFF;
+        background-color: #FFFFFF !important;
         color: #6A1B7A !important;
-        border: 1.5px solid #D4AF37;
+        border: 1.5px solid #D4AF37 !important;
         padding: 8px 14px;
         border-radius: 30px;
         text-decoration: none !important;
-        font-size: 13px;
-        font-weight: 700;
+        font-size: 13px !important;
+        font-weight: 700 !important;
         margin: 4px;
         display: inline-block;
     }
@@ -1439,7 +1474,7 @@ elif st.session_state.pagina_activa == "promos":
             <div class="wheel-container">
                 <span class="result-badge-purple">🎰 Exclusivo por Compra de Taller o Tratamiento</span>
                 <div class="section-title-purple" style="font-size: 30px; margin-top: 4px;">Ruleta de Premios Priskah_m</div>
-                <p style="font-size: 13.5px; color: #333F38; margin-bottom: 10px;">
+                <p style="font-size: 13.5px; color: #1E2923; margin-bottom: 10px;">
                     <strong>¿Cómo se activa tu giro?</strong><br>
                     1️⃣ Realiza la compra de tu cupo al <strong>Taller de Automasaje (₡6,000)</strong> o tu tratamiento por SINPE Móvil.<br>
                     2️⃣ Priskah activará tu número y te entregará tu <strong>PIN de Compra de 4 dígitos</strong>.<br>
@@ -1503,14 +1538,14 @@ elif st.session_state.pagina_activa == "promos":
 
             st.markdown(f"""
                 <div class="prize-winner-box">
-                    <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: #FFE082; font-weight: 700;">
+                    <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: #FFE082 !important; font-weight: 700;">
                         🎉 ¡COMPRA VERIFICADA! GANASTE ESTE PREMIO:
                     </div>
-                    <div style="font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; margin: 6px 0;">
+                    <div style="font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; margin: 6px 0; color: #FFFFFF !important;">
                         {p['icono']} {p['titulo']}
                     </div>
                     <div class="prize-code">CÓDIGO GANADOR: {cod}</div>
-                    <p style="font-size: 13px; color: #F3E5F5; margin-bottom: 14px;">
+                    <p style="font-size: 13px; color: #FFFFFF !important; margin-bottom: 14px;">
                         {p['detalle']}
                     </p>
                     <a href="{link_wa_ruleta}" target="_blank" class="wa-btn">
@@ -1530,7 +1565,7 @@ elif st.session_state.pagina_activa == "promos":
                 <br>• Relajación de cuello, hombros y espalda.
                 <br>• Liberación de puntos gatillo y técnicas de bienestar personal.
             </p>
-            <div style="background-color: #FBF6FC; border: 1.5px solid #D4AF37; border-radius: 12px; padding: 12px 16px; margin-bottom: 14px; font-size: 13.5px; color: #4A154B;">
+            <div style="background-color: #FBF6FC; border: 1.5px solid #D4AF37; border-radius: 12px; padding: 12px 16px; margin-bottom: 14px; font-size: 13.5px; color: #4A154B !important;">
                 📅 <strong>Fecha:</strong> 15 de Diciembre &nbsp;|&nbsp; 🕖 <strong>Hora:</strong> 7:00 pm (Hora Local) <br>
                 ⏱️ <strong>Duración:</strong> 1.5 Horas &nbsp;|&nbsp; 💳 <strong>Inversión:</strong> ₡6,000 colones (Incluye PIN para Ruleta + 1 Sello de Fidelidad)
             </div>
@@ -1562,7 +1597,7 @@ elif st.session_state.pagina_activa == "promos":
                 <p class="service-text" style="margin-bottom: 10px;">
                     Combina en una misma visita en sede Turrúcares un <strong>Masaje Relajante o Descontracturante (60 min)</strong> + nuestra <strong>Recuperación Capilar con Colesterol y Miel o Botox Capilar</strong> con <strong>15% de descuento especial</strong>.
                 </p>
-                <a href="{link_p1}" target="_blank" style="color: #0B6638; font-weight: 700; font-size: 13.5px; text-decoration: underline;">
+                <a href="{link_p1}" target="_blank" style="color: #0B6638 !important; font-weight: 700; font-size: 13.5px; text-decoration: underline;">
                     👉 Reservar este Ritual en Turrúcares por WhatsApp
                 </a>
             </div>
@@ -1575,7 +1610,7 @@ elif st.session_state.pagina_activa == "promos":
                 <p class="service-text" style="margin-bottom: 10px;">
                     Al realizarte tu <strong>Nanoqueratina, Queratina o Taninoplastia</strong> en nuestra cabina de Turrúcares, recibe de cortesía un <strong>masaje relajante de cuello y hombros</strong> durante el tiempo de pose + sellado nutritivo final.
                 </p>
-                <a href="{link_p2}" target="_blank" style="color: #0B6638; font-weight: 700; font-size: 13.5px; text-decoration: underline;">
+                <a href="{link_p2}" target="_blank" style="color: #0B6638 !important; font-weight: 700; font-size: 13.5px; text-decoration: underline;">
                     👉 Cotizar según mi largo de cabello en Turrúcares
                 </a>
             </div>
@@ -1656,7 +1691,6 @@ elif st.session_state.pagina_activa == "fundadora":
             </p>
         """, unsafe_allow_html=True)
 
-        # --- BLOQUE 1: TECNOLOGÍA, DATOS E INTELIGENCIA ARTIFICIAL ---
         st.markdown("<div class='section-title-purple' style='font-size: 22px; margin-top: 10px; margin-bottom: 12px;'>💻 Experiencia en Tecnología, Datos e Inteligencia Artificial</div>", unsafe_allow_html=True)
 
         st.markdown("""
@@ -1674,7 +1708,6 @@ elif st.session_state.pagina_activa == "fundadora":
             </div>
         """, unsafe_allow_html=True)
 
-        # --- BLOQUE 2: FORMACIÓN TÉCNICA EN MASAJES Y RECUPERACIÓN CAPILAR ---
         st.markdown("<div class='section-title' style='font-size: 22px; margin-top: 22px; margin-bottom: 12px;'>🌿 Formación Técnica en Bienestar y Recuperación Capilar</div>", unsafe_allow_html=True)
         
         st.markdown("""
@@ -1692,7 +1725,6 @@ elif st.session_state.pagina_activa == "fundadora":
             </div>
         """, unsafe_allow_html=True)
 
-        # --- BLOQUE 3: FORMACIÓN UNIVERSITARIA ---
         st.markdown("<div class='section-title' style='font-size: 22px; margin-top: 22px; margin-bottom: 12px;'>🏛️ Formación Académica Universitaria</div>", unsafe_allow_html=True)
 
         st.markdown("""
@@ -1714,7 +1746,6 @@ elif st.session_state.pagina_activa == "fundadora":
             </div>
         """, unsafe_allow_html=True)
 
-        # --- INSIGNIAS DE COMPETENCIAS ---
         st.markdown("<div class='section-title-purple' style='font-size: 22px; margin-top: 22px; margin-bottom: 10px;'>💎 Competencias y Pilares Profesionales</div>", unsafe_allow_html=True)
         
         st.markdown("""
@@ -1745,7 +1776,7 @@ elif st.session_state.pagina_activa == "fundadora":
 st.markdown("<hr class='gold-divider'>", unsafe_allow_html=True)
 st.markdown(f"""
     <div style="text-align: center; margin-bottom: 24px;">
-        <p style="font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 700; color: #6A1B7A; margin-bottom: 10px;">
+        <p style="font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 700; color: #6A1B7A !important; margin-bottom: 10px;">
             Síguenos y contáctanos directamente
         </p>
         <a href="https://ig.me/m/priskah_m" target="_blank" class="social-btn">
@@ -1757,7 +1788,7 @@ st.markdown(f"""
         <a href="{link_wa_dinamico}" target="_blank" class="social-btn">
             📲 WhatsApp 6021-8458
         </a>
-        <p style="font-size: 11.5px; color: #555E58; margin-top: 14px;">
+        <p style="font-size: 11.5px; color: #555E58 !important; margin-top: 14px;">
             © 2026 Priskah_m • Desarrollado por Priscilla Morales Segura • Turrúcares, Alajuela y Escazú
         </p>
     </div>
