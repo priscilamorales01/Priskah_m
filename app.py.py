@@ -15,7 +15,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# --- DISEÑO VIBRANTE MOBILE-FIRST CON LOS COLORES DEL LOGO ---
+# --- DISEÑO VIBRANTE MOBILE-FIRST CON CONTRASTE GARANTIZADO ---
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
@@ -43,7 +43,7 @@ st.markdown("""
         max-width: 750px;
     }
 
-    /* --- BANNER PRINCIPAL CON LOS COLORES DE PRISKA --- */
+    /* --- BANNER PRINCIPAL --- */
     .hero-box {
         background: linear-gradient(135deg, #FFFFFF 0%, #FBF8FF 50%, #F4FBF7 100%);
         border: 2px solid #D4AF37;
@@ -57,9 +57,7 @@ st.markdown("""
         font-family: 'Cormorant Garamond', serif;
         font-size: 46px;
         font-weight: 700;
-        background: linear-gradient(90deg, #0B6638 0%, #6A1B7A 60%, #B8860B 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #0B6638;
         line-height: 1.05;
         margin-top: 6px;
         margin-bottom: 4px;
@@ -74,8 +72,8 @@ st.markdown("""
     }
     .brand-subtitle {
         display: inline-block;
-        background: linear-gradient(90deg, #6A1B7A 0%, #8E24AA 100%);
-        color: #FFFFFF;
+        background-color: #6A1B7A;
+        color: #FFFFFF !important;
         font-size: 11px;
         font-weight: 700;
         text-transform: uppercase;
@@ -83,13 +81,12 @@ st.markdown("""
         padding: 5px 14px;
         border-radius: 20px;
         margin-bottom: 10px;
-        box-shadow: 0 4px 10px rgba(106, 27, 122, 0.2);
     }
     .location-pill {
         display: inline-block;
         background-color: #E8F5E9;
         border: 1px solid #0B6638;
-        color: #0B6638;
+        color: #0B6638 !important;
         font-size: 12px;
         font-weight: 700;
         padding: 5px 12px;
@@ -100,7 +97,7 @@ st.markdown("""
         display: inline-block;
         background-color: #F3E5F5;
         border: 1px solid #6A1B7A;
-        color: #6A1B7A;
+        color: #6A1B7A !important;
         font-size: 11.5px;
         font-weight: 700;
         padding: 5px 12px;
@@ -108,8 +105,8 @@ st.markdown("""
         margin: 3px;
     }
     .ethics-badge {
-        background: linear-gradient(90deg, #FFF8E7 0%, #FCE4EC 100%);
-        color: #4A154B;
+        background-color: #FFF8E7;
+        color: #4A154B !important;
         font-size: 11.5px;
         font-weight: 700;
         padding: 6px 14px;
@@ -119,82 +116,74 @@ st.markdown("""
         border: 1px solid #D4AF37;
     }
 
-    /* --- MENÚ DE NAVEGACIÓN APILABLE 100% VISIBLE EN CELULAR --- */
+    /* --- ENCABEZADO DEL MENÚ --- */
     .mega-menu-banner {
         background: linear-gradient(135deg, #0B6638 0%, #6A1B7A 100%);
-        color: #FFFFFF;
+        color: #FFFFFF !important;
         text-align: center;
-        padding: 12px 14px;
+        padding: 14px 14px;
         border-radius: 16px;
-        border: 2px solid #D4AF37;
-        box-shadow: 0 6px 18px rgba(106, 27, 122, 0.2);
-        margin-bottom: 10px;
+        border: 2.5px solid #D4AF37;
+        box-shadow: 0 6px 18px rgba(106, 27, 122, 0.22);
+        margin-bottom: 12px;
     }
     .mega-menu-title {
         font-family: 'Cormorant Garamond', serif;
-        font-size: 24px;
+        font-size: 25px;
         font-weight: 700;
         letter-spacing: 0.8px;
-        color: #FFE082;
+        color: #FFE082 !important;
         margin: 0;
         line-height: 1.15;
     }
     .mega-menu-sub {
-        font-size: 12px;
+        font-size: 12.5px;
         font-weight: 600;
-        color: #FFFFFF;
-        margin-top: 2px;
+        color: #FFFFFF !important;
+        margin-top: 4px;
     }
 
-    /* Hacer que cada opción del menú ocupe el 100% del ancho en móvil */
-    div[data-testid="stRadio"] > div[role="radiogroup"] {
-        display: flex !important;
-        flex-direction: column !important;
-        width: 100% !important;
-        gap: 8px !important;
-    }
-    div[data-testid="stRadio"] > div[role="radiogroup"] > label {
-        width: 100% !important;
-        box-sizing: border-box !important;
-        background: linear-gradient(145deg, #FFFFFF 0%, #FAF6FC 100%) !important;
-        border: 2px solid #D4AF37 !important;
-        border-radius: 14px !important;
-        padding: 13px 16px !important;
-        margin: 0 !important;
-        box-shadow: 0 4px 12px rgba(106, 27, 122, 0.07) !important;
-        transition: all 0.2s ease !important;
-        cursor: pointer !important;
-    }
-    div[data-testid="stRadio"] > div[role="radiogroup"] > label:hover {
-        background: linear-gradient(135deg, #F3E5F5 0%, #E8F5E9 100%) !important;
-        border-color: #6A1B7A !important;
-    }
-    div[data-testid="stRadio"] > div[role="radiogroup"] > label p {
-        font-size: 15.5px !important;
-        font-weight: 800 !important;
-        color: #1E2923 !important;
-    }
-
-    /* Botones de acción principales */
+    /* --- BOTONES DEL MENÚ (TEXTO SÓLIDO Y GRANDE EN CELULAR) --- */
     div[data-testid="stButton"] button[kind="primary"] {
         background: linear-gradient(135deg, #0B6638 0%, #6A1B7A 100%) !important;
         color: #FFFFFF !important;
-        border: 2px solid #D4AF37 !important;
+        border: 2.5px solid #D4AF37 !important;
         border-radius: 14px !important;
-        font-weight: 700 !important;
-        font-size: 15px !important;
-        padding: 0.8rem 0.6rem !important;
-        box-shadow: 0 6px 15px rgba(106, 27, 122, 0.25) !important;
+        min-height: 50px !important;
+        box-shadow: 0 6px 15px rgba(106, 27, 122, 0.28) !important;
     }
+    div[data-testid="stButton"] button[kind="primary"] p {
+        color: #FFFFFF !important;
+        font-size: 16px !important;
+        font-weight: 800 !important;
+    }
+
     div[data-testid="stButton"] button[kind="secondary"] {
         background-color: #FFFFFF !important;
-        color: #6A1B7A !important;
-        border: 1.5px solid #D4AF37 !important;
+        color: #1E2923 !important;
+        border: 2px solid #D4AF37 !important;
         border-radius: 14px !important;
+        min-height: 48px !important;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.06) !important;
+    }
+    div[data-testid="stButton"] button[kind="secondary"] p {
+        color: #1E2923 !important;
+        font-size: 15.5px !important;
         font-weight: 700 !important;
-        font-size: 14.5px !important;
-        padding: 0.75rem 0.6rem !important;
-        box-shadow: 0 3px 8px rgba(0,0,0,0.05) !important;
+    }
+
+    /* --- RADIO BUTTONS DE FORMULARIOS --- */
+    div[data-testid="stRadio"] > div[role="radiogroup"] > label {
+        background-color: #FFFFFF !important;
+        border: 1.5px solid #C8E6C9 !important;
+        border-radius: 12px !important;
+        padding: 12px 14px !important;
+        margin-bottom: 8px !important;
+    }
+    div[data-testid="stRadio"] > div[role="radiogroup"] > label p {
+        color: #1E2923 !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
     }
 
     /* --- ENCABEZADOS DE SECCIÓN ORDENADOS --- */
@@ -208,7 +197,7 @@ st.markdown("""
     }
     .step-circle {
         background: linear-gradient(135deg, #0B6638 0%, #6A1B7A 100%);
-        color: #FFFFFF;
+        color: #FFFFFF !important;
         width: 30px;
         height: 30px;
         border-radius: 50%;
@@ -224,19 +213,19 @@ st.markdown("""
         font-family: 'Cormorant Garamond', serif;
         font-size: 25px;
         font-weight: 700;
-        color: #0B6638;
+        color: #0B6638 !important;
         margin: 0;
     }
     .section-title-purple {
         font-family: 'Cormorant Garamond', serif;
         font-size: 25px;
         font-weight: 700;
-        color: #6A1B7A;
+        color: #6A1B7A !important;
         margin-bottom: 4px;
     }
     .section-desc {
         font-size: 13px;
-        color: #555E58;
+        color: #454F49 !important;
         margin-bottom: 14px;
         line-height: 1.5;
     }
@@ -252,7 +241,7 @@ st.markdown("""
     }
 
     .stTextInput label, .stMultiSelect label, .stDateInput label, .stSelectbox label, .stNumberInput label {
-        font-size: 13px !important;
+        font-size: 13.5px !important;
         font-weight: 700 !important;
         color: #0B6638 !important;
     }
@@ -293,7 +282,7 @@ st.markdown("""
     }
     .price-table th {
         background: linear-gradient(90deg, #0B6638 0%, #6A1B7A 100%);
-        color: #FFFFFF;
+        color: #FFFFFF !important;
         text-align: left;
         padding: 11px 12px;
         font-weight: 700;
@@ -301,7 +290,7 @@ st.markdown("""
     .price-table td {
         padding: 10px 12px;
         border-bottom: 1px solid #EAE2D3;
-        color: #1E2923;
+        color: #1E2923 !important;
         background-color: #FFFFFF;
     }
     .price-table tr:nth-child(even) td {
@@ -309,12 +298,12 @@ st.markdown("""
     }
     .price-tag {
         font-weight: 800;
-        color: #0B6638;
+        color: #0B6638 !important;
         white-space: nowrap;
     }
     .price-tag-purple {
         font-weight: 800;
-        color: #6A1B7A;
+        color: #6A1B7A !important;
         white-space: nowrap;
     }
 
@@ -360,7 +349,7 @@ st.markdown("""
     }
     .prize-winner-box {
         background: linear-gradient(135deg, #6A1B7A 0%, #0B6638 100%);
-        color: #FFFFFF;
+        color: #FFFFFF !important;
         border: 2.5px solid #D4AF37;
         border-radius: 18px;
         padding: 20px;
@@ -371,7 +360,7 @@ st.markdown("""
     .prize-code {
         display: inline-block;
         background-color: #FFF8E7;
-        color: #4A154B;
+        color: #4A154B !important;
         font-weight: 800;
         font-size: 16px;
         letter-spacing: 1.5px;
@@ -394,8 +383,8 @@ st.markdown("""
     }
     .result-badge {
         display: inline-block;
-        background: linear-gradient(90deg, #0B6638 0%, #148F50 100%);
-        color: #FFFFFF;
+        background-color: #0B6638;
+        color: #FFFFFF !important;
         font-size: 11px;
         font-weight: 700;
         text-transform: uppercase;
@@ -406,8 +395,8 @@ st.markdown("""
     }
     .result-badge-purple {
         display: inline-block;
-        background: linear-gradient(90deg, #6A1B7A 0%, #8E24AA 100%);
-        color: #FFFFFF;
+        background-color: #6A1B7A;
+        color: #FFFFFF !important;
         font-size: 11px;
         font-weight: 700;
         text-transform: uppercase;
@@ -420,12 +409,12 @@ st.markdown("""
         font-family: 'Cormorant Garamond', serif;
         font-size: 28px;
         font-weight: 700;
-        color: #6A1B7A;
+        color: #6A1B7A !important;
         margin-bottom: 8px;
     }
     .result-desc {
         font-size: 14px;
-        color: #333F38;
+        color: #333F38 !important;
         line-height: 1.6;
         margin-bottom: 12px;
     }
@@ -434,14 +423,14 @@ st.markdown("""
         border-radius: 12px;
         padding: 12px 14px;
         font-size: 13px;
-        color: #0B6638;
+        color: #0B6638 !important;
         border-left: 4px solid #0B6638;
         margin-top: 10px;
     }
 
     .turrucares-bonus {
         background: linear-gradient(135deg, #0B6638 0%, #6A1B7A 100%);
-        color: #FFFFFF;
+        color: #FFFFFF !important;
         border-radius: 16px;
         padding: 16px 18px;
         margin-bottom: 18px;
@@ -472,13 +461,13 @@ st.markdown("""
     .ig-user {
         font-size: 13px;
         font-weight: 700;
-        color: #6A1B7A;
+        color: #6A1B7A !important;
     }
     .ig-tag {
         font-size: 10.5px;
         font-weight: 700;
         background-color: #FCE4EC;
-        color: #AD1457;
+        color: #AD1457 !important;
         padding: 3px 9px;
         border-radius: 12px;
     }
@@ -486,20 +475,20 @@ st.markdown("""
         font-size: 10.5px;
         font-weight: 700;
         background-color: #E8F5E9;
-        color: #0B6638;
+        color: #0B6638 !important;
         padding: 3px 9px;
         border-radius: 12px;
     }
     .ig-comment {
         font-size: 13.5px;
-        color: #2E3832;
+        color: #2E3832 !important;
         font-style: italic;
         line-height: 1.5;
         margin-bottom: 8px;
     }
     .ig-likes {
         font-size: 11.5px;
-        color: #C13584;
+        color: #C13584 !important;
         font-weight: 600;
     }
 
@@ -522,22 +511,22 @@ st.markdown("""
         font-weight: 700;
         border: 2px dashed #D4AF37;
         background-color: #FFFDF9;
-        color: #9E8C70;
+        color: #9E8C70 !important;
     }
     .stamp-filled {
-        background: linear-gradient(135deg, #0B6638 0%, #148F50 100%);
-        color: #FFFFFF;
+        background-color: #0B6638;
+        color: #FFFFFF !important;
         border: 2px solid #D4AF37;
     }
     .stamp-reward {
         background: linear-gradient(135deg, #6A1B7A 0%, #D4AF37 100%);
-        color: #FFFFFF;
+        color: #FFFFFF !important;
         border: 2px solid #0B6638;
     }
 
     /* Tarjetas de Servicios y Promociones */
     .promo-card {
-        background: linear-gradient(145deg, #FFFFFF 0%, #FDF9FF 100%);
+        background-color: #FDF9FF;
         border: 1.5px solid #D4AF37;
         border-left: 6px solid #6A1B7A;
         border-radius: 16px;
@@ -548,7 +537,7 @@ st.markdown("""
         font-family: 'Cormorant Garamond', serif;
         font-size: 21px;
         font-weight: 700;
-        color: #6A1B7A;
+        color: #6A1B7A !important;
         margin-bottom: 4px;
     }
 
@@ -572,35 +561,35 @@ st.markdown("""
         font-family: 'Cormorant Garamond', serif;
         font-size: 20px;
         font-weight: 700;
-        color: #0B6638;
+        color: #0B6638 !important;
         margin-bottom: 2px;
     }
     .service-name-purple {
         font-family: 'Cormorant Garamond', serif;
         font-size: 20px;
         font-weight: 700;
-        color: #6A1B7A;
+        color: #6A1B7A !important;
         margin-bottom: 2px;
     }
     .service-meta {
         font-size: 11px;
         font-weight: 700;
-        color: #B8860B;
+        color: #B8860B !important;
         text-transform: uppercase;
         letter-spacing: 0.8px;
         margin-bottom: 6px;
     }
     .service-text {
         font-size: 13.5px;
-        color: #333F38;
+        color: #333F38 !important;
         line-height: 1.5;
         margin: 0;
     }
 
     .credential-pill {
         display: inline-block;
-        background: linear-gradient(90deg, #E8F5E9 0%, #F3E5F5 100%);
-        color: #0B6638;
+        background-color: #E8F5E9;
+        color: #0B6638 !important;
         border: 1px solid #D4AF37;
         padding: 6px 12px;
         border-radius: 20px;
@@ -619,19 +608,19 @@ st.markdown("""
     .edu-title {
         font-weight: 700;
         font-size: 14px;
-        color: #0B6638;
+        color: #0B6638 !important;
         margin-bottom: 2px;
     }
     .edu-sub {
         font-size: 12.5px;
-        color: #555E58;
+        color: #555E58 !important;
         margin: 0;
     }
 
     /* Botones de WhatsApp e Instagram */
     .wa-btn {
         background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-        color: white !important;
+        color: #FFFFFF !important;
         padding: 13px 22px;
         border-radius: 50px;
         text-decoration: none !important;
@@ -644,7 +633,7 @@ st.markdown("""
     }
     .ig-btn {
         background: linear-gradient(45deg, #F58529 0%, #DD2A7B 50%, #8134AF 100%);
-        color: white !important;
+        color: #FFFFFF !important;
         padding: 13px 22px;
         border-radius: 50px;
         text-decoration: none !important;
@@ -659,10 +648,10 @@ st.markdown("""
     /* BOTÓN FLOTANTE ELEVADO PARA QUE NO LO TAPE STREAMLIT EN MÓVIL */
     .floating-wa {
         position: fixed;
-        bottom: 85px;
+        bottom: 92px;
         right: 16px;
         background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-        color: white !important;
+        color: #FFFFFF !important;
         padding: 12px 18px;
         border-radius: 50px;
         font-size: 13.5px;
@@ -704,7 +693,7 @@ st.markdown("""
 
 # --- ESTADOS DE SESIÓN ---
 if "pagina_activa" not in st.session_state:
-    st.session_state.pagina_activa = "✨ Diagnóstico"
+    st.session_state.pagina_activa = "diagnostico"
 if "ultimo_nombre" not in st.session_state:
     st.session_state.ultimo_nombre = ""
 if "ultimo_diagnostico" not in st.session_state:
@@ -735,7 +724,7 @@ def construir_mensaje_contacto():
 mensaje_dinamico = construir_mensaje_contacto()
 link_wa_dinamico = f"https://wa.me/50660218458?text={urllib.parse.quote(mensaje_dinamico)}"
 
-# --- BOTÓN FLOTANTE DE WHATSAPP (POSICIONADO ARRIBA DE LAS INSIGNIAS DE STREAMLIT) ---
+# --- BOTÓN FLOTANTE DE WHATSAPP ---
 st.markdown(f"""
     <a href="{link_wa_dinamico}" target="_blank" class="floating-wa">
         💬 WhatsApp 6021-8458
@@ -776,7 +765,7 @@ PREMIOS_RULETA = [
     }
 ]
 
-# --- RESEÑAS BASE DE INSTAGRAM (@priskah_m) INCLUYENDO TESTIMONIO REAL DE MARIO LIOS ---
+# --- RESEÑAS BASE DE INSTAGRAM (@priskah_m) ---
 COMENTARIOS_IG_DEFAULT = [
     {
         "usuario": "Mario Lios • Cliente Verificado",
@@ -872,7 +861,7 @@ def obtener_estado_cliente(telefono_limpio):
 
     return sellos_confirmados, nombre_registrado, tiene_pase_ruleta, pines_validos, ya_giro
 
-# --- CABECERA PRINCIPAL CON LOS COLORES DEL LOGO ---
+# --- CABECERA PRINCIPAL ---
 st.markdown("<div class='hero-box'>", unsafe_allow_html=True)
 col1, col2, col3 = st.columns([1.4, 1, 1.4])
 with col2:
@@ -895,36 +884,62 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# --- MENÚ GRANDE Y APILABLE (100% VISIBLE EN CELULARES) ---
+# --- MENÚ DE BOTONES GRANDES 100% VISIBLES EN CELULAR ---
 st.markdown("""
     <div class='mega-menu-banner'>
         <div class='mega-menu-title'>✨ MENU PARA CONOCER PRISKA ✨</div>
-        <div class='mega-menu-sub'>👇 Toca una opción de la lista para cambiar de sección 👇</div>
+        <div class='mega-menu-sub'>👇 Toca cualquier botón para ver esa sección 👇</div>
     </div>
 """, unsafe_allow_html=True)
 
-opciones_menu = [
-    "✨ Diagnóstico",
-    "💲 Servicios y Precios",
-    "🎡 Ruleta & Sellos",
-    "📸 Reseñas IG",
-    "👩‍⚕️ Fundadora"
-]
-seleccion_menu = st.radio(
-    "MENU PARA CONOCER PRISKA",
-    opciones_menu,
-    index=opciones_menu.index(st.session_state.pagina_activa) if st.session_state.pagina_activa in opciones_menu else 0,
-    horizontal=False,
-    label_visibility="collapsed"
+# Botones individuales a todo el ancho para garantizar visibilidad total en teléfono
+st.button(
+    "✅ 1. Diagnóstico Personalizado" if st.session_state.pagina_activa == "diagnostico" else "✨ 1. Diagnóstico Personalizado",
+    key="btn_nav_1",
+    use_container_width=True,
+    type="primary" if st.session_state.pagina_activa == "diagnostico" else "secondary",
+    on_click=cambiar_pagina,
+    args=("diagnostico",)
 )
-st.session_state.pagina_activa = seleccion_menu
+st.button(
+    "✅ 2. Tabla de Servicios y Precios" if st.session_state.pagina_activa == "servicios" else "💲 2. Tabla de Servicios y Precios",
+    key="btn_nav_2",
+    use_container_width=True,
+    type="primary" if st.session_state.pagina_activa == "servicios" else "secondary",
+    on_click=cambiar_pagina,
+    args=("servicios",)
+)
+st.button(
+    "✅ 3. Ruleta de Premios, Taller & Sellos" if st.session_state.pagina_activa == "promos" else "🎡 3. Ruleta de Premios, Taller & Sellos",
+    key="btn_nav_3",
+    use_container_width=True,
+    type="primary" if st.session_state.pagina_activa == "promos" else "secondary",
+    on_click=cambiar_pagina,
+    args=("promos",)
+)
+st.button(
+    "✅ 4. Comentarios y Reseñas Instagram" if st.session_state.pagina_activa == "resenas" else "📸 4. Comentarios y Reseñas Instagram",
+    key="btn_nav_4",
+    use_container_width=True,
+    type="primary" if st.session_state.pagina_activa == "resenas" else "secondary",
+    on_click=cambiar_pagina,
+    args=("resenas",)
+)
+st.button(
+    "✅ 5. Conoce a la Fundadora (Priscilla)" if st.session_state.pagina_activa == "fundadora" else "👩‍⚕️ 5. Conoce a la Fundadora (Priscilla)",
+    key="btn_nav_5",
+    use_container_width=True,
+    type="primary" if st.session_state.pagina_activa == "fundadora" else "secondary",
+    on_click=cambiar_pagina,
+    args=("fundadora",)
+)
 
 st.markdown("<hr class='gold-divider'>", unsafe_allow_html=True)
 
 # ==========================================
 # VISTA 1: DIAGNÓSTICO PASO A PASO
 # ==========================================
-if st.session_state.pagina_activa == "✨ Diagnóstico":
+if st.session_state.pagina_activa == "diagnostico":
     
     with st.container(border=True):
         st.markdown("""
@@ -1206,7 +1221,7 @@ if st.session_state.pagina_activa == "✨ Diagnóstico":
                         <div class="ig-likes">{item['likes']}</div>
                     </div>
                 """, unsafe_allow_html=True)
-        st.button("📸 Ver más comentarios y testimonios →", on_click=cambiar_pagina, args=("📸 Reseñas IG",), use_container_width=True)
+        st.button("📸 Ver más comentarios y testimonios →", on_click=cambiar_pagina, args=("resenas",), use_container_width=True)
 
     # --- PREGUNTAS FRECUENTES Y POLÍTICAS DE RESERVA ---
     with st.expander("📋 Políticas de Reserva, Cobertura a Domicilio y Métodos de Pago"):
@@ -1221,7 +1236,7 @@ if st.session_state.pagina_activa == "✨ Diagnóstico":
 # ==========================================
 # VISTA 2: CATÁLOGO DE SERVICIOS Y TABLA DE PRECIOS
 # ==========================================
-elif st.session_state.pagina_activa == "💲 Servicios y Precios":
+elif st.session_state.pagina_activa == "servicios":
     
     with st.container(border=True):
         st.markdown("<div class='result-badge'>💲 Tarifario Oficial • Sede Turrúcares</div>", unsafe_allow_html=True)
@@ -1357,7 +1372,7 @@ elif st.session_state.pagina_activa == "💲 Servicios y Precios":
 # ==========================================
 # VISTA 3: CONSULTA DE SELLOS, ACTIVACIÓN DE RULETA Y TALLER
 # ==========================================
-elif st.session_state.pagina_activa == "🎡 Ruleta & Sellos":
+elif st.session_state.pagina_activa == "promos":
 
     with st.container(border=True):
         st.markdown("<div class='result-badge'>🖤 Control Oficial de Fidelidad</div>", unsafe_allow_html=True)
@@ -1545,7 +1560,7 @@ elif st.session_state.pagina_activa == "🎡 Ruleta & Sellos":
 # ==========================================
 # VISTA 4: COMENTARIOS DESTACADOS DE INSTAGRAM (@priskah_m)
 # ==========================================
-elif st.session_state.pagina_activa == "📸 Reseñas IG":
+elif st.session_state.pagina_activa == "resenas":
     with st.container(border=True):
         st.markdown("<div class='result-badge-purple'>📸 Comunidad Oficial @priskah_m</div>", unsafe_allow_html=True)
         st.markdown("<div class='section-title-purple'>Comentarios de Nuestros Posts y Clientes</div>", unsafe_allow_html=True)
@@ -1591,7 +1606,7 @@ elif st.session_state.pagina_activa == "📸 Reseñas IG":
 # ==========================================
 # VISTA 5: CONOCE A LA FUNDADORA
 # ==========================================
-elif st.session_state.pagina_activa == "👩‍⚕️ Fundadora":
+elif st.session_state.pagina_activa == "fundadora":
     with st.container(border=True):
         f1, f2, f3 = st.columns([1.3, 1, 1.3])
         with f2:
@@ -1753,7 +1768,7 @@ with st.expander("🔒 Acceso Propietaria (Registrar Compras, Activar Ruleta y S
                         f"¡Hola {comp_nombre.strip()}! 🌿 Muchas gracias por tu compra en *Priskah_m* ({comp_servicio}).\n\n"
                         f"✅ Ya sumamos *{comp_sellos} sello(s)* a tu Tarjeta de Fidelidad.\n"
                         f"🎰 Tu PIN personal para girar la *Ruleta de Premios* en nuestra web es: *{pin_sugerido}*\n\n"
-                        f"Entra aquí a la sección '🎡 Ruleta & Sellos' para ver tus sellos y descubrir tu premio: https://priskahm.streamlit.app/"
+                        f"Entra aquí a la sección '🎡 3. Ruleta de Premios, Taller & Sellos' para ver tus sellos y descubrir tu premio: https://priskahm.streamlit.app/"
                     )
                     link_enviar_pin = f"https://wa.me/506{tel_limpio_comp}?text={urllib.parse.quote(msg_confirmacion)}"
                     st.markdown(f"[📲 **Toca aquí para enviarle el PIN y sus sellos a {comp_nombre} por WhatsApp**]({link_enviar_pin})")
