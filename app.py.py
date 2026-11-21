@@ -15,7 +15,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# --- DISEÑO VIBRANTE CON LOS COLORES DEL LOGO (ESMERALDA, PÚRPURA REAL Y DORADO) ---
+# --- DISEÑO VIBRANTE MOBILE-FIRST CON LOS COLORES DEL LOGO ---
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
@@ -30,14 +30,16 @@ st.markdown("""
         color: #1E2923 !important;
     }
 
-    [data-testid="stHeader"], footer, #MainMenu {
-        visibility: hidden;
-        height: 0px;
+    /* Ocultar barras e insignias de Streamlit que estorban en móvil */
+    [data-testid="stHeader"], footer, #MainMenu, [data-testid="stToolbar"], .viewerBadge_container__1QSob {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0px !important;
     }
 
     .block-container {
-        padding-top: 1.2rem;
-        padding-bottom: 5rem;
+        padding-top: 1rem;
+        padding-bottom: 6.5rem;
         max-width: 750px;
     }
 
@@ -46,14 +48,14 @@ st.markdown("""
         background: linear-gradient(135deg, #FFFFFF 0%, #FBF8FF 50%, #F4FBF7 100%);
         border: 2px solid #D4AF37;
         border-radius: 24px;
-        padding: 22px 18px 18px 18px;
+        padding: 20px 16px 16px 16px;
         text-align: center;
         box-shadow: 0 12px 30px rgba(106, 27, 122, 0.08);
-        margin-bottom: 18px;
+        margin-bottom: 16px;
     }
     .brand-title {
         font-family: 'Cormorant Garamond', serif;
-        font-size: 48px;
+        font-size: 46px;
         font-weight: 700;
         background: linear-gradient(90deg, #0B6638 0%, #6A1B7A 60%, #B8860B 100%);
         -webkit-background-clip: text;
@@ -65,7 +67,7 @@ st.markdown("""
     .brand-slogan {
         font-family: 'Cormorant Garamond', serif;
         font-style: italic;
-        font-size: 19px;
+        font-size: 18px;
         font-weight: 600;
         color: #6A1B7A;
         margin-bottom: 8px;
@@ -74,13 +76,13 @@ st.markdown("""
         display: inline-block;
         background: linear-gradient(90deg, #6A1B7A 0%, #8E24AA 100%);
         color: #FFFFFF;
-        font-size: 11.5px;
+        font-size: 11px;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 1.8px;
-        padding: 5px 16px;
+        letter-spacing: 1.5px;
+        padding: 5px 14px;
         border-radius: 20px;
-        margin-bottom: 12px;
+        margin-bottom: 10px;
         box-shadow: 0 4px 10px rgba(106, 27, 122, 0.2);
     }
     .location-pill {
@@ -90,7 +92,7 @@ st.markdown("""
         color: #0B6638;
         font-size: 12px;
         font-weight: 700;
-        padding: 6px 14px;
+        padding: 5px 12px;
         border-radius: 30px;
         margin: 3px;
     }
@@ -99,9 +101,9 @@ st.markdown("""
         background-color: #F3E5F5;
         border: 1px solid #6A1B7A;
         color: #6A1B7A;
-        font-size: 12px;
+        font-size: 11.5px;
         font-weight: 700;
-        padding: 6px 14px;
+        padding: 5px 12px;
         border-radius: 30px;
         margin: 3px;
     }
@@ -110,68 +112,67 @@ st.markdown("""
         color: #4A154B;
         font-size: 11.5px;
         font-weight: 700;
-        padding: 6px 16px;
+        padding: 6px 14px;
         border-radius: 20px;
         display: inline-block;
         margin-top: 8px;
         border: 1px solid #D4AF37;
     }
 
-    /* --- MENÚ DE NAVEGACIÓN GRANDE Y ATRACTIVO --- */
+    /* --- MENÚ DE NAVEGACIÓN APILABLE 100% VISIBLE EN CELULAR --- */
     .mega-menu-banner {
         background: linear-gradient(135deg, #0B6638 0%, #6A1B7A 100%);
         color: #FFFFFF;
         text-align: center;
-        padding: 14px 16px;
-        border-radius: 18px;
-        border: 2.5px solid #D4AF37;
-        box-shadow: 0 8px 22px rgba(106, 27, 122, 0.22);
-        margin-bottom: 12px;
+        padding: 12px 14px;
+        border-radius: 16px;
+        border: 2px solid #D4AF37;
+        box-shadow: 0 6px 18px rgba(106, 27, 122, 0.2);
+        margin-bottom: 10px;
     }
     .mega-menu-title {
         font-family: 'Cormorant Garamond', serif;
-        font-size: 26px;
+        font-size: 24px;
         font-weight: 700;
-        letter-spacing: 1px;
+        letter-spacing: 0.8px;
         color: #FFE082;
         margin: 0;
         line-height: 1.15;
     }
     .mega-menu-sub {
-        font-size: 12.5px;
+        font-size: 12px;
         font-weight: 600;
         color: #FFFFFF;
-        margin-top: 3px;
-        opacity: 0.95;
+        margin-top: 2px;
     }
 
-    /* Estilizar el radio del menú como tarjetas grandes y llamativas */
+    /* Hacer que cada opción del menú ocupe el 100% del ancho en móvil */
     div[data-testid="stRadio"] > div[role="radiogroup"] {
-        gap: 10px !important;
-        justify-content: center;
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 8px !important;
     }
     div[data-testid="stRadio"] > div[role="radiogroup"] > label {
+        width: 100% !important;
+        box-sizing: border-box !important;
         background: linear-gradient(145deg, #FFFFFF 0%, #FAF6FC 100%) !important;
         border: 2px solid #D4AF37 !important;
-        border-radius: 16px !important;
-        padding: 15px 18px !important;
-        margin-bottom: 6px !important;
-        box-shadow: 0 5px 14px rgba(106, 27, 122, 0.08) !important;
-        transition: all 0.25s ease !important;
+        border-radius: 14px !important;
+        padding: 13px 16px !important;
+        margin: 0 !important;
+        box-shadow: 0 4px 12px rgba(106, 27, 122, 0.07) !important;
+        transition: all 0.2s ease !important;
         cursor: pointer !important;
-        min-width: 185px;
     }
     div[data-testid="stRadio"] > div[role="radiogroup"] > label:hover {
         background: linear-gradient(135deg, #F3E5F5 0%, #E8F5E9 100%) !important;
         border-color: #6A1B7A !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 8px 18px rgba(106, 27, 122, 0.16) !important;
     }
     div[data-testid="stRadio"] > div[role="radiogroup"] > label p {
-        font-size: 16px !important;
+        font-size: 15.5px !important;
         font-weight: 800 !important;
         color: #1E2923 !important;
-        letter-spacing: 0.2px !important;
     }
 
     /* Botones de acción principales */
@@ -194,11 +195,6 @@ st.markdown("""
         font-size: 14.5px !important;
         padding: 0.75rem 0.6rem !important;
         box-shadow: 0 3px 8px rgba(0,0,0,0.05) !important;
-    }
-    div[data-testid="stButton"] button[kind="secondary"]:hover {
-        background-color: #F8F2FA !important;
-        color: #0B6638 !important;
-        border-color: #0B6638 !important;
     }
 
     /* --- ENCABEZADOS DE SECCIÓN ORDENADOS --- */
@@ -226,14 +222,14 @@ st.markdown("""
     }
     .section-title {
         font-family: 'Cormorant Garamond', serif;
-        font-size: 26px;
+        font-size: 25px;
         font-weight: 700;
         color: #0B6638;
         margin: 0;
     }
     .section-title-purple {
         font-family: 'Cormorant Garamond', serif;
-        font-size: 26px;
+        font-size: 25px;
         font-weight: 700;
         color: #6A1B7A;
         margin-bottom: 4px;
@@ -251,8 +247,8 @@ st.markdown("""
         border-radius: 20px !important;
         border: 1.5px solid #E2D5EA !important;
         box-shadow: 0 8px 24px rgba(11, 102, 56, 0.05) !important;
-        padding: 20px 22px !important;
-        margin-bottom: 18px !important;
+        padding: 18px 20px !important;
+        margin-bottom: 16px !important;
     }
 
     .stTextInput label, .stMultiSelect label, .stDateInput label, .stSelectbox label, .stNumberInput label {
@@ -290,7 +286,7 @@ st.markdown("""
         width: 100%;
         border-collapse: collapse;
         margin: 14px 0;
-        font-size: 13.5px;
+        font-size: 13px;
         border-radius: 14px;
         overflow: hidden;
         box-shadow: 0 4px 15px rgba(0,0,0,0.05);
@@ -299,12 +295,11 @@ st.markdown("""
         background: linear-gradient(90deg, #0B6638 0%, #6A1B7A 100%);
         color: #FFFFFF;
         text-align: left;
-        padding: 12px 14px;
+        padding: 11px 12px;
         font-weight: 700;
-        letter-spacing: 0.4px;
     }
     .price-table td {
-        padding: 11px 14px;
+        padding: 10px 12px;
         border-bottom: 1px solid #EAE2D3;
         color: #1E2923;
         background-color: #FFFFFF;
@@ -328,14 +323,14 @@ st.markdown("""
         background: radial-gradient(circle, #FFFDF9 0%, #F7ECF9 60%, #E8F5E9 100%);
         border: 3px solid #D4AF37;
         border-radius: 22px;
-        padding: 22px;
+        padding: 20px;
         text-align: center;
         box-shadow: 0 12px 30px rgba(106, 27, 122, 0.12);
         margin-bottom: 16px;
     }
     .wheel-circle {
-        width: 150px;
-        height: 150px;
+        width: 140px;
+        height: 140px;
         margin: 10px auto 14px auto;
         border-radius: 50%;
         border: 6px solid #D4AF37;
@@ -353,23 +348,22 @@ st.markdown("""
         box-shadow: 0 8px 25px rgba(0,0,0,0.18);
     }
     .wheel-center {
-        width: 68px;
-        height: 68px;
+        width: 64px;
+        height: 64px;
         background-color: #FFFFFF;
         border: 3px solid #D4AF37;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 28px;
-        box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
+        font-size: 26px;
     }
     .prize-winner-box {
         background: linear-gradient(135deg, #6A1B7A 0%, #0B6638 100%);
         color: #FFFFFF;
         border: 2.5px solid #D4AF37;
         border-radius: 18px;
-        padding: 22px;
+        padding: 20px;
         text-align: center;
         margin-top: 14px;
         box-shadow: 0 12px 28px rgba(106, 27, 122, 0.25);
@@ -393,7 +387,7 @@ st.markdown("""
         border: 2px solid #D4AF37;
         border-top: 6px solid #6A1B7A;
         border-radius: 20px;
-        padding: 24px;
+        padding: 22px;
         margin-top: 16px;
         margin-bottom: 16px;
         box-shadow: 0 14px 30px rgba(106, 27, 122, 0.12);
@@ -424,13 +418,13 @@ st.markdown("""
     }
     .result-title {
         font-family: 'Cormorant Garamond', serif;
-        font-size: 30px;
+        font-size: 28px;
         font-weight: 700;
         color: #6A1B7A;
         margin-bottom: 8px;
     }
     .result-desc {
-        font-size: 14.5px;
+        font-size: 14px;
         color: #333F38;
         line-height: 1.6;
         margin-bottom: 12px;
@@ -438,7 +432,7 @@ st.markdown("""
     .appointment-summary {
         background-color: #F4FBF7;
         border-radius: 12px;
-        padding: 12px 16px;
+        padding: 12px 14px;
         font-size: 13px;
         color: #0B6638;
         border-left: 4px solid #0B6638;
@@ -449,7 +443,7 @@ st.markdown("""
         background: linear-gradient(135deg, #0B6638 0%, #6A1B7A 100%);
         color: #FFFFFF;
         border-radius: 16px;
-        padding: 18px 20px;
+        padding: 16px 18px;
         margin-bottom: 18px;
         border: 2px solid #D4AF37;
         box-shadow: 0 10px 24px rgba(11, 102, 56, 0.2);
@@ -461,8 +455,8 @@ st.markdown("""
         border: 1.5px solid #E5D4EC;
         border-top: 4px solid #C13584;
         border-radius: 16px;
-        padding: 16px;
-        margin-bottom: 14px;
+        padding: 15px;
+        margin-bottom: 12px;
         box-shadow: 0 6px 16px rgba(193, 53, 132, 0.06);
     }
     .ig-header {
@@ -472,6 +466,8 @@ st.markdown("""
         margin-bottom: 8px;
         border-bottom: 1px solid #F3ECF6;
         padding-bottom: 6px;
+        flex-wrap: wrap;
+        gap: 4px;
     }
     .ig-user {
         font-size: 13px;
@@ -511,18 +507,18 @@ st.markdown("""
     .stamp-grid {
         display: flex;
         justify-content: center;
-        gap: 10px;
+        gap: 8px;
         margin: 14px 0;
         flex-wrap: wrap;
     }
     .stamp-slot {
-        width: 52px;
-        height: 52px;
+        width: 48px;
+        height: 48px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 18px;
+        font-size: 17px;
         font-weight: 700;
         border: 2px dashed #D4AF37;
         background-color: #FFFDF9;
@@ -532,7 +528,6 @@ st.markdown("""
         background: linear-gradient(135deg, #0B6638 0%, #148F50 100%);
         color: #FFFFFF;
         border: 2px solid #D4AF37;
-        box-shadow: 0 4px 10px rgba(11, 102, 56, 0.25);
     }
     .stamp-reward {
         background: linear-gradient(135deg, #6A1B7A 0%, #D4AF37 100%);
@@ -546,12 +541,12 @@ st.markdown("""
         border: 1.5px solid #D4AF37;
         border-left: 6px solid #6A1B7A;
         border-radius: 16px;
-        padding: 18px 20px;
+        padding: 16px 18px;
         margin-bottom: 14px;
     }
     .promo-title {
         font-family: 'Cormorant Garamond', serif;
-        font-size: 22px;
+        font-size: 21px;
         font-weight: 700;
         color: #6A1B7A;
         margin-bottom: 4px;
@@ -562,7 +557,7 @@ st.markdown("""
         border: 1px solid #C8E6C9;
         border-left: 5px solid #0B6638;
         border-radius: 14px;
-        padding: 15px 18px;
+        padding: 14px 16px;
         margin-bottom: 12px;
     }
     .service-item-hair {
@@ -570,19 +565,19 @@ st.markdown("""
         border: 1px solid #E1BEE7;
         border-left: 5px solid #6A1B7A;
         border-radius: 14px;
-        padding: 15px 18px;
+        padding: 14px 16px;
         margin-bottom: 12px;
     }
     .service-name {
         font-family: 'Cormorant Garamond', serif;
-        font-size: 21px;
+        font-size: 20px;
         font-weight: 700;
         color: #0B6638;
         margin-bottom: 2px;
     }
     .service-name-purple {
         font-family: 'Cormorant Garamond', serif;
-        font-size: 21px;
+        font-size: 20px;
         font-weight: 700;
         color: #6A1B7A;
         margin-bottom: 2px;
@@ -607,18 +602,18 @@ st.markdown("""
         background: linear-gradient(90deg, #E8F5E9 0%, #F3E5F5 100%);
         color: #0B6638;
         border: 1px solid #D4AF37;
-        padding: 6px 14px;
+        padding: 6px 12px;
         border-radius: 20px;
         font-size: 12px;
         font-weight: 700;
-        margin: 4px 5px 5px 0;
+        margin: 4px 4px 4px 0;
     }
     .edu-box {
         background-color: #FAFDFB;
         border: 1px solid #D5E6DC;
         border-left: 4px solid #D4AF37;
         border-radius: 12px;
-        padding: 12px 16px;
+        padding: 12px 14px;
         margin-bottom: 10px;
     }
     .edu-title {
@@ -637,7 +632,7 @@ st.markdown("""
     .wa-btn {
         background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
         color: white !important;
-        padding: 13px 24px;
+        padding: 13px 22px;
         border-radius: 50px;
         text-decoration: none !important;
         font-weight: 700;
@@ -650,7 +645,7 @@ st.markdown("""
     .ig-btn {
         background: linear-gradient(45deg, #F58529 0%, #DD2A7B 50%, #8134AF 100%);
         color: white !important;
-        padding: 13px 24px;
+        padding: 13px 22px;
         border-radius: 50px;
         text-decoration: none !important;
         font-weight: 700;
@@ -660,26 +655,29 @@ st.markdown("""
         border: 2px solid #FFFFFF;
         margin: 4px;
     }
+
+    /* BOTÓN FLOTANTE ELEVADO PARA QUE NO LO TAPE STREAMLIT EN MÓVIL */
     .floating-wa {
         position: fixed;
-        bottom: 18px;
-        right: 18px;
+        bottom: 85px;
+        right: 16px;
         background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
         color: white !important;
-        padding: 11px 16px;
+        padding: 12px 18px;
         border-radius: 50px;
-        font-size: 12.5px;
-        font-weight: 700;
+        font-size: 13.5px;
+        font-weight: 800;
         text-decoration: none !important;
-        box-shadow: 0 8px 24px rgba(18, 140, 126, 0.4);
-        z-index: 9999;
-        border: 2px solid #FFFFFF;
+        box-shadow: 0 8px 25px rgba(18, 140, 126, 0.45);
+        z-index: 999999 !important;
+        border: 2.5px solid #FFFFFF;
     }
+
     .social-btn {
         background-color: #FFFFFF;
         color: #6A1B7A !important;
         border: 1.5px solid #D4AF37;
-        padding: 8px 16px;
+        padding: 8px 14px;
         border-radius: 30px;
         text-decoration: none !important;
         font-size: 13px;
@@ -704,7 +702,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- ESTADOS DE SESIÓN PARA RECORDAR NOMBRE, DIAGNÓSTICO Y SECCIÓN ---
+# --- ESTADOS DE SESIÓN ---
 if "pagina_activa" not in st.session_state:
     st.session_state.pagina_activa = "✨ Diagnóstico"
 if "ultimo_nombre" not in st.session_state:
@@ -737,7 +735,7 @@ def construir_mensaje_contacto():
 mensaje_dinamico = construir_mensaje_contacto()
 link_wa_dinamico = f"https://wa.me/50660218458?text={urllib.parse.quote(mensaje_dinamico)}"
 
-# --- BOTÓN FLOTANTE DE WHATSAPP ---
+# --- BOTÓN FLOTANTE DE WHATSAPP (POSICIONADO ARRIBA DE LAS INSIGNIAS DE STREAMLIT) ---
 st.markdown(f"""
     <a href="{link_wa_dinamico}" target="_blank" class="floating-wa">
         💬 WhatsApp 6021-8458
@@ -778,10 +776,10 @@ PREMIOS_RULETA = [
     }
 ]
 
-# --- RESEÑAS BASE DE INSTAGRAM (@priskah_m) INCLUYENDO TESTIMONIO REAL ---
+# --- RESEÑAS BASE DE INSTAGRAM (@priskah_m) INCLUYENDO TESTIMONIO REAL DE MARIO LIOS ---
 COMENTARIOS_IG_DEFAULT = [
     {
-        "usuario": "Mario Lios • Post de Masajes",
+        "usuario": "Mario Lios • Cliente Verificado",
         "categoria": "💆‍♀️ Descontracturante y Descarga Muscular",
         "tipo": "masaje",
         "comentario": "Buenos días, Pri. Descansé de lo mejor, tanto así que la alarma me levantó y normalmente me levanto antes que suene, jaja. Siento como si me hubieran quitado un gorila de encima, jaja. Diría Fabian: sueltito como arroz, jaja.",
@@ -897,11 +895,11 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# --- MENÚ GRANDE Y LLAMATIVO: MENU PARA CONOCER PRISKA ---
+# --- MENÚ GRANDE Y APILABLE (100% VISIBLE EN CELULARES) ---
 st.markdown("""
     <div class='mega-menu-banner'>
         <div class='mega-menu-title'>✨ MENU PARA CONOCER PRISKA ✨</div>
-        <div class='mega-menu-sub'>👇 Toca cualquiera de las opciones para explorar nuestros servicios, precios, premios y trayectoria 👇</div>
+        <div class='mega-menu-sub'>👇 Toca una opción de la lista para cambiar de sección 👇</div>
     </div>
 """, unsafe_allow_html=True)
 
@@ -916,7 +914,7 @@ seleccion_menu = st.radio(
     "MENU PARA CONOCER PRISKA",
     opciones_menu,
     index=opciones_menu.index(st.session_state.pagina_activa) if st.session_state.pagina_activa in opciones_menu else 0,
-    horizontal=True,
+    horizontal=False,
     label_visibility="collapsed"
 )
 st.session_state.pagina_activa = seleccion_menu
@@ -1188,13 +1186,6 @@ if st.session_state.pagina_activa == "✨ Diagnóstico":
 
             with st.expander("📋 Si nos escribes por Instagram, copia aquí tu mensaje listo para pegar en el DM:"):
                 st.code(mensaje_completo, language=None)
-
-    # --- INVITACIÓN RÁPIDA A CONSULTAR SELLOS Y RULETA ---
-    with st.container(border=True):
-        st.markdown("<div class='result-badge'>🎡 Exclusivo para Clientes y Participantes de Talleres</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-title-purple'>Consulta tus Sellos de Fidelidad o Activa tu Ruleta</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-desc'>¿Ya realizaste una compra de Taller o un tratamiento con nosotros? Revisa cuántos sellos llevas o ingresa tu PIN de compra para girar la ruleta de regalos.</div>", unsafe_allow_html=True)
-        st.button("🎰 Consultar mis Sellos y Girar Ruleta →", on_click=cambiar_pagina, args=("🎡 Ruleta & Sellos",), type="primary", use_container_width=True)
 
     # --- VISTA PREVIA DE TESTIMONIOS REALES EN PORTADA ---
     with st.container(border=True):
@@ -1563,7 +1554,7 @@ elif st.session_state.pagina_activa == "📸 Reseñas IG":
         filtro_ig = st.radio(
             "Filtrar comentarios por categoría:",
             ["✨ Todos los posts", "💆‍♀️ Posts de Masajes", "💇‍♀️ Posts de Cabello"],
-            horizontal=True
+            horizontal=False
         )
 
         todos_comentarios = cargar_comentarios_ig()
@@ -1714,6 +1705,7 @@ with st.expander("🔒 Acceso Propietaria (Registrar Compras, Activar Ruleta y S
     
     if password_ingresada == "Priskah2026*":
         st.success("Bienvenida Priscilla. Desde aquí controlas quién compró, cuántos sellos tiene y quién puede girar la ruleta.")
+        st.info("💡 Consejo de respaldo: Descarga tus archivos CSV periódicamente desde los botones de abajo para guardar una copia en tu computadora o teléfono.")
         
         st.markdown("### 💳 1. Registrar Compra Confirmada (Acreditar Sello y Activar Ruleta)")
         st.caption("Usa este formulario cuando una clienta ya te pagó el Taller (₡6,000) o se realizó un masaje/tratamiento capilar.")
@@ -1780,6 +1772,13 @@ with st.expander("🔒 Acceso Propietaria (Registrar Compras, Activar Ruleta y S
                 lambda s: "🎁 ¡TIENE 50% OFF O KIT DISPONIBLE!" if s >= 5 and s % 5 == 0 else f"Lleva {s % 5}/5 sellos"
             )
             st.dataframe(resumen_real, use_container_width=True)
+            csv_compras = df_compras.to_csv(index=False).encode('utf-8')
+            st.download_button(
+                label="📥 Descargar Compras y Sellos en CSV",
+                data=csv_compras,
+                file_name="compras_confirmadas.csv",
+                mime="text/csv"
+            )
             with st.expander("Ver detalle de cada pago registrado y PINes generados"):
                 st.dataframe(df_compras, use_container_width=True)
         else:
@@ -1804,7 +1803,7 @@ with st.expander("🔒 Acceso Propietaria (Registrar Compras, Activar Ruleta y S
             st.dataframe(df_registros, use_container_width=True)
             csv_data = df_registros.to_csv(index=False).encode('utf-8')
             st.download_button(
-                label="📥 Descargar base de datos en CSV / Excel",
+                label="📥 Descargar Prospectos en CSV / Excel",
                 data=csv_data,
                 file_name="clientes_priskah.csv",
                 mime="text/csv"
