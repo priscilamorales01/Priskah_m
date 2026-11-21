@@ -37,7 +37,7 @@ st.markdown("""
 
     .block-container {
         padding-top: 1.2rem;
-        padding-bottom: 4.5rem;
+        padding-bottom: 5rem;
         max-width: 750px;
     }
 
@@ -46,10 +46,10 @@ st.markdown("""
         background: linear-gradient(135deg, #FFFFFF 0%, #FBF8FF 50%, #F4FBF7 100%);
         border: 2px solid #D4AF37;
         border-radius: 24px;
-        padding: 24px 20px 20px 20px;
+        padding: 22px 18px 18px 18px;
         text-align: center;
         box-shadow: 0 12px 30px rgba(106, 27, 122, 0.08);
-        margin-bottom: 20px;
+        margin-bottom: 16px;
     }
     .brand-title {
         font-family: 'Cormorant Garamond', serif;
@@ -90,7 +90,18 @@ st.markdown("""
         color: #0B6638;
         font-size: 12px;
         font-weight: 700;
-        padding: 5px 14px;
+        padding: 6px 14px;
+        border-radius: 30px;
+        margin: 3px;
+    }
+    .location-pill-purple {
+        display: inline-block;
+        background-color: #F3E5F5;
+        border: 1px solid #6A1B7A;
+        color: #6A1B7A;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 6px 14px;
         border-radius: 30px;
         margin: 3px;
     }
@@ -104,6 +115,51 @@ st.markdown("""
         display: inline-block;
         margin-top: 8px;
         border: 1px solid #D4AF37;
+    }
+
+    /* --- MENÚ DE NAVEGACIÓN ULTRA VISIBLE PARA MÓVIL --- */
+    .nav-container-title {
+        background: linear-gradient(90deg, #0B6638 0%, #6A1B7A 100%);
+        color: #FFFFFF;
+        text-align: center;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        padding: 6px 12px;
+        border-radius: 12px 12px 0 0;
+        border: 1.5px solid #D4AF37;
+        border-bottom: none;
+    }
+    div[data-testid="stRadio"] > div[role="radiogroup"] {
+        gap: 8px;
+    }
+
+    /* Botones de navegación principales */
+    div[data-testid="stButton"] button[kind="primary"] {
+        background: linear-gradient(135deg, #0B6638 0%, #6A1B7A 100%) !important;
+        color: #FFFFFF !important;
+        border: 2px solid #D4AF37 !important;
+        border-radius: 14px !important;
+        font-weight: 700 !important;
+        font-size: 14px !important;
+        padding: 0.75rem 0.5rem !important;
+        box-shadow: 0 6px 15px rgba(106, 27, 122, 0.25) !important;
+    }
+    div[data-testid="stButton"] button[kind="secondary"] {
+        background-color: #FFFFFF !important;
+        color: #1E2923 !important;
+        border: 1.5px solid #D4AF37 !important;
+        border-radius: 14px !important;
+        font-weight: 700 !important;
+        font-size: 14px !important;
+        padding: 0.75rem 0.5rem !important;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.05) !important;
+    }
+    div[data-testid="stButton"] button[kind="secondary"]:hover {
+        background-color: #F8F2FA !important;
+        color: #6A1B7A !important;
+        border-color: #6A1B7A !important;
     }
 
     /* --- ENCABEZADOS DE SECCIÓN ORDENADOS --- */
@@ -150,33 +206,7 @@ st.markdown("""
         line-height: 1.5;
     }
 
-    /* --- MENÚ DE NAVEGACIÓN --- */
-    div[data-testid="stButton"] button[kind="primary"] {
-        background: linear-gradient(135deg, #0B6638 0%, #6A1B7A 100%) !important;
-        color: #FFFFFF !important;
-        border: 2px solid #D4AF37 !important;
-        border-radius: 14px !important;
-        font-weight: 700 !important;
-        font-size: 13px !important;
-        padding: 0.7rem 0.4rem !important;
-        box-shadow: 0 6px 15px rgba(106, 27, 122, 0.25) !important;
-    }
-    div[data-testid="stButton"] button[kind="secondary"] {
-        background-color: #FFFFFF !important;
-        color: #0B6638 !important;
-        border: 1.5px solid #D4AF37 !important;
-        border-radius: 14px !important;
-        font-weight: 700 !important;
-        font-size: 13px !important;
-        padding: 0.7rem 0.4rem !important;
-        box-shadow: 0 3px 8px rgba(0,0,0,0.04) !important;
-    }
-    div[data-testid="stButton"] button[kind="secondary"]:hover {
-        background-color: #F8F2FA !important;
-        color: #6A1B7A !important;
-        border-color: #6A1B7A !important;
-    }
-
+    /* --- TARJETAS CON BORDE DEFINIDO --- */
     [data-testid="stVerticalBlockBorderWrapper"] {
         background-color: #FFFFFF !important;
         border-radius: 20px !important;
@@ -233,6 +263,44 @@ st.markdown("""
         color: #6A1B7A !important;
         font-weight: 700 !important;
         font-size: 14px !important;
+    }
+
+    /* --- TABLA DE PRECIOS ELEGANTE --- */
+    .price-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 14px 0;
+        font-size: 13.5px;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .price-table th {
+        background: linear-gradient(90deg, #0B6638 0%, #6A1B7A 100%);
+        color: #FFFFFF;
+        text-align: left;
+        padding: 12px 14px;
+        font-weight: 700;
+        letter-spacing: 0.4px;
+    }
+    .price-table td {
+        padding: 11px 14px;
+        border-bottom: 1px solid #EAE2D3;
+        color: #1E2923;
+        background-color: #FFFFFF;
+    }
+    .price-table tr:nth-child(even) td {
+        background-color: #FAF8FC;
+    }
+    .price-tag {
+        font-weight: 800;
+        color: #0B6638;
+        white-space: nowrap;
+    }
+    .price-tag-purple {
+        font-weight: 800;
+        color: #6A1B7A;
+        white-space: nowrap;
     }
 
     /* --- RULETA VISUAL PRISKAH_M --- */
@@ -549,35 +617,38 @@ st.markdown("""
     .wa-btn {
         background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
         color: white !important;
-        padding: 14px 28px;
+        padding: 13px 24px;
         border-radius: 50px;
         text-decoration: none !important;
         font-weight: 700;
-        font-size: 14.5px;
+        font-size: 14px;
         display: inline-block;
         box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
         border: 2px solid #FFFFFF;
+        margin: 4px;
     }
     .ig-btn {
         background: linear-gradient(45deg, #F58529 0%, #DD2A7B 50%, #8134AF 100%);
         color: white !important;
-        padding: 12px 24px;
+        padding: 13px 24px;
         border-radius: 50px;
         text-decoration: none !important;
         font-weight: 700;
-        font-size: 13.5px;
+        font-size: 14px;
         display: inline-block;
         box-shadow: 0 6px 16px rgba(221, 42, 123, 0.25);
+        border: 2px solid #FFFFFF;
+        margin: 4px;
     }
     .floating-wa {
         position: fixed;
-        bottom: 20px;
-        right: 20px;
+        bottom: 18px;
+        right: 18px;
         background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
         color: white !important;
-        padding: 12px 18px;
+        padding: 11px 16px;
         border-radius: 50px;
-        font-size: 13px;
+        font-size: 12.5px;
         font-weight: 700;
         text-decoration: none !important;
         box-shadow: 0 8px 24px rgba(18, 140, 126, 0.4);
@@ -613,10 +684,42 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# --- ESTADOS DE SESIÓN PARA RECORDAR NOMBRE, DIAGNÓSTICO Y SECCIÓN ---
+if "pagina_activa" not in st.session_state:
+    st.session_state.pagina_activa = "✨ Diagnóstico"
+if "ultimo_nombre" not in st.session_state:
+    st.session_state.ultimo_nombre = ""
+if "ultimo_diagnostico" not in st.session_state:
+    st.session_state.ultimo_diagnostico = ""
+if "ultima_modalidad" not in st.session_state:
+    st.session_state.ultima_modalidad = ""
+if "premio_ganado" not in st.session_state:
+    st.session_state.premio_ganado = None
+if "codigo_premio" not in st.session_state:
+    st.session_state.codigo_premio = None
+
+def cambiar_pagina(nombre_pagina):
+    st.session_state.pagina_activa = nombre_pagina
+
+# --- CONSTRUIR MENSAJE INTELIGENTE PARA WHATSAPP E INSTAGRAM ---
+def construir_mensaje_contacto():
+    nom = st.session_state.ultimo_nombre.strip()
+    diag = st.session_state.ultimo_diagnostico.strip()
+    mod = st.session_state.ultima_modalidad.strip()
+
+    if nom and diag:
+        return f"Hola Priskah, soy {nom}. Realicé mi diagnóstico en tu web y mi resultado fue: *{diag}* ({mod}). Me gustaría consultar disponibilidad."
+    elif nom:
+        return f"Hola Priskah, soy {nom}. Estuve viendo tu página web y me gustaría consultar por tus servicios."
+    else:
+        return "Hola Priskah, estuve viendo tu página web y me gustaría consultar por tus servicios y disponibilidad."
+
+mensaje_dinamico = construir_mensaje_contacto()
+link_wa_dinamico = f"https://wa.me/50660218458?text={urllib.parse.quote(mensaje_dinamico)}"
+
 # --- BOTÓN FLOTANTE DE WHATSAPP ---
-link_wa_rapido = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, estoy viendo tu página web y quiero consultar por una cita.')}"
 st.markdown(f"""
-    <a href="{link_wa_rapido}" target="_blank" class="floating-wa">
+    <a href="{link_wa_dinamico}" target="_blank" class="floating-wa">
         💬 WhatsApp 6021-8458
     </a>
 """, unsafe_allow_html=True)
@@ -718,16 +821,7 @@ def cargar_comentarios_ig():
             pass
     return comentarios
 
-# --- FUNCIONES DE CONTROL DE COMPRAS, SELLOS Y RULETA ---
 def obtener_estado_cliente(telefono_limpio):
-    """
-    Devuelve:
-    - sellos_confirmados: suma de sellos por compras reales registradas por Priskah.
-    - nombre_registrado: nombre del cliente si existe.
-    - tiene_pase_ruleta: True si compró taller/servicio con derecho a ruleta.
-    - pines_validos: lista de PINes asignados a ese cliente.
-    - ya_giro: True si ya usó su giro.
-    """
     sellos_confirmados = 0
     nombre_registrado = ""
     tiene_pase_ruleta = False
@@ -760,17 +854,6 @@ def obtener_estado_cliente(telefono_limpio):
 
     return sellos_confirmados, nombre_registrado, tiene_pase_ruleta, pines_validos, ya_giro
 
-# --- CONTROL DE NAVEGACIÓN ---
-if "pagina_activa" not in st.session_state:
-    st.session_state.pagina_activa = "diagnostico"
-if "premio_ganado" not in st.session_state:
-    st.session_state.premio_ganado = None
-if "codigo_premio" not in st.session_state:
-    st.session_state.codigo_premio = None
-
-def cambiar_pagina(nombre_pagina):
-    st.session_state.pagina_activa = nombre_pagina
-
 # --- CABECERA PRINCIPAL CON LOS COLORES DEL LOGO ---
 st.markdown("<div class='hero-box'>", unsafe_allow_html=True)
 col1, col2, col3 = st.columns([1.4, 1, 1.4])
@@ -788,61 +871,36 @@ st.markdown("""
     <div class='brand-slogan'>“Cuida tu cuerpo • Relaja tu mente y energía”</div>
     <div>
         <span class='location-pill'>📍 Cabina: Turrúcares, Alajuela</span>
-        <span class='location-pill'>🏠 A Domicilio: Turrúcares y San Ramón</span>
+        <span class='location-pill-purple'>🏠 A Domicilio: Alrededores de Turrúcares, Alajuela y Escazú (con cobro extra)</span>
     </div>
     <div class='ethics-badge'>🛡️ Servicio Exclusivamente Profesional y Terapéutico (No Tántrico)</div>
 </div>
 """, unsafe_allow_html=True)
 
-# --- BARRA DE MENÚ ORDENADA EN 5 BOTONES ---
-nav1, nav2, nav3, nav4, nav5 = st.columns(5)
-with nav1:
-    st.button(
-        "✨ Diagnóstico",
-        use_container_width=True,
-        type="primary" if st.session_state.pagina_activa == "diagnostico" else "secondary",
-        on_click=cambiar_pagina,
-        args=("diagnostico",)
-    )
-with nav2:
-    st.button(
-        "🌿 Servicios",
-        use_container_width=True,
-        type="primary" if st.session_state.pagina_activa == "servicios" else "secondary",
-        on_click=cambiar_pagina,
-        args=("servicios",)
-    )
-with nav3:
-    st.button(
-        "🎡 Ruleta & Sellos",
-        use_container_width=True,
-        type="primary" if st.session_state.pagina_activa == "promos" else "secondary",
-        on_click=cambiar_pagina,
-        args=("promos",)
-    )
-with nav4:
-    st.button(
-        "📸 Reseñas IG",
-        use_container_width=True,
-        type="primary" if st.session_state.pagina_activa == "resenas" else "secondary",
-        on_click=cambiar_pagina,
-        args=("resenas",)
-    )
-with nav5:
-    st.button(
-        "👩‍⚕️ Fundadora",
-        use_container_width=True,
-        type="primary" if st.session_state.pagina_activa == "fundadora" else "secondary",
-        on_click=cambiar_pagina,
-        args=("fundadora",)
-    )
+# --- BARRA DE NAVEGACIÓN ULTRA VISIBLE PARA TELÉFONOS ---
+st.markdown("<div class='nav-container-title'>🧭 EXPLORA NUESTRAS SECCIONES (TOCA UNA OPCIÓN)</div>", unsafe_allow_html=True)
+opciones_menu = [
+    "✨ Diagnóstico",
+    "💲 Servicios y Precios",
+    "🎡 Ruleta & Sellos",
+    "📸 Reseñas IG",
+    "👩‍⚕️ Fundadora"
+]
+seleccion_menu = st.radio(
+    "Menú principal",
+    opciones_menu,
+    index=opciones_menu.index(st.session_state.pagina_activa) if st.session_state.pagina_activa in opciones_menu else 0,
+    horizontal=True,
+    label_visibility="collapsed"
+)
+st.session_state.pagina_activa = seleccion_menu
 
 st.markdown("<hr class='gold-divider'>", unsafe_allow_html=True)
 
 # ==========================================
 # VISTA 1: DIAGNÓSTICO PASO A PASO
 # ==========================================
-if st.session_state.pagina_activa == "diagnostico":
+if st.session_state.pagina_activa == "✨ Diagnóstico":
     
     with st.container(border=True):
         st.markdown("""
@@ -855,7 +913,9 @@ if st.session_state.pagina_activa == "diagnostico":
         
         c1, c2 = st.columns(2)
         with c1:
-            nombre = st.text_input("Nombre completo", placeholder="Ej: María José Pérez")
+            nombre = st.text_input("Nombre completo", value=st.session_state.ultimo_nombre, placeholder="Ej: María José Pérez")
+            if nombre.strip():
+                st.session_state.ultimo_nombre = nombre.strip()
         with c2:
             telefono = st.text_input("Número de WhatsApp (8 dígitos)", placeholder="Ej: 60218458")
 
@@ -864,7 +924,7 @@ if st.session_state.pagina_activa == "diagnostico":
             "📍 ¿Cómo prefieres recibir tu atención?",
             [
                 "✨ En Sede Turrúcares, Alajuela (Desbloquea Promoción Exclusiva + Cortesía)",
-                "🏠 Servicio A Domicilio (Disponible en Turrúcares y San Ramón)"
+                "🏠 A Domicilio: Alrededores de Turrúcares, Alajuela y Escazú (Aplica cobro extra por traslado)"
             ]
         )
 
@@ -1032,6 +1092,12 @@ if st.session_state.pagina_activa == "diagnostico":
             texto_condiciones = ", ".join(condiciones) if condiciones else "Ninguna reportada"
             fecha_str = fecha_cita.strftime("%d/%m/%Y")
             es_turrucares = "Sede Turrúcares" in modalidad
+            modalidad_corta = modalidad.split("(")[0].strip()
+
+            # Guardar en sesión para que WhatsApp e Instagram lo lleven siempre
+            st.session_state.ultimo_nombre = nombre.strip()
+            st.session_state.ultimo_diagnostico = tratamiento
+            st.session_state.ultima_modalidad = modalidad_corta
 
             nuevo_registro = pd.DataFrame({
                 "Fecha": [datetime.now().strftime("%Y-%m-%d %H:%M")],
@@ -1055,7 +1121,7 @@ if st.session_state.pagina_activa == "diagnostico":
                     <p style="font-size: 12.5px; color: #0B6638; font-weight: 700; margin-bottom: 8px;">{duracion}</p>
                     <div class="appointment-summary">
                         👤 <strong>Cliente:</strong> {nombre.strip()} &nbsp;|&nbsp; 📅 <strong>Fecha deseada:</strong> {fecha_str}<br>
-                        🕒 <strong>Horario:</strong> {horario_cita} &nbsp;|&nbsp; 📍 <strong>Modalidad:</strong> {modalidad.split('(')[0].strip()}
+                        🕒 <strong>Horario:</strong> {horario_cita} &nbsp;|&nbsp; 📍 <strong>Modalidad:</strong> {modalidad_corta}
                     </div>
                 </div>
             """, unsafe_allow_html=True)
@@ -1072,32 +1138,31 @@ if st.session_state.pagina_activa == "diagnostico":
                     </div>
                 """, unsafe_allow_html=True)
             else:
-                st.info("🏠 Has elegido **Servicio a Domicilio** (Turrúcares / San Ramón). *Recuerda que si decides visitarnos en nuestra cabina en Turrúcares, desbloqueas nuestras promociones y cortesías exclusivas.*")
+                st.info("🏠 Has elegido **Servicio a Domicilio** (Alrededores de Turrúcares, Alajuela y Escazú — incluye cobro adicional por traslado según distancia). *Si nos visitas en cabina Turrúcares, no pagas traslado y recibes regalía.*")
 
             mi_numero_whatsapp = "50660218458"
-            mensaje = (
+            mensaje_completo = (
                 f"Hola Priskah, soy {nombre.strip()}. "
-                f"Realicé mi diagnóstico en la web y mi recomendación fue *{tratamiento}*. "
+                f"Realicé mi diagnóstico en tu web y mi resultado fue *{tratamiento}*. "
                 f"Me gustaría agendar para el *{fecha_str}* en horario *{horario_cita}*, "
-                f"modalidad *{modalidad.split('(')[0].strip()}* (Salud/Notas: {texto_condiciones})."
+                f"modalidad *{modalidad_corta}* (Salud/Notas: {texto_condiciones})."
             )
-            mensaje_codificado = urllib.parse.quote(mensaje)
+            mensaje_codificado = urllib.parse.quote(mensaje_completo)
             link_whatsapp = f"https://wa.me/{mi_numero_whatsapp}?text={mensaje_codificado}"
 
             st.markdown(f"""
-                <div style="text-align: center; margin-top: 12px; margin-bottom: 18px;">
+                <div style="text-align: center; margin-top: 12px; margin-bottom: 12px;">
                     <a href="{link_whatsapp}" target="_blank" class="wa-btn">
-                        💬 Confirmar mi Cita por WhatsApp
+                        💬 Enviar Diagnóstico por WhatsApp
+                    </a>
+                    <a href="https://ig.me/m/priskah_m" target="_blank" class="ig-btn">
+                        📸 Escribir por Instagram @priskah_m
                     </a>
                 </div>
             """, unsafe_allow_html=True)
 
-    # --- INVITACIÓN RÁPIDA A CONSULTAR SELLOS Y RULETA ---
-    with st.container(border=True):
-        st.markdown("<div class='result-badge'>🎡 Exclusivo para Clientes y Participantes de Talleres</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-title-purple'>Consulta tus Sellos de Fidelidad o Activa tu Ruleta</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-desc'>¿Ya realizaste una compra de Taller o un tratamiento con nosotros? Revisa cuántos sellos llevas o ingresa tu PIN de compra para girar la ruleta de regalos.</div>", unsafe_allow_html=True)
-        st.button("🎰 Consultar mis Sellos y Girar Ruleta →", on_click=cambiar_pagina, args=("promos",), type="primary", use_container_width=True)
+            with st.expander("📋 Si nos escribes por Instagram, copia aquí tu mensaje listo para pegar en el DM:"):
+                st.code(mensaje_completo, language=None)
 
     # --- VISTA PREVIA DE TESTIMONIOS REALES EN PORTADA ---
     with st.container(border=True):
@@ -1118,40 +1183,113 @@ if st.session_state.pagina_activa == "diagnostico":
                         <div class="ig-likes">{item['likes']}</div>
                     </div>
                 """, unsafe_allow_html=True)
-        st.button("📸 Ver más comentarios y testimonios →", on_click=cambiar_pagina, args=("resenas",), use_container_width=True)
+        st.button("📸 Ver más comentarios y testimonios →", on_click=cambiar_pagina, args=("📸 Reseñas IG",), use_container_width=True)
 
     # --- PREGUNTAS FRECUENTES Y POLÍTICAS DE RESERVA ---
-    with st.expander("📋 Políticas de Reserva, Puntualidad y Métodos de Pago"):
+    with st.expander("📋 Políticas de Reserva, Cobertura a Domicilio y Métodos de Pago"):
         st.markdown("""
-        * **Atención 100% personalizada:** Trabajamos únicamente con cita previa para dedicarte el tiempo y la calidad que mereces.
-        * **Puntualidad y Reprogramaciones:** Agradecemos avisar con al menos **24 horas de anticipación** en caso de requerir reprogramar tu espacio.
+        * **Sede Principal:** Cabina privada en **Turrúcares, Alajuela** (con parqueo seguro y promociones exclusivas).
+        * **Servicio a Domicilio:** Cubrimos **alrededores de Turrúcares, Alajuela centro/alrededores y Escazú** con un **cobro extra por traslado** según la ubicación exacta.
+        * **Puntualidad y Reprogramaciones:** Trabajamos únicamente con cita previa. Agradecemos avisar con al menos **24 horas de anticipación** para reprogramar.
         * **Métodos de Pago:** Aceptamos **SINPE Móvil**, transferencia bancaria y efectivo.
-        * **Ética Profesional:** Todos nuestros servicios de masaje son estrictamente terapéuticos, deportivos, estéticos y de relajación (No tántricos).
+        * **Ética Profesional:** Servicios estrictamente terapéuticos, deportivos, estéticos y de relajación (No tántricos).
         """)
 
 # ==========================================
-# VISTA 2: CATÁLOGO DE SERVICIOS ORDENADO POR COLOR
+# VISTA 2: CATÁLOGO DE SERVICIOS Y TABLA DE PRECIOS
 # ==========================================
-elif st.session_state.pagina_activa == "servicios":
+elif st.session_state.pagina_activa == "💲 Servicios y Precios":
+    
+    # --- TABLA DE PRECIOS OFICIAL ---
     with st.container(border=True):
-        st.markdown("<div class='result-badge'>🌿 Área Corporal • Verde Esmeralda</div>", unsafe_allow_html=True)
+        st.markdown("<div class='result-badge'>💲 Tarifario Oficial • Sede Turrúcares</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'>Tabla de Precios y Tarifas</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-desc'>Tarifas correspondientes a nuestra sede en Turrúcares. Para servicio a domicilio en alrededores de Turrúcares, Alajuela y Escazú se suma un cargo adicional por traslado.</div>", unsafe_allow_html=True)
+
+        st.markdown("""
+            <table class="price-table">
+                <thead>
+                    <tr>
+                        <th>Servicio / Tratamiento</th>
+                        <th>Duración / Detalle</th>
+                        <th>Inversión</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>🌿 Masaje Relajante Integral</strong></td>
+                        <td>60 minutos • Aromaterapia</td>
+                        <td class="price-tag">₡18,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>💆‍♀️ Masaje Terapéutico / Descontracturante</strong></td>
+                        <td>60 minutos • Puntos gatillo</td>
+                        <td class="price-tag">₡20,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>⚡ Masaje Deportivo y Descarga Muscular</strong></td>
+                        <td>60 minutos • Recuperación</td>
+                        <td class="price-tag">₡22,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🌊 Drenaje Linfático y Retorno Venoso</strong></td>
+                        <td>60 - 75 minutos • Circulación</td>
+                        <td class="price-tag">₡22,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>✨ Reducción de Medidas (Marcación / Cierre)</strong></td>
+                        <td>60 - 75 minutos • Drenaje Brasileño</td>
+                        <td class="price-tag">₡25,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🍯 Recuperación Capilar (Colesterol y Miel)</strong></td>
+                        <td>Nutrición profunda • Según largo</td>
+                        <td class="price-tag-purple">Desde ₡18,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>💧 Botox Capilar y Reconstrucción</strong></td>
+                        <td>Hidratación extrema • Según largo</td>
+                        <td class="price-tag-purple">Desde ₡22,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>✨ Queratina / Nanoqueratina / Taninoplastia</strong></td>
+                        <td>Alisado y brillo espejo • Según largo</td>
+                        <td class="price-tag-purple">Desde ₡30,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>💻 Taller Virtual de Automasaje (15 Dic)</strong></td>
+                        <td>1.5 horas • Vía Zoom + Ruleta</td>
+                        <td class="price-tag">₡6,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🏠 Cargo por Servicio a Domicilio</strong></td>
+                        <td>Alrededores Turrúcares, Alajuela y Escazú</td>
+                        <td class="price-tag-purple">+ ₡3,000 a ₡6,000</td>
+                    </tr>
+                </tbody>
+            </table>
+        """, unsafe_allow_html=True)
+        st.caption("🖤 Recuerda: Al acumular 5 tratamientos realizados, tu 6° tratamiento tiene 50% de descuento o un Kit de Belleza de regalo.")
+
+    # --- DETALLE DE SERVICIOS ---
+    with st.container(border=True):
+        st.markdown("<div class='result-badge'>🌿 Área Corporal</div>", unsafe_allow_html=True)
         st.markdown("<div class='section-title'>💆‍♀️ Masajes Especializados y Reducción de Medidas</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-desc'>Disponibles en nuestra cabina en Turrúcares y A Domicilio (Turrúcares y San Ramón). Servicio exclusivamente profesional y terapéutico.</div>", unsafe_allow_html=True)
 
         st.markdown("""
             <div class="service-item">
                 <div class="service-name">Masajes Relajantes, Terapéuticos y Descontracturantes</div>
-                <div class="service-meta">⏱️ Sesiones de 60 min • Alivio de puntos gatillo y estrés</div>
+                <div class="service-meta">⏱️ 60 min • Alivio de puntos gatillo y estrés</div>
                 <p class="service-text">Terapias manuales adaptadas para liberar tensión muscular profunda, aliviar contracturas en espalda, cuello y hombros, y equilibrar tu sistema nervioso.</p>
             </div>
             <div class="service-item">
                 <div class="service-name">Masaje Deportivo y Descarga Muscular</div>
-                <div class="service-meta">⏱️ Sesiones de 60 min • Recuperación física y deportiva</div>
+                <div class="service-meta">⏱️ 60 min • Recuperación física y deportiva</div>
                 <p class="service-text">Protocolos enfocados en preparar y recuperar los tejidos musculares sometidos a entrenamiento o alta exigencia física.</p>
             </div>
             <div class="service-item">
                 <div class="service-name">Drenaje Linfático y Retorno Venoso</div>
-                <div class="service-meta">⏱️ Sesiones de 60 a 75 min • Estimulación circulatoria</div>
+                <div class="service-meta">⏱️ 60 a 75 min • Estimulación circulatoria</div>
                 <p class="service-text">Maniobras suaves y precisas para favorecer la eliminación de líquidos retenidos, desinflamar tejidos y aliviar la pesadez en las piernas.</p>
             </div>
             <div class="service-item">
@@ -1162,9 +1300,8 @@ elif st.session_state.pagina_activa == "servicios":
         """, unsafe_allow_html=True)
 
     with st.container(border=True):
-        st.markdown("<div class='result-badge-purple'>✨ Área Capilar • Púrpura Real</div>", unsafe_allow_html=True)
+        st.markdown("<div class='result-badge-purple'>✨ Área Capilar</div>", unsafe_allow_html=True)
         st.markdown("<div class='section-title-purple'>💇‍♀️ Tratamientos Capilares con Recuperación</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-desc'>Fórmulas especializadas aplicadas según las necesidades de tu hebra capilar.</div>", unsafe_allow_html=True)
 
         st.markdown("""
             <div class="service-item-hair">
@@ -1185,11 +1322,13 @@ elif st.session_state.pagina_activa == "servicios":
             except:
                 st.info("Sube 'PRISKA BANNER 1.jpeg' a tu repositorio de GitHub para mostrar el afiche aquí.")
 
-    link_wa_general = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, estuve viendo tu catálogo de servicios en la web y me gustaría cotizar o agendar una cita.')}"
     st.markdown(f"""
         <div style="text-align: center; margin-top: 10px;">
-            <a href="{link_wa_general}" target="_blank" class="wa-btn">
-                💬 Consultar Precios y Disponibilidad por WhatsApp
+            <a href="{link_wa_dinamico}" target="_blank" class="wa-btn">
+                💬 Agendar por WhatsApp
+            </a>
+            <a href="https://ig.me/m/priskah_m" target="_blank" class="ig-btn">
+                📸 Consultar por Instagram @priskah_m
             </a>
         </div>
     """, unsafe_allow_html=True)
@@ -1197,9 +1336,8 @@ elif st.session_state.pagina_activa == "servicios":
 # ==========================================
 # VISTA 3: CONSULTA DE SELLOS, ACTIVACIÓN DE RULETA Y TALLER
 # ==========================================
-elif st.session_state.pagina_activa == "promos":
+elif st.session_state.pagina_activa == "🎡 Ruleta & Sellos":
 
-    # --- 1. CONSULTA DE SELLOS REALES DE FIDELIDAD ---
     with st.container(border=True):
         st.markdown("<div class='result-badge'>🖤 Control Oficial de Fidelidad</div>", unsafe_allow_html=True)
         st.markdown("<div class='section-title'>Consulta tus Sellos Acumulados</div>", unsafe_allow_html=True)
@@ -1236,7 +1374,6 @@ elif st.session_state.pagina_activa == "promos":
         st.markdown(stamps_html, unsafe_allow_html=True)
         st.markdown("<p style='text-align: center; font-size: 12.5px; color: #6A1B7A; font-weight: 700; margin-bottom: 0;'>5 Sellos Confirmados 🌿 = 6° Tratamiento al 50% OFF o Kit de Belleza 🎁</p>", unsafe_allow_html=True)
 
-    # --- 2. RULETA DE PREMIOS CON ACTIVACIÓN POR COMPRA (PIN) ---
     with st.container(border=True):
         st.markdown("""
             <div class="wheel-container">
@@ -1256,7 +1393,7 @@ elif st.session_state.pagina_activa == "promos":
 
         r_col1, r_col2, r_col3 = st.columns([1.2, 1, 1])
         with r_col1:
-            nombre_ruleta = st.text_input("Tu nombre completo:", key="nom_rul", placeholder="Ej: Laura Morales")
+            nombre_ruleta = st.text_input("Tu nombre completo:", value=st.session_state.ultimo_nombre, key="nom_rul", placeholder="Ej: Laura Morales")
         with r_col2:
             tel_ruleta = st.text_input("Tu WhatsApp (8 dígitos):", key="tel_rul", placeholder="Ej: 60218458")
         with r_col3:
@@ -1322,9 +1459,9 @@ elif st.session_state.pagina_activa == "promos":
                 </div>
             """, unsafe_allow_html=True)
 
-    # --- 3. TALLER VIRTUAL DE AUTOMASAJE (15 DE DICIEMBRE) ---
     with st.container(border=True):
-        link_taller = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, quiero comprar mi entrada al Taller de Automasaje del 15 de diciembre (₡6,000) por SINPE Móvil y recibir mi PIN para girar la ruleta.')}"
+        nom_taller_pref = f" soy {st.session_state.ultimo_nombre}," if st.session_state.ultimo_nombre else ""
+        link_taller = f"https://wa.me/50660218458?text={urllib.parse.quote(f'Hola Priskah,{nom_taller_pref} quiero comprar mi entrada al Taller de Automasaje del 15 de diciembre (₡6,000) por SINPE Móvil y recibir mi PIN para girar la ruleta.')}"
         st.markdown("<div class='result-badge-purple'>💻 Evento Especial En Vivo • Zoom Online</div>", unsafe_allow_html=True)
         st.markdown("<div class='section-title-purple'>🌿 Taller de Automasaje Relajante y Descontracturante</div>", unsafe_allow_html=True)
         st.markdown("""
@@ -1352,13 +1489,13 @@ elif st.session_state.pagina_activa == "promos":
             </div>
         """, unsafe_allow_html=True)
 
-    # --- 4. PROMOCIONES EXCLUSIVAS SEDE TURRÚCARES ---
     with st.container(border=True):
         st.markdown("<div class='result-badge'>📍 Exclusivo en Cabina • Turrúcares, Alajuela</div>", unsafe_allow_html=True)
         st.markdown("<div class='section-title'>🎁 Promociones Exclusivas en Sede Turrúcares</div>", unsafe_allow_html=True)
         st.markdown("<div class='section-desc'>Beneficios válidos únicamente cuando asistes a realizarte tu tratamiento en nuestra cabina de Turrúcares.</div>", unsafe_allow_html=True)
 
-        link_p1 = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, quiero reservar la Promo Ritual Dúo (Masaje + Recuperación Capilar Colesterol y Miel) en tu sede de Turrúcares.')}"
+        nom_p = f" soy {st.session_state.ultimo_nombre}," if st.session_state.ultimo_nombre else ""
+        link_p1 = f"https://wa.me/50660218458?text={urllib.parse.quote(f'Hola Priskah,{nom_p} quiero reservar la Promo Ritual Dúo (Masaje + Recuperación Capilar Colesterol y Miel) en tu sede de Turrúcares.')}"
         st.markdown(f"""
             <div class="promo-card">
                 <div class="promo-title">🍯 Ritual Dúo: Masaje + Recuperación Capilar (Colesterol y Miel)</div>
@@ -1371,7 +1508,7 @@ elif st.session_state.pagina_activa == "promos":
             </div>
         """, unsafe_allow_html=True)
 
-        link_p2 = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, me interesa la promoción de Nanoqueratina / Alisado en tu sede de Turrúcares.')}"
+        link_p2 = f"https://wa.me/50660218458?text={urllib.parse.quote(f'Hola Priskah,{nom_p} me interesa la promoción de Nanoqueratina / Alisado en tu sede de Turrúcares.')}"
         st.markdown(f"""
             <div class="promo-card">
                 <div class="promo-title">✨ Especial Brillo Espejo (Nanoqueratina o Taninoplastia)</div>
@@ -1387,11 +1524,11 @@ elif st.session_state.pagina_activa == "promos":
 # ==========================================
 # VISTA 4: COMENTARIOS DESTACADOS DE INSTAGRAM (@priskah_m)
 # ==========================================
-elif st.session_state.pagina_activa == "resenas":
+elif st.session_state.pagina_activa == "📸 Reseñas IG":
     with st.container(border=True):
         st.markdown("<div class='result-badge-purple'>📸 Comunidad Oficial @priskah_m</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-title-purple'>Comentarios de Nuestros Posts en Instagram</div>", unsafe_allow_html=True)
-        st.markdown("<div class='section-desc'>Experiencias reales de nuestras clientas en masajes terapéuticos, drenaje linfático y recuperación capilar.</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title-purple'>Comentarios de Nuestros Posts y Clientes</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-desc'>Experiencias reales de nuestros clientes en masajes terapéuticos, drenaje linfático y recuperación capilar.</div>", unsafe_allow_html=True)
 
         filtro_ig = st.radio(
             "Filtrar comentarios por categoría:",
@@ -1433,7 +1570,7 @@ elif st.session_state.pagina_activa == "resenas":
 # ==========================================
 # VISTA 5: CONOCE A LA FUNDADORA
 # ==========================================
-elif st.session_state.pagina_activa == "fundadora":
+elif st.session_state.pagina_activa == "👩‍⚕️ Fundadora":
     with st.container(border=True):
         f1, f2, f3 = st.columns([1.3, 1, 1.3])
         with f2:
@@ -1506,33 +1643,35 @@ elif st.session_state.pagina_activa == "fundadora":
             </div>
         """, unsafe_allow_html=True)
 
-    link_wa_fundadora = f"https://wa.me/50660218458?text={urllib.parse.quote('Hola Priskah, me encantó conocer tu trayectoria profesional en la web y me gustaría agendar una cita.')}"
     st.markdown(f"""
         <div style="text-align: center; margin-top: 10px;">
-            <a href="{link_wa_fundadora}" target="_blank" class="wa-btn">
+            <a href="{link_wa_dinamico}" target="_blank" class="wa-btn">
                 💬 Hablar con Priskah por WhatsApp
+            </a>
+            <a href="https://ig.me/m/priskah_m" target="_blank" class="ig-btn">
+                📸 Escribir por Instagram @priskah_m
             </a>
         </div>
     """, unsafe_allow_html=True)
 
 # --- PIE DE PÁGINA CON REDES SOCIALES OFICIALES ---
 st.markdown("<hr class='gold-divider'>", unsafe_allow_html=True)
-st.markdown("""
+st.markdown(f"""
     <div style="text-align: center; margin-bottom: 24px;">
         <p style="font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 700; color: #6A1B7A; margin-bottom: 10px;">
-            Síguenos en nuestras redes oficiales
+            Síguenos y contáctanos directamente
         </p>
-        <a href="https://www.instagram.com/priskah_m" target="_blank" class="social-btn">
+        <a href="https://ig.me/m/priskah_m" target="_blank" class="social-btn">
             📸 Instagram @priskah_m
         </a>
         <a href="https://www.tiktok.com/@priskah_m" target="_blank" class="social-btn">
             🎵 TikTok @priskah_m
         </a>
-        <a href="https://wa.me/50660218458" target="_blank" class="social-btn">
+        <a href="{link_wa_dinamico}" target="_blank" class="social-btn">
             📲 WhatsApp 6021-8458
         </a>
         <p style="font-size: 11.5px; color: #555E58; margin-top: 14px;">
-            © 2026 Priskah_m • Turrúcares, Alajuela & San Ramón • Servicio Exclusivamente Profesional y Terapéutico
+            © 2026 Priskah_m • Turrúcares, Alajuela y Escazú • Servicio Exclusivamente Profesional y Terapéutico
         </p>
     </div>
 """, unsafe_allow_html=True)
@@ -1546,7 +1685,6 @@ with st.expander("🔒 Acceso Propietaria (Registrar Compras, Activar Ruleta y S
     if password_ingresada == "Priskah2026*":
         st.success("Bienvenida Priscilla. Desde aquí controlas quién compró, cuántos sellos tiene y quién puede girar la ruleta.")
         
-        # --- SECCIÓN A: REGISTRAR UNA COMPRA REAL / ACTIVAR RULETA Y SELLOS ---
         st.markdown("### 💳 1. Registrar Compra Confirmada (Acreditar Sello y Activar Ruleta)")
         st.caption("Usa este formulario cuando una clienta ya te pagó el Taller (₡6,000) o se realizó un masaje/tratamiento capilar.")
         with st.form("form_registrar_compra"):
@@ -1589,18 +1727,16 @@ with st.expander("🔒 Acceso Propietaria (Registrar Compras, Activar Ruleta y S
                     
                     st.success(f"✅ ¡Compra registrada! Se sumó {comp_sellos} sello(s) a {comp_nombre}. PIN de Ruleta asignado: **{pin_sugerido}**")
                     
-                    # Botón directo para enviarle a la clienta su confirmación y PIN por WhatsApp
                     msg_confirmacion = (
                         f"¡Hola {comp_nombre.strip()}! 🌿 Muchas gracias por tu compra en *Priskah_m* ({comp_servicio}).\n\n"
                         f"✅ Ya sumamos *{comp_sellos} sello(s)* a tu Tarjeta de Fidelidad.\n"
                         f"🎰 Tu PIN personal para girar la *Ruleta de Premios* en nuestra web es: *{pin_sugerido}*\n\n"
-                        f"Entra aquí a la pestaña '🎡 Ruleta & Sellos' para ver tus sellos y descubrir tu premio: https://priskahm.streamlit.app/"
+                        f"Entra aquí a la sección '🎡 Ruleta & Sellos' para ver tus sellos y descubrir tu premio: https://priskahm.streamlit.app/"
                     )
                     link_enviar_pin = f"https://wa.me/506{tel_limpio_comp}?text={urllib.parse.quote(msg_confirmacion)}"
                     st.markdown(f"[📲 **Toca aquí para enviarle el PIN y sus sellos a {comp_nombre} por WhatsApp**]({link_enviar_pin})")
 
         st.write("---")
-        # --- SECCIÓN B: TABLA DE COMPRAS Y SELLOS REALES ---
         st.markdown("### 🏆 2. Control de Clientes con Compras Reales y Sellos Acumulados")
         if os.path.exists("compras_confirmadas.csv"):
             df_compras = pd.read_csv("compras_confirmadas.csv", on_bad_lines="skip")
@@ -1620,7 +1756,6 @@ with st.expander("🔒 Acceso Propietaria (Registrar Compras, Activar Ruleta y S
             st.info("Aún no has registrado compras confirmadas.")
 
         st.write("---")
-        # --- SECCIÓN C: GANADORES DE LA RULETA ---
         st.markdown("### 🎡 3. Registro de Premios Ganados en la Ruleta")
         if os.path.exists("ruleta_priskah.csv"):
             df_rul = pd.read_csv("ruleta_priskah.csv", on_bad_lines="skip")
@@ -1629,7 +1764,6 @@ with st.expander("🔒 Acceso Propietaria (Registrar Compras, Activar Ruleta y S
             st.info("Aún no se han registrado giros en la ruleta.")
 
         st.write("---")
-        # --- SECCIÓN D: PROSPECTOS QUE HICIERON EL DIAGNÓSTICO ---
         st.markdown("### 📋 4. Personas que llenaron el Diagnóstico en la Web (Prospectos)")
         if os.path.exists("clientes_priskah.csv"):
             df_registros = pd.read_csv(
@@ -1649,7 +1783,6 @@ with st.expander("🔒 Acceso Propietaria (Registrar Compras, Activar Ruleta y S
             st.info("Aún no hay diagnósticos registrados.")
 
         st.write("---")
-        # --- SECCIÓN E: PUBLICAR COMENTARIOS DE INSTAGRAM ---
         st.markdown("### 📸 5. Agregar comentario desde tu Instagram `@priskah_m`")
         with st.form("form_nuevo_comentario_ig"):
             ig_user = st.text_input("Usuario o título del Post (Ej: @maria_cr • Post de Nanoqueratina)")
